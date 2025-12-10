@@ -15,6 +15,8 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
+      loadPath(lng: string, ns: string) {
+        return (window as any).DCS_STATIC_PREFIX + `locales/${lng}/${ns}.json`;
+      },
     },
   });

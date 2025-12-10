@@ -11,50 +11,54 @@ import { ModelListPage } from "@/pages/(studio)/content/[model]/page";
 import { StudioLayout } from "@/pages/(studio)/layout";
 import { MediaLibraryPage } from "@/pages/(studio)/media-library/[model]/page";
 
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children: [
-      {
-        element: <AuthGuard />,
-        children: [
-          {
-            element: <StudioLayout />,
-            children: [
-              {
-                path: "",
-                element: <DashboardPage />,
-              },
-              {
-                path: "/media-library",
-                element: <MediaLibraryPage />,
-              },
-              {
-                path: "/content/:model",
-                element: <ModelListLayout />,
-                children: [
-                  {
-                    path: "",
-                    element: <ModelListPage />,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        element: <AuthLayout />,
-        children: [
-          {
-            path: "login",
-            element: <LoginPage />,
-          },
-        ],
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          element: <AuthGuard />,
+          children: [
+            {
+              element: <StudioLayout />,
+              children: [
+                {
+                  index: true,
+                  element: <DashboardPage />,
+                },
+                {
+                  path: "media-library",
+                  element: <MediaLibraryPage />,
+                },
+                {
+                  path: "content/:model",
+                  element: <ModelListLayout />,
+                  children: [
+                    {
+                      index: true,
+                      element: <ModelListPage />,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          element: <AuthLayout />,
+          children: [
+            {
+              path: "login",
+              element: <LoginPage />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: import.meta.env.PROD && (window as any).DCS_BASENAME },
+);
 
 const root = document.getElementById("root")!;
 

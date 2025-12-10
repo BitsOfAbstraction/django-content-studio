@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/input-group";
 
 export function URLPathWidget({
-  value,
+  value = "",
   onChange,
 }: {
   onChange(value: any): void;

@@ -1,4 +1,3 @@
-import "@fontsource-variable/inter";
 import "./index.css";
 import "./i18n";
 
