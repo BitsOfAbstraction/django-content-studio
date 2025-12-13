@@ -1,16 +1,17 @@
 import * as R from "ramda";
 import { useMemo } from "react";
 
-import { JSONFormat } from "@/components/formats/json-format.tsx";
 import { useAdminInfo } from "@/hooks/use-admin-info";
 import { FieldFormat, FieldType, type ModelField } from "@/types";
 
 import { BooleanFormat } from "./boolean-format";
+import { ChoiceFormat } from "./choice-format";
 import { DateFormat } from "./date-format";
 import { DatetimeFormat } from "./datetime-format";
 import { FileFormat } from "./file-format";
 import { FileSizeFormat } from "./file-size-format";
 import { ForeignKeyFormat } from "./foreign-key-format";
+import { JSONFormat } from "./json-format";
 import { MediaFormat } from "./media-format";
 import { TextFormat } from "./text-format";
 import { TimeFormat } from "./time-format";
@@ -34,7 +35,7 @@ export function FormatRenderer({
         [R.isNil, R.always(TextFormat)],
         [
           () => field?.type === FieldType.CharField && !R.isNil(field.choices),
-          R.always(TextFormat),
+          R.always(ChoiceFormat),
         ],
         [R.equals(FieldFormat.FileSizeFormat), R.always(FileSizeFormat)],
         [R.equals(FieldFormat.FileFormat), R.always(FileFormat)],

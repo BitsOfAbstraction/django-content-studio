@@ -16,7 +16,7 @@ export function URLPathWidget({
       <InputGroup>
         <InputGroupAddon>{"/"}</InputGroupAddon>
         <InputGroupInput
-          value={value.replace(/^\//, "")}
+          value={value?.replace(/^\//, "") ?? ""}
           onChange={(e) =>
             onChange(
               `/${e.target.value.toLowerCase().replace(/[^0-9a-z_/-]/g, "-")}`,

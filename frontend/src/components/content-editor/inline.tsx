@@ -70,7 +70,10 @@ export function Inline({
   return (
     <div className="space-y-4">
       <Dialog open={create} onOpenChange={setCreate}>
-        <DialogContent className="p-0 sm:max-w-5xl" showCloseButton={false}>
+        <DialogContent
+          className="p-0 sm:max-w-5xl max-h-[calc(100vh-24px)] flex flex-col scrollbar"
+          showCloseButton={false}
+        >
           <Editor
             modelLabel={model.label}
             initialValues={{
@@ -151,7 +154,10 @@ function InlineRow({
     <>
       <Dialog key={resource.id} open={edit} onOpenChange={setEdit}>
         {!readOnly && (
-          <DialogContent className="p-0 sm:max-w-5xl" showCloseButton={false}>
+          <DialogContent
+            className="p-0 sm:max-w-5xl max-h-[calc(100vh-24px)] flex flex-col scrollbar"
+            showCloseButton={false}
+          >
             <Editor
               modelLabel={model.label}
               id={resource.id}
