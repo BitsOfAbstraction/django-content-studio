@@ -1,5 +1,8 @@
+import uuid
+
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from django.contrib.contenttypes.models import ContentType
+from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.parsers import JSONParser
@@ -98,3 +101,14 @@ class BaseModelViewSet(ModelViewSet):
                 raise NotFound()
 
         return super().get_object()
+
+    @action(
+        methods=["get"], detail=True, url_path="components/(?P<component_id>[^/.]+)"
+    )
+    def get_component(self, request, id, component_id):
+        component = self._admin_model.get_component(uuid.UUID(component_id))
+
+        if not component:
+            raise NotFound()
+
+        return component.handle_request(obj=self.get_object(), request=request)

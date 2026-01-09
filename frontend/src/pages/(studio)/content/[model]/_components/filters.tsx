@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { FilterRenderer } from "@/components/filters/renderer";
 import { Input } from "@/components/ui/input";
 import type { Model } from "@/types";
 
@@ -9,13 +10,13 @@ export function Filters({
   onFilterChange,
 }: {
   model: Model;
-  filters: { search: string };
-  onFilterChange(filters: { search: string }): void;
+  filters: { search: string; [p: string]: unknown };
+  onFilterChange(filters: { search: string; [p: string]: unknown }): void;
 }) {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className="flex items-center gap-4">
       {model.admin.list.search && (
         <Input
           variant="secondary"
@@ -25,6 +26,17 @@ export function Filters({
           placeholder={t("common.search")}
         />
       )}
+      {false &&
+        model.admin.list.filter?.map((filter) => (
+          <FilterRenderer
+            fieldName={filter}
+            model={model}
+            value={filters[filter]}
+            onValueChange={(value) =>
+              onFilterChange({ ...filters, [filter]: value })
+            }
+          />
+        ))}
     </div>
   );
 }

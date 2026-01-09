@@ -13,6 +13,9 @@
     "delete_confirm_title": "Weet je het zeker?",
     "delete_confirm_description": "Deze actie kan niet ongedaan gemaakt worden. Weet je zeker dat je dit wilt verwijderen?"
   },
+  "app": {
+    "copied_to_clipboard": "Gekopieerd naar klembord"
+  },
   "login": {
     "title": "Welkom terug",
     "subtitle": "Log in op je account",

@@ -1,3 +1,4 @@
+import uuid
 from typing import Type
 
 from django.contrib import admin
@@ -6,10 +7,10 @@ from django.db.models import Model
 from rest_framework.request import HttpRequest
 
 from . import widgets, formats
-from .form import FormSet, FormSetGroup
+from .form import FormSet, FormSetGroup, Field, Component
 from .login_backends import LoginBackendManager
 from .token_backends import TokenBackendManager
-from .utils import get_related_field_name
+from .utils import get_related_field_name, flatten
 
 register = admin.register
 
@@ -139,17 +140,12 @@ class ModelAdmin(admin.ModelAdmin):
     list_description = ""
 
     # Configure the main section in the edit-view.
-    edit_main: list[type[FormSetGroup | FormSet | str]] = []
+    edit_main: list[type[FormSetGroup | FormSet | Field | str]] = []
 
     # Configure the sidebar in the edit-view.
-    edit_sidebar: list[type[FormSet | str]] = []
+    edit_sidebar: list[type[FormSet | Field | str]] = []
 
     icon = None
-
-    def save_model(self, request, obj, form, change):
-        if hasattr(obj, "edited_by"):
-            obj.edited_by = request.user
-        super().save_model(request, obj, form, change)
 
     def has_add_permission(self, request):
         is_singleton = getattr(self.model, "is_singleton", False)
@@ -168,12 +164,25 @@ class ModelAdmin(admin.ModelAdmin):
 
         return super().has_delete_permission(request, obj)
 
-    def render_change_form(self, request, context, *args, **kwargs):
-        is_singleton = getattr(self.model, "is_singleton", False)
+    def get_component(self, component_id: uuid.UUID):
+        """
+        Retrieves a component from the edit_main or edit_sidebar attributes by ID.
+        :param component_id:
+        :return:
+        """
+        all_fields = getattr(self, "edit_main", []) + getattr(self, "edit_sidebar", [])
 
-        context["show_save_and_add_another"] = not is_singleton
+        flat_fields = flatten(
+            [f.get_fields() if hasattr(f, "get_fields") else [f] for f in all_fields]
+        )
 
-        return super().render_change_form(request, context, *args, **kwargs)
+        components = [c for c in flat_fields if issubclass(c.__class__, Component)]
+
+        for component in components:
+            if component.component_id == component_id:
+                return component
+
+        return None
 
 
 class AdminSerializer:

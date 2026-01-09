@@ -1,7 +1,6 @@
+from content_studio.serializers import ContentSerializer
 from django.contrib.admin.models import LogEntry
 from rest_framework import serializers
-
-from content_studio.serializers import ContentSerializer
 
 
 class LogEntrySerializer(ContentSerializer):
@@ -31,4 +30,6 @@ class ActivityLogWidget:
     col_span = 2
 
     def get_data(self, request):
-        return LogEntrySerializer(LogEntry.objects.all()[0:5], many=True).data
+        return LogEntrySerializer(
+            LogEntry.objects.all().order_by("-action_time")[0:5], many=True
+        ).data

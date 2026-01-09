@@ -98,6 +98,7 @@ export interface Model {
       description: string;
       display: string[];
       search: boolean;
+      filter: string[];
     };
     edit: {
       main: FormSetGroup[];
@@ -158,9 +159,12 @@ export interface FormSet {
 }
 
 export interface FormField {
+  type: "field" | "component";
   name: string;
   label: string | null;
   col_span: number;
+  component_id: string;
+  component_type: "Link" | "LinkButton";
 }
 
 export enum FieldType {

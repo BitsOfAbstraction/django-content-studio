@@ -39,6 +39,7 @@ export function ModelListPage() {
         {
           params: {
             search: filters.search,
+            filters: R.omit(["search"], filters),
             page,
           },
         },
@@ -78,7 +79,7 @@ export function ModelListPage() {
         )}
       </div>
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="mb-8">
         <Filters model={model} filters={filters} onFilterChange={setFilters} />
       </div>
       {view === "list" ? <ListView items={data.results} model={model} /> : null}

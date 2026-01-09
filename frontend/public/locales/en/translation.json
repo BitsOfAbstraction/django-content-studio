@@ -13,6 +13,9 @@
     "delete_confirm_title": "Are you sure?",
     "delete_confirm_description": "This action cannot be undone. Are you sure you want to delete?"
   },
+  "app": {
+    "copied_to_clipboard": "Copied to clipboard!"
+  },
   "login": {
     "title": "Welcome back",
     "subtitle": "Sign in to your account",

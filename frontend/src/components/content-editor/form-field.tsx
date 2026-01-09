@@ -1,5 +1,7 @@
+import React from "react";
 import { useFormContext } from "react-hook-form";
 
+import { LinkButton } from "@/components/form-components/link-button";
 import { FormatRenderer } from "@/components/formats/renderer";
 import {
   FormControl,
@@ -11,6 +13,10 @@ import {
 } from "@/components/ui/form";
 import { WidgetRenderer } from "@/components/widgets/renderer";
 import type { FormField as IFormField, Model } from "@/types";
+
+const COMPONENTS = {
+  LinkButton,
+};
 
 export function FormField({
   formField,
@@ -24,26 +30,38 @@ export function FormField({
 
   return (
     <div>
-      <RootFormField
-        control={form.control}
-        name={formField.name}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{formField.label || modelField?.verbose_name}</FormLabel>
-            {!modelField || modelField.readonly ? (
-              <FormatRenderer value={field.value} field={modelField} />
-            ) : (
-              <FormControl>
-                <WidgetRenderer field={modelField} {...field} />
-              </FormControl>
-            )}
-            {modelField && (
-              <FormDescription>{modelField.help_text}</FormDescription>
-            )}
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {formField.type === "field" ? (
+        <RootFormField
+          control={form.control}
+          name={formField.name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {formField.label || modelField?.verbose_name}
+              </FormLabel>
+              {!modelField || modelField.readonly ? (
+                <FormatRenderer value={field.value} field={modelField} />
+              ) : (
+                <FormControl>
+                  <WidgetRenderer field={modelField} {...field} />
+                </FormControl>
+              )}
+              {modelField && (
+                <FormDescription>{modelField.help_text}</FormDescription>
+              )}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      ) : (
+        <div>
+          {COMPONENTS[formField.component_type] &&
+            React.createElement(COMPONENTS[formField.component_type], {
+              formField,
+              model,
+            })}
+        </div>
+      )}
     </div>
   );
 }

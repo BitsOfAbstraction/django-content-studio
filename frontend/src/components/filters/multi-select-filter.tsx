@@ -3,7 +3,7 @@ import * as R from "ramda";
 import { MultiSelect } from "@/components/ui/multi-select";
 import type { ModelField } from "@/types";
 
-export function MultiSelectWidget({
+export function MultiSelectFilter({
   field,
   value = [],
   onChange,
