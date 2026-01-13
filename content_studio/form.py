@@ -176,3 +176,16 @@ class Link(Component):
 
 class ButtonLink(Link):
     component_type = "LinkButton"
+
+    # Add icon before label
+    icon = None
+
+    # Add copy to clipboard button
+    copy = False
+
+    def serialize(self):
+        return {
+            **super().serialize(),
+            "icon": self.icon,
+            "copy": self.copy,
+        }

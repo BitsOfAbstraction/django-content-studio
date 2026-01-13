@@ -1,13 +1,14 @@
 import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FiCopy, FiExternalLink } from "react-icons/fi";
+import { FiCopy } from "react-icons/fi";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button.tsx";
 import { ButtonGroup } from "@/components/ui/button-group.tsx";
 import { useHttp } from "@/hooks/use-http.ts";
+import { cn } from "@/lib/utils.ts";
 import type { FormField, Model } from "@/types";
 
 export function LinkButton({
@@ -33,31 +34,34 @@ export function LinkButton({
 
   return (
     id && (
-      <ButtonGroup className="w-full">
+      <ButtonGroup>
         <Button
           variant="outline"
-          className="flex-1 justify-start"
           onClick={async () => {
             const link = await getLink();
 
             window.open(link, "_blank", "noopener");
           }}
         >
-          <FiExternalLink />
+          {formField.icon && (
+            <span className={cn(formField.icon, "text-[14px]")} />
+          )}
           {formField.label}
         </Button>
-        <Button
-          variant="outline"
-          onClick={async () => {
-            const link = await getLink();
+        {formField.copy && (
+          <Button
+            variant="outline"
+            onClick={async () => {
+              const link = await getLink();
 
-            copy(link);
+              copy(link);
 
-            toast.success(t("app.copied_to_clipboard"));
-          }}
-        >
-          <FiCopy />
-        </Button>
+              toast.success(t("app.copied_to_clipboard"));
+            }}
+          >
+            <FiCopy />
+          </Button>
+        )}
       </ButtonGroup>
     )
   );

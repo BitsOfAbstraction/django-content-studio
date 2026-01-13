@@ -40,7 +40,9 @@ export function FormField({
                 {formField.label || modelField?.verbose_name}
               </FormLabel>
               {!modelField || modelField.readonly ? (
-                <FormatRenderer value={field.value} field={modelField} />
+                <div className="min-h-8 flex items-center pl-3 bg-accent rounded-md">
+                  <FormatRenderer value={field.value} field={modelField} />
+                </div>
               ) : (
                 <FormControl>
                   <WidgetRenderer field={modelField} {...field} />

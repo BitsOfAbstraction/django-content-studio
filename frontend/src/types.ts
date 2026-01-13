@@ -165,6 +165,8 @@ export interface FormField {
   col_span: number;
   component_id: string;
   component_type: "Link" | "LinkButton";
+  copy: boolean;
+  icon: string;
 }
 
 export enum FieldType {
