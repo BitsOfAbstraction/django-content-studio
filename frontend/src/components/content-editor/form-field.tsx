@@ -45,10 +45,10 @@ export function FormField({
                 </div>
               ) : (
                 <FormControl>
-                  <WidgetRenderer field={modelField} {...field} />
+                  <WidgetRenderer model={model} {...field} />
                 </FormControl>
               )}
-              {modelField && (
+              {modelField?.help_text && (
                 <FormDescription>{modelField.help_text}</FormDescription>
               )}
               <FormMessage />

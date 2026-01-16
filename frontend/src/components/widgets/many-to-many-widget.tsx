@@ -1,31 +1,34 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import * as R from "ramda";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useHttp } from "@/hooks/use-http";
-import type { ModelField, PaginatedResponse, Resource } from "@/types";
+import type { Model, Resource } from "@/types";
 
 export function ManyToManyWidget({
-  field,
+  name,
+  model,
   value = [],
   onChange,
 }: {
-  field: ModelField;
+  name: string;
+  model: Model;
   onChange?: any;
   value?: any;
 }) {
   const http = useHttp();
+  const form = useFormContext();
   const [search, setSearch] = useState("");
-  const relatedModel = field.related_model;
-  const { data } = useQuery({
-    enabled: !R.isNil(relatedModel),
-    queryKey: ["related-model", relatedModel, search],
+  const id = form.getValues("id");
+  const { data = [] } = useQuery({
+    retry: false,
+    queryKey: ["related-model", model.label, id, name, search],
     placeholderData: keepPreviousData,
     async queryFn() {
-      const { data } = await http.get<PaginatedResponse<Resource>>(
-        `/content/${relatedModel}`,
-        { params: { search } },
+      const { data } = await http.post<Resource[]>(
+        `/content/${model.label}/relations/${name}`,
+        { search, id },
       );
 
       return data;
@@ -37,7 +40,7 @@ export function ManyToManyWidget({
       inputProps={{ onValueChange: setSearch }}
       commandProps={{ shouldFilter: false }}
       options={
-        data?.results.map(({ id, __str__ }) => ({
+        data.map(({ id, __str__ }) => ({
           label: __str__,
           value: id,
         })) ?? []

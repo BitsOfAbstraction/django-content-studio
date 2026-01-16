@@ -27,6 +27,7 @@ export function FormSet({
         {formSet.fields.map((formField, idx) =>
           R.has("fields", formField) ? (
             <div
+              key={idx}
               className="grid gap-3"
               style={{
                 gridTemplateColumns: `repeat(${formField.fields.length}, 1fr)`,
@@ -34,7 +35,7 @@ export function FormSet({
             >
               {formField.fields
                 .filter((f) => !hiddenFields.includes(f.name))
-                .map((innerFormField) => (
+                .map((innerFormField, idx) => (
                   <FormField
                     key={idx}
                     formField={innerFormField}

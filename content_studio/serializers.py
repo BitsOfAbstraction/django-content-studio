@@ -94,6 +94,15 @@ class ContentSerializer(serializers.ModelSerializer):
         return super().build_field(field_name, info, model_class, nested_depth)
 
 
+class RelatedItemSerializer(serializers.Serializer):
+    """
+    Serializer for use in the relations endpoint.
+    """
+
+    id = serializers.UUIDField()
+    __str__ = serializers.CharField()
+
+
 class SessionUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source=user_model.USERNAME_FIELD)
 

@@ -18,12 +18,14 @@ export function SelectWidget({
 }) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-auto">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         {field.choices?.map(([value, label]) => (
-          <SelectItem value={value}>{label}</SelectItem>
+          <SelectItem key={value} value={value}>
+            {label}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>

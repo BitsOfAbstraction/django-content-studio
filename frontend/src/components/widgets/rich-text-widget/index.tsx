@@ -6,7 +6,6 @@ import { Typography } from "@tiptap/extension-typography";
 import { Underline } from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import * as R from "ramda";
 import { useEffect } from "react";
 
 import { FormattingMenu } from "./components/formatting-menu";
@@ -26,7 +25,7 @@ const extensions = [
 export function RichTextWidget({ value, onChange, disabled }: RichtTextProps) {
   const editor = useEditor({
     extensions,
-    content: value,
+    content: value ?? "",
     editable: !disabled,
     editorProps: {
       attributes: {
@@ -47,7 +46,7 @@ export function RichTextWidget({ value, onChange, disabled }: RichtTextProps) {
     }
   }, [value, editor]);
 
-  return R.isNil(value) ? null : (
+  return (
     <div className="border border-solid rounded-md bg-background focus-within:border-ring">
       <FormattingMenu editor={editor} />
       <div className="max-h-[600px] overflow-y-auto scrollbar">

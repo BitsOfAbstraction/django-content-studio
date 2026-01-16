@@ -1,16 +1,22 @@
+import operator
 import uuid
+from functools import reduce
 
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
+from django.db.models import Q
 from rest_framework.decorators import action
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .filters import LookupFilter
+from .serializers import RelatedItemSerializer
 from .settings import cs_settings
 
 
@@ -112,3 +118,48 @@ class BaseModelViewSet(ModelViewSet):
             raise NotFound()
 
         return component.handle_request(obj=self.get_object(), request=request)
+
+    @action(methods=["post"], detail=False, url_path="relations/(?P<field_name>[^/]+)")
+    def get_related_objects(self, request, field_name):
+        """
+        Endpoint for retrieving related objects.
+        """
+        search = request.data.get("search", "")
+
+        parent_model = self.queryset.model
+
+        try:
+            related_field = parent_model._meta.get_field(field_name)
+        except LookupError:
+            raise ValidationError("Related field not found.")
+
+        related_model = related_field.related_model
+
+        custom_filter_method = getattr(
+            self._admin_model, f"get_related_{field_name}", None
+        )
+
+        if custom_filter_method:
+            qs = custom_filter_method(
+                search=search,
+                form_data=request.data.get("form", {}),
+                related_model=related_model,
+                request=request,
+            )
+
+        else:
+            char_fields = [
+                f.name
+                for f in related_model._meta.get_fields()
+                if isinstance(f, models.CharField)
+            ]
+
+            queries = [Q(**{f"{f}__icontains": search}) for f in char_fields]
+
+            combined_query = reduce(operator.or_, queries)
+
+            qs = related_model.objects.filter(combined_query)
+
+        serializer = RelatedItemSerializer(qs[:20], many=True)
+
+        return Response(data=serializer.data)

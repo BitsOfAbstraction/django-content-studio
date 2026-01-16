@@ -37,7 +37,10 @@
     "title_create": "Maak {{modelName}} aan",
     "title_edit": "Bewerk {{modelName}}",
     "last_edited": "Laatst bewerkt",
-    "unsaved_alert": "Je hebt niet-opgeslagen wijzigen. Weet je zeker dat je weg wilt gaan?"
+    "field_validation_error_title": "Sommige velden zijn onjuist ingevuld",
+    "field_validation_error_description": "Controleer de velden en probeer het opnieuw.",
+    "unsaved_alert": "Je hebt niet-opgeslagen wijzigen. Weet je zeker dat je weg wilt gaan?",
+    "empty_state": "Nog geen items"
   },
   "media-library": {
     "title": "Mediabibliotheek",

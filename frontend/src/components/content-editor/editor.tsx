@@ -2,12 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as R from "ramda";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 import { useDiscover } from "@/hooks/use-discover";
 import { useHttp } from "@/hooks/use-http";
-import type { Resource } from "@/types";
+import type { Model, Resource } from "@/types";
 
 import { Aside } from "./aside";
 import { Header } from "./header";
@@ -15,11 +17,7 @@ import { Main } from "./main";
 
 export function Editor({
   modelLabel,
-  id,
-  initialValues = {},
-  onDelete,
-  onSave,
-  onClose,
+  ...props
 }: {
   modelLabel: string;
   id?: string | null;
@@ -28,10 +26,31 @@ export function Editor({
   onClose: VoidFunction;
   onDelete?: VoidFunction;
 }) {
-  const queryClient = useQueryClient();
-  const http = useHttp();
   const { data: discover } = useDiscover();
   const model = discover?.models.find(R.whereEq({ label: modelLabel }));
+
+  return model ? <EditorForm model={model} {...props} /> : null;
+}
+
+function EditorForm({
+  model,
+  id,
+  initialValues = {},
+  onDelete,
+  onSave,
+  onClose,
+}: {
+  model: Model;
+  id?: string | null;
+  initialValues?: Record<string, any>;
+  onSave: VoidFunction;
+  onClose: VoidFunction;
+  onDelete?: VoidFunction;
+}) {
+  const queryClient = useQueryClient();
+  const http = useHttp();
+  const { t } = useTranslation();
+  const modelLabel = model.label;
   const isSingleton = model?.admin.is_singleton ?? false;
   const hiddenFields = Object.keys(initialValues);
   const defaultValues = Object.entries(model?.fields ?? {}).reduce(
@@ -77,7 +96,25 @@ export function Editor({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await save(values);
+    try {
+      await save(values);
+    } catch (e: unknown) {
+      const errors = Object.entries(e.response.data);
+
+      toast.error(
+        <div>
+          <div>{t("editor.field_validation_error_title")}</div>
+          <div className="font-normal text-muted-foreground">
+            {t("editor.field_validation_error_description")}
+          </div>
+        </div>,
+      );
+
+      for (const [key, error] of errors) {
+        form.setError(key, { type: "custom", message: error[0] ?? "" });
+      }
+      throw e;
+    }
   }
 
   return (

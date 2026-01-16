@@ -24,7 +24,10 @@ export function DateWidget({
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const date$ = React.useMemo(() => dayjs(value, "YYYY-MM-DD"), [value]);
+  const date$ = React.useMemo(
+    () => (value ? dayjs(value, "YYYY-MM-DD") : null),
+    [value],
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -44,8 +47,8 @@ export function DateWidget({
         <Calendar
           mode="single"
           fixedWeeks
-          defaultMonth={date$.toDate()}
-          selected={date$.toDate()}
+          defaultMonth={date$?.toDate()}
+          selected={date$?.toDate()}
           onSelect={(date) => {
             if (date) {
               onChange?.(dayjs(date).format("YYYY-MM-DD"));

@@ -1,4 +1,9 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import * as R from "ramda";
 import { useState } from "react";
 import { useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -8,6 +13,7 @@ import { FormatRenderer } from "@/components/formats/renderer";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Pagination } from "@/components/ui/pagination";
+import { Spinner } from "@/components/ui/spinner.tsx";
 import {
   Table,
   TableBody,
@@ -39,11 +45,12 @@ export function Inline({
 }) {
   const { t } = useTranslation();
   const http = useHttp();
+  const queryClient = useQueryClient();
   const [create, setCreate] = useState(false);
   const [page, setPage] = useState(1);
   const readOnly = !model.admin;
   const relName = useWatch({ name: "__str__" });
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     retry: false,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
@@ -79,7 +86,18 @@ export function Inline({
             initialValues={{
               [adminModel.fk_name]: { id: relId, __str__: relName },
             }}
-            onSave={() => setCreate(false)}
+            onSave={async () => {
+              setCreate(false);
+              await queryClient.invalidateQueries({
+                queryKey: [
+                  "resources",
+                  relModel,
+                  model.label,
+                  adminModel.fk_name,
+                  relId,
+                ],
+              });
+            }}
             onClose={() => setCreate(false)}
           />
         </DialogContent>
@@ -98,17 +116,36 @@ export function Inline({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.results.map((resource) => (
-              <InlineRow
-                key={resource.id}
-                resource={resource}
-                model={model}
-                adminModel={adminModel}
-                relId={relId}
-                relName={relName}
-                readOnly={readOnly}
-              />
-            ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={adminModel.list_display?.length}>
+                  <div className="flex justify-center py-24">
+                    <Spinner />
+                  </div>
+                </td>
+              </tr>
+            ) : R.isEmpty(data?.results) ? (
+              <tr>
+                <td colSpan={adminModel.list_display?.length}>
+                  <div className="text-center py-12 text-muted-foreground select-none">
+                    {t("editor.empty_state")}
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              data?.results.map((resource) => (
+                <InlineRow
+                  key={resource.id}
+                  resource={resource}
+                  model={model}
+                  adminModel={adminModel}
+                  relModel={relModel}
+                  relId={relId}
+                  relName={relName}
+                  readOnly={readOnly}
+                />
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
@@ -137,18 +174,21 @@ function InlineRow({
   resource,
   readOnly,
   model,
+  relModel,
   adminModel,
   relId,
   relName,
 }: {
   relId: Id;
   relName: string;
+  relModel: string;
   resource: Resource;
   readOnly: boolean;
   model: Model;
   adminModel: { fk_name: string; list_display: string[] | null };
 }) {
   const [edit, setEdit] = useState(false);
+  const queryClient = useQueryClient();
 
   return (
     <>
@@ -164,7 +204,18 @@ function InlineRow({
               initialValues={{
                 [adminModel.fk_name]: { id: relId, __str__: relName },
               }}
-              onSave={() => setEdit(false)}
+              onSave={async () => {
+                setEdit(false);
+                await queryClient.invalidateQueries({
+                  queryKey: [
+                    "resources",
+                    relModel,
+                    model.label,
+                    adminModel.fk_name,
+                    relId,
+                  ],
+                });
+              }}
               onClose={() => setEdit(false)}
               onDelete={() => setEdit(false)}
             />

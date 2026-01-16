@@ -2,7 +2,7 @@ import * as R from "ramda";
 import React, { useMemo } from "react";
 
 import { useAdminInfo } from "@/hooks/use-admin-info";
-import { FieldType, FieldWidget, type ModelField } from "@/types";
+import { FieldType, FieldWidget, type Model } from "@/types";
 
 import { CheckboxWidget } from "./checkbox-widget.tsx";
 import { DateWidget } from "./date-widget";
@@ -23,13 +23,16 @@ import { URLPathWidget } from "./url-path-widget";
 export function WidgetRenderer({
   value,
   onChange,
-  field,
+  model,
+  name,
 }: {
   value: any;
   onChange(value: any): void;
-  field: ModelField;
+  model: Model;
+  name: string;
 }) {
   const { data: info } = useAdminInfo();
+  const field = model.fields[name];
   const widgetClass =
     field.widget_class ?? info?.widgets[field.type]?.name ?? null;
 
@@ -59,5 +62,13 @@ export function WidgetRenderer({
     [field.choices, field.type, widgetClass],
   );
 
-  return <WidgetComp value={value} onChange={onChange} field={field} />;
+  return (
+    <WidgetComp
+      value={value}
+      onChange={onChange}
+      model={model}
+      field={field}
+      name={name}
+    />
+  );
 }

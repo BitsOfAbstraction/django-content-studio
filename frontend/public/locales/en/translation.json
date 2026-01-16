@@ -37,7 +37,10 @@
     "title_create": "Create {{modelName}}",
     "title_edit": "Edit {{modelName}}",
     "last_edited": "Last edited",
-    "unsaved_alert": "There are unsaved changes. Are you sure you want to leave?"
+    "field_validation_error_title": "Some fields are invalid",
+    "field_validation_error_description": "Please check the fields and try again.",
+    "unsaved_alert": "There are unsaved changes. Are you sure you want to leave?",
+    "empty_state": "No items yet"
   },
   "media-library": {
     "title": "Media library",

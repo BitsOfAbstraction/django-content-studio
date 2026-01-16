@@ -15,7 +15,7 @@ export function TimeWidget({
   return (
     <div className="flex items-center gap-1">
       <Input
-        value={hours}
+        value={hours ?? ""}
         maxLength={2}
         max={24}
         inputMode="decimal"
@@ -25,7 +25,7 @@ export function TimeWidget({
         onChange={(e) => {
           const hours = e.target.value;
 
-          onChange(`${hours}:${minutes}`);
+          onChange(`${hours}:${minutes ?? ""}`);
 
           if (hours.length === 2 && minutesRef.current) {
             minutesRef.current.focus();
@@ -34,14 +34,14 @@ export function TimeWidget({
       />
       <span>{":"}</span>
       <Input
-        value={minutes}
+        value={minutes ?? ""}
         maxLength={2}
         inputMode="decimal"
         className="w-12"
         placeholder="mm"
         ref={minutesRef}
         onFocus={(e) => e.target.select()}
-        onChange={(e) => onChange(`${hours}:${e.target.value}`)}
+        onChange={(e) => onChange(`${hours ?? ""}:${e.target.value}`)}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import * as R from "ramda";
 import { useMemo, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
 
@@ -11,30 +12,33 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover.tsx";
 import { useHttp } from "@/hooks/use-http.ts";
-import type { ModelField, PaginatedResponse, Resource } from "@/types.ts";
+import type { Model, Resource } from "@/types.ts";
 
 export function ForeignKeyWidget({
-  field,
+  name,
+  model,
   value,
   onChange,
 }: {
-  field: ModelField;
+  name: string;
+  model: Model;
   onChange?: any;
   value?: any;
 }) {
   const { t } = useTranslation();
   const http = useHttp();
+  const form = useFormContext();
+  const formValues = form.watch();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-  const relatedModel = field.related_model;
-  const { data } = useQuery({
-    enabled: !R.isNil(relatedModel),
-    queryKey: ["related-model", relatedModel, search],
+  const { data = [] } = useQuery({
+    enabled: open,
+    queryKey: ["related-model", model.label, name, formValues, search],
     placeholderData: keepPreviousData,
     async queryFn() {
-      const { data } = await http.get<PaginatedResponse<Resource>>(
-        `/content/${relatedModel}`,
-        { params: { search } },
+      const { data } = await http.post<Resource[]>(
+        `/content/${model.label}/relations/${name}`,
+        { search, form: formValues },
       );
 
       return data;
@@ -45,7 +49,7 @@ export function ForeignKeyWidget({
       R.pipe(
         R.unless(() => R.isNil(value) || !R.isEmpty(search), R.prepend(value)),
         R.uniqBy(R.prop("id")),
-      )(data?.results ?? []),
+      )(data),
     [data, value, search],
   );
 
