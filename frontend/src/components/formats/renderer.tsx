@@ -33,7 +33,7 @@ export function FormatRenderer({
     () =>
       R.cond([
         [R.isNil, R.always(TextFormat)],
-        [() => !R.isNil(field.choices), R.always(ChoiceFormat)],
+        [() => !R.isNil(field?.choices), R.always(ChoiceFormat)],
         [R.equals(FieldFormat.FileSizeFormat), R.always(FileSizeFormat)],
         [R.equals(FieldFormat.FileFormat), R.always(FileFormat)],
         [R.equals(FieldFormat.BooleanFormat), R.always(BooleanFormat)],

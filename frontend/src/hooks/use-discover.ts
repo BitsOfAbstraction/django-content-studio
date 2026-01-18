@@ -16,6 +16,10 @@ export function useDiscover() {
         model_groups: ModelGroup[];
         models: Model[];
         user_model: string;
+        multitenancy: {
+          enabled: boolean;
+          tenant_model: string | null;
+        };
         media_library: {
           enabled: boolean;
           folders: boolean;

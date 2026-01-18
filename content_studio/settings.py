@@ -31,6 +31,7 @@ DEFAULTS = {
     "CREATED_AT_ATTR": "created_at",
     "MEDIA_LIBRARY_MODEL": None,
     "MEDIA_LIBRARY_FOLDER_MODEL": None,
+    "TENANT_MODEL": None,
 }
 
 
@@ -40,6 +41,7 @@ IMPORT_STRINGS = [
     "LOGIN_BACKENDS",
     "MEDIA_LIBRARY_MODEL",
     "MEDIA_LIBRARY_FOLDER_MODEL",
+    "TENANT_MODEL",
 ]
 
 
@@ -150,3 +152,5 @@ def reload_settings(*args, **kwargs):
 
 
 setting_changed.connect(reload_settings)
+
+allowed_cors_headers = ("x-dcs-tenant",)

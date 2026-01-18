@@ -102,6 +102,12 @@ class AdminSite(admin.AdminSite):
         """
         return obj.file.url
 
+    def get_tenants(self, tenant_model: Type[models.Model], **kwargs):
+        """
+        Method for getting the list of available tenants.
+        """
+        return tenant_model.objects.all()
+
 
 admin_site = AdminSite()
 

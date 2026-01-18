@@ -3,7 +3,9 @@ from django.contrib import admin
 from django.urls import reverse, NoReverseMatch
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
+from rest_framework import serializers
 from rest_framework.decorators import action
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -31,6 +33,7 @@ class AdminApiViewSet(ViewSet):
 
     permission_classes = [IsAdminUser]
     renderer_classes = [JSONRenderer]
+    admin_site = cs_settings.ADMIN_SITE
 
     @action(
         methods=["get"],
@@ -42,23 +45,22 @@ class AdminApiViewSet(ViewSet):
         """
         Returns public information about the Content Studio admin.
         """
-        admin_site = cs_settings.ADMIN_SITE
 
         data = {
             "version": __version__,
-            "site_header": admin_site.site_header,
-            "site_title": admin_site.site_title,
-            "index_title": admin_site.index_title,
-            "site_url": admin_site.site_url,
+            "site_header": self.admin_site.site_header,
+            "site_title": self.admin_site.site_title,
+            "index_title": self.admin_site.index_title,
+            "site_url": self.admin_site.site_url,
             "health_check": get_health_check_path(),
             "login_backends": [
                 backend.get_info()
-                for backend in admin_site.login_backend.active_backends
+                for backend in self.admin_site.login_backend.active_backends
             ],
-            "token_backend": admin_site.token_backend.active_backend.get_info(),
+            "token_backend": self.admin_site.token_backend.active_backend.get_info(),
             "formats": {
                 model_class.__name__: frmt.serialize()
-                for model_class, frmt in admin_site.default_format_mapping.items()
+                for model_class, frmt in self.admin_site.default_format_mapping.items()
             },
             "widgets": get_widgets(),
             "settings": {
@@ -83,7 +85,6 @@ class AdminApiViewSet(ViewSet):
         """
         Returns information about the Django app (models, admin models, admin site, settings, etc.).
         """
-        admin_site = cs_settings.ADMIN_SITE
         data = {
             "models": get_models(request),
             "model_groups": get_model_groups(),
@@ -102,10 +103,19 @@ class AdminApiViewSet(ViewSet):
             },
         }
 
-        if admin_site.dashboard:
-            data["dashboard"] = admin_site.dashboard.serialize()
+        if self.admin_site.dashboard:
+            data["dashboard"] = self.admin_site.dashboard.serialize()
         else:
             data["dashboard"] = {"widgets": []}
+
+        multitenancy = cs_settings.TENANT_MODEL is not None
+
+        data["multitenancy"] = {
+            "enabled": multitenancy,
+            "tenant_model": (
+                cs_settings.TENANT_MODEL._meta.label_lower if multitenancy else None
+            ),
+        }
 
         return Response(data=data)
 
@@ -115,6 +125,28 @@ class AdminApiViewSet(ViewSet):
         Returns information about the current user.
         """
         return Response(SessionUserSerializer(request.user).data)
+
+    @action(
+        methods=["get"],
+        detail=False,
+        url_path="tenants",
+    )
+    def list_tenants(self, request):
+        tenant_model = cs_settings.TENANT_MODEL
+
+        if not tenant_model:
+            raise MethodNotAllowed("GET", "Tenant model not defined.")
+
+        class TenantSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = tenant_model
+                fields = ["id", "__str__"]
+
+        tenants = self.admin_site.get_tenants(
+            tenant_model=tenant_model, request=request
+        )
+
+        return Response(TenantSerializer(tenants, many=True).data)
 
 
 def get_models(request):

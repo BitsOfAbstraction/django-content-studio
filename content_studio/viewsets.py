@@ -18,6 +18,7 @@ from rest_framework.viewsets import ModelViewSet
 from .filters import LookupFilter
 from .serializers import RelatedItemSerializer
 from .settings import cs_settings
+from .utils import get_tenant_field_name
 
 
 class BaseModelViewSet(ModelViewSet):
@@ -48,10 +49,15 @@ class BaseModelViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
+        tenant_id = self.request.headers.get("x-dcs-tenant", None)
+        tenant_model = cs_settings.TENANT_MODEL
+        tenant_field_name = get_tenant_field_name(instance)
+
+        if tenant_model and tenant_id and tenant_field_name:
+            setattr(instance, f"{tenant_field_name}_id", tenant_id)
 
         if hasattr(instance, cs_settings.CREATED_BY_ATTR):
             setattr(instance, cs_settings.CREATED_BY_ATTR, self.request.user)
-            instance.save()
 
         content_type = ContentType.objects.get_for_model(instance)
         LogEntry.objects.create(
@@ -62,6 +68,8 @@ class BaseModelViewSet(ModelViewSet):
             object_repr=str(instance)[:200],
             change_message="",
         )
+
+        instance.save()
 
     def perform_update(self, serializer):
         instance = serializer.save()

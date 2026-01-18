@@ -24,7 +24,10 @@ import { useAdminInfo } from "@/hooks/use-admin-info";
 import { useDiscover } from "@/hooks/use-discover";
 import { useMe } from "@/hooks/use-me";
 import { cn } from "@/lib/utils";
+import { useTenant } from "@/tenant.tsx";
 import type { TailwindColor } from "@/types";
+
+import { TenantSelector } from "./tenant-selector";
 
 export function MainMenu() {
   const { t } = useTranslation();
@@ -33,6 +36,7 @@ export function MainMenu() {
   const { data: adminInfo } = useAdminInfo();
   const { data: me } = useMe();
   const { data: discover } = useDiscover();
+  const { enabled: tenant } = useTenant();
   const [search, setSearch] = useState("");
 
   return (
@@ -45,6 +49,11 @@ export function MainMenu() {
           <h2 className="line-clamp-1 break-all text-base font-semibold">
             {adminInfo.site_header}
           </h2>
+        </div>
+      )}
+      {tenant && (
+        <div className="p-1 border-b">
+          <TenantSelector />
         </div>
       )}
       <div className="p-3 border-b">
@@ -120,7 +129,7 @@ export function MainMenu() {
                 {t("main_menu.log_out")}
               </DropdownMenuItem>
             </DropdownMenuContent>
-            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-stone-200 p-2 rounded-md select-none">
+            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-stone-200 data-[state=open]:bg-stone-200 p-2 rounded-md select-none">
               <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
                 {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
                   .trim()

@@ -3,6 +3,8 @@ import sys
 
 from rich.console import Console
 
+from content_studio.settings import cs_settings
+
 console = Console()
 
 
@@ -60,3 +62,28 @@ def get_related_field_name(inline, parent_model):
         )
     else:
         raise ValueError(f"Multiple foreign keys found. Specify fk_name on the inline.")
+
+
+def get_tenant_field_name(model):
+    tenant_model = cs_settings.TENANT_MODEL
+
+    if not tenant_model:
+        return None
+
+    opts = model._meta
+
+    # Find all foreign keys pointing to the tenant model
+    fks = [
+        f
+        for f in opts.get_fields()
+        if f.many_to_one and f.remote_field.model == tenant_model
+    ]
+
+    if len(fks) == 1:
+        return fks[0].name
+    elif len(fks) == 0:
+        return None
+    else:
+        raise ValueError(
+            f"Multiple fields found pointing to {tenant_model}. Only one field can point to a tenant model."
+        )
