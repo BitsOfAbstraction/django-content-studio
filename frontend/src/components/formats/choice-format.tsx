@@ -8,7 +8,20 @@ export function ChoiceFormat({
   value: unknown;
   field: ModelField;
 }) {
-  const label = field.choices?.find(([key]) => value === key)?.[1];
+  const label = (i: unknown) =>
+    field.choices?.find(([key]) => i === key)?.[1] ?? String(i);
 
-  return <Badge variant="secondary">{label || String(value)}</Badge>;
+  return (
+    <div className="flex gap-1 flex-wrap">
+      {Array.isArray(value) ? (
+        value.map((i) => (
+          <Badge key={i} variant="secondary">
+            {label(i)}
+          </Badge>
+        ))
+      ) : (
+        <Badge variant="secondary">{label(value)}</Badge>
+      )}
+    </div>
+  );
 }
