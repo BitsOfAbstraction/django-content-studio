@@ -19,7 +19,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { useAdminInfo } from "@/hooks/use-admin-info";
 import { useDiscover } from "@/hooks/use-discover";
 import { useMe } from "@/hooks/use-me";
@@ -37,7 +36,6 @@ export function MainMenu() {
   const { data: me } = useMe();
   const { data: discover } = useDiscover();
   const { enabled: tenant } = useTenant();
-  const [search, setSearch] = useState("");
 
   return (
     <nav className="w-[240px] shrink-0 flex flex-col bg-stone-50 border-r">
@@ -56,15 +54,7 @@ export function MainMenu() {
           <TenantSelector />
         </div>
       )}
-      <div className="p-3 border-b">
-        <Input
-          variant="secondary"
-          className="border"
-          placeholder={t("common.search")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+
       <div className="flex-1 p-2 space-y-1 overflow-y-auto scrollbar">
         <MenuItem
           to="/"

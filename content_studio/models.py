@@ -1,6 +1,6 @@
 from django.db import models
 
-from .utils import is_jsonable
+from .utils import is_jsonable, get_tenant_field_name
 
 
 class ModelSerializer:
@@ -10,11 +10,14 @@ class ModelSerializer:
     def serialize(self):
         model = self.model
 
+        tenant_field = get_tenant_field_name(self.model)
+
         return {
             "label": model._meta.label_lower,
             "verbose_name": model._meta.verbose_name,
             "verbose_name_plural": model._meta.verbose_name_plural,
             "fields": self.get_fields(),
+            "tenant_field": tenant_field,
         }
 
     def get_fields(self):

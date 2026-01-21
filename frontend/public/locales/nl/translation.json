@@ -97,6 +97,7 @@
     "setup": {
       "title": "Eerste {{tenant}} aanmaken",
       "model_not_found": "Geen admin model gevonden voor {{tenant}}. Voeg een admin model toe of maak handmatig een {{tenant}} aan."
-    }
+    },
+    "shared_message": "{{content_type}} worden gedeeld tussen alle {{tenant}}."
   }
 }

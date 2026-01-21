@@ -88,6 +88,7 @@ export interface Model {
   label: string;
   verbose_name: string;
   verbose_name_plural: string;
+  tenant_field: string | null;
   admin: {
     is_singleton: boolean;
     format_mapping: Record<string, { name: FieldFormat }>;

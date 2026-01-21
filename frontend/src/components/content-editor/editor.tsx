@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { TenantInfo } from "@/components/tenant-info.tsx";
 import { Form } from "@/components/ui/form";
 import { useDiscover } from "@/hooks/use-discover";
 import { useHttp } from "@/hooks/use-http";
@@ -121,6 +122,7 @@ function EditorForm({
     model && (
       <Form {...form}>
         <div className="flex-1 flex flex-col overflow-hidden">
+          <TenantInfo label={model.label} />
           <Header
             model={model}
             resource={resource}
