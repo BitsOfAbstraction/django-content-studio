@@ -19,7 +19,7 @@ export function DashboardPage() {
 
           return (
             <div
-              className="border rounded-lg"
+              className="border border-gray-300 bg-white shadow-md shadow-gray-900/5 rounded-lg"
               style={{
                 gridColumn: `span ${widget.col_span} / span ${widget.col_span}`,
               }}

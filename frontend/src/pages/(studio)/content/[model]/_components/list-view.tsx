@@ -25,9 +25,9 @@ export function ListView({
     <div className="relative border rounded-lg bg-white overflow-auto flex-1 scrollbar">
       <Table>
         <TableHeader>
-          <TableRow className="sticky top-0 left-0 right-0">
+          <TableRow>
             {model.admin.list.display.map(({ name, description }) => (
-              <TableHead key={name} className="h-10">
+              <TableHead key={name} className="h-10 sticky top-0 z-10">
                 {description ?? model.fields[name]?.verbose_name}
               </TableHead>
             ))}

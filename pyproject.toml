@@ -1,6 +1,6 @@
 [project]
 name = "django-content-studio"
-version = "1.0.0-beta.8"
+version = "1.0.0-beta.9"
 description = "Modern & flexible Django admin"
 authors = [
     {name = "Leon van der Grient",email = "leon@devtastic.io"}
@@ -17,8 +17,8 @@ include = [
     { path = "content_studio/static/**/*", format = "wheel" }]
 
 [tool.poetry.group.dev.dependencies]
-black = "^25.12.0"
-Django= "^5.2.9"
+black = "^26.1.0"
+Django= "^5.2.10"
 djangorestframework= "^3.16.1"
 djangorestframework-simplejwt= "^5.5.1"
 

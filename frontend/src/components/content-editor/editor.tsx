@@ -134,7 +134,7 @@ function EditorForm({
             onDelete={onDelete}
             onClose={onClose}
           />
-          <div className="flex flex-1 justify-center overflow-y-auto">
+          <div className="flex flex-1 justify-center overflow-y-auto scrollbar">
             <div className="w-full max-w-3xl">
               <div className="p-5">
                 <Main model={model} id={id} hiddenFields={hiddenFields} />

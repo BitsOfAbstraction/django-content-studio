@@ -59,76 +59,78 @@ export function Header({
   return (
     model && (
       <>
-        <DialogHeader className="border-b flex-row items-center gap-6 p-5">
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={isSaving}
-            onClick={async () => {
-              if (!isDirty) {
-                return onClose?.();
-              }
-              const confirmed = await confirm({
-                description: t("editor.unsaved_alert"),
-              });
-
-              if (confirmed) {
-                onClose?.();
-              }
-            }}
-          >
-            <PiX />
-          </Button>
-          <div className="select-none">
-            <DialogTitle>
-              {`${t(isCreate ? "editor.title_create" : "editor.title_edit", { modelName: model.verbose_name.toLowerCase() })}`}
-            </DialogTitle>
-            <div className="text-sm font-medium text-muted-foreground">
-              {resource?.__str__}
-            </div>
-          </div>
-          <div className="flex-1 flex items-center justify-end gap-2">
-            {editedAt ? (
-              <div className="text-muted-foreground text-sm font-medium mr-4 select-none">
-                {`${t("editor.last_edited")} ${dayjs(editedAt).fromNow()}`}
-              </div>
-            ) : null}
+        <DialogHeader className="items-center border-b">
+          <div className="flex items-center gap-6 max-w-[1128px] px-5 py-3 w-full">
             <Button
+              variant="outline"
+              size="icon"
+              disabled={isSaving}
               onClick={async () => {
-                try {
-                  await onSave();
-                } catch (e) {}
+                if (!isDirty) {
+                  return onClose?.();
+                }
+                const confirmed = await confirm({
+                  description: t("editor.unsaved_alert"),
+                });
+
+                if (confirmed) {
+                  onClose?.();
+                }
               }}
-              isLoading={isSaving}
             >
-              {t(isCreate ? "common.create" : "common.save")}
+              <PiX />
             </Button>
-            {!isSingleton && !isCreate && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="ghost">
-                    <PiDotsThreeBold />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    className="text-destructive"
-                    onSelect={async () => {
-                      const confirmed = await confirm({
-                        title: t("common.delete_confirm_title"),
-                        description: t("common.delete_confirm_description"),
-                      });
-                      if (confirmed) {
-                        await mutateAsync(resource!.id);
-                        onDelete?.();
-                      }
-                    }}
-                  >
-                    {t("common.delete")}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            <div className="select-none">
+              <DialogTitle>
+                {`${t(isCreate ? "editor.title_create" : "editor.title_edit", { modelName: model.verbose_name.toLowerCase() })}`}
+              </DialogTitle>
+              <div className="text-sm font-medium text-muted-foreground">
+                {resource?.__str__}
+              </div>
+            </div>
+            <div className="flex-1 flex items-center justify-end gap-2">
+              {editedAt ? (
+                <div className="text-muted-foreground text-sm font-medium mr-4 select-none">
+                  {`${t("editor.last_edited")} ${dayjs(editedAt).fromNow()}`}
+                </div>
+              ) : null}
+              <Button
+                onClick={async () => {
+                  try {
+                    await onSave();
+                  } catch (e) {}
+                }}
+                isLoading={isSaving}
+              >
+                {t(isCreate ? "common.create" : "common.save")}
+              </Button>
+              {!isSingleton && !isCreate && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="icon" variant="ghost">
+                      <PiDotsThreeBold />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      className="text-destructive"
+                      onSelect={async () => {
+                        const confirmed = await confirm({
+                          title: t("common.delete_confirm_title"),
+                          description: t("common.delete_confirm_description"),
+                        });
+                        if (confirmed) {
+                          await mutateAsync(resource!.id);
+                          onDelete?.();
+                        }
+                      }}
+                    >
+                      {t("common.delete")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
           </div>
         </DialogHeader>
       </>

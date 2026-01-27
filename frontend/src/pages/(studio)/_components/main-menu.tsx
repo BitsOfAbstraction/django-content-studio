@@ -130,6 +130,14 @@ export function MainMenu() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </div>
+              {adminInfo && (
+                <div className="px-4 py-2 bg-gray-100 border-t cursor-default">
+                  <div className="text-sm font-medium text-gray-700 text-center">
+                    {adminInfo.site_title}
+                  </div>
+                  <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
+                </div>
+              )}
             </DropdownMenuContent>
             <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 p-3 select-none hover:cursor-pointer">
               <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
