@@ -19,9 +19,11 @@ import { TimeFormat } from "./time-format";
 export function FormatRenderer({
   value,
   field,
+  emptyValue,
 }: {
   value: unknown;
   field?: ModelField;
+  emptyValue?: string | null;
 }) {
   const { data: info } = useAdminInfo();
   const formatClass =
@@ -48,5 +50,5 @@ export function FormatRenderer({
     [field?.choices, field?.type, formatClass],
   );
 
-  return <FormatComp value={value} field={field} />;
+  return <FormatComp value={value} field={field} emptyValue={emptyValue} />;
 }

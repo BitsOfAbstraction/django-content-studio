@@ -13,6 +13,7 @@ from .token_backends import TokenBackendManager
 from .utils import get_related_field_name, flatten
 
 register = admin.register
+display = admin.display
 
 
 class StackedInline(admin.StackedInline):
@@ -223,7 +224,7 @@ class AdminSerializer:
             "list": {
                 "per_page": admin_class.list_per_page,
                 "description": getattr(admin_class, "list_description", ""),
-                "display": admin_class.list_display,
+                "display": self.get_list_display(),
                 "search": len(admin_class.search_fields) > 0,
                 "filter": admin_class.list_filter,
                 "sortable_by": admin_class.sortable_by,
@@ -259,6 +260,27 @@ class AdminSerializer:
             i.serialize()
             for i in self.get_edit_sidebar(getattr(admin_class, "edit_sidebar", None))
         ]
+
+    def get_list_display(self):
+        admin_class = self.admin_class
+        fields = []
+
+        for field in admin_class.list_display:
+            if hasattr(admin_class, field):
+                method = getattr(admin_class, field)
+                description = getattr(method, "short_description", None)
+                empty_value = getattr(method, "empty_value", None)
+                fields.append(
+                    {
+                        "name": field,
+                        "description": description,
+                        "empty_value": empty_value,
+                    }
+                )
+            else:
+                fields.append({"name": field})
+
+        return fields
 
     def get_edit_main(self, edit_main):
         """

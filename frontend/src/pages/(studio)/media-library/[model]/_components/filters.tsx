@@ -14,7 +14,6 @@ export function Filters({
   return (
     <div>
       <Input
-        variant="secondary"
         value={filters.search}
         onChange={(e) => onFilterChange({ search: e.target.value })}
         placeholder={t("common.search")}

@@ -97,7 +97,11 @@ export interface Model {
     list: {
       per_page: number;
       description: string;
-      display: string[];
+      display: {
+        name: string;
+        description: string | null;
+        empty_value: string | null;
+      }[];
       search: boolean;
       filter: string[];
     };

@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import { useTranslation } from "react-i18next";
+import { PiCaretUpDownBold } from "react-icons/pi";
 import { useNavigate } from "react-router";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -30,15 +31,18 @@ export function TenantSelector() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline" className="w-full justify-start">
-          <Avatar className="size-4">
-            <AvatarFallback>{tenant?.__str__[0]}</AvatarFallback>
-          </Avatar>
-          <span>{tenant?.__str__}</span>
-        </Button>
+      <PopoverTrigger className="group w-full flex items-center gap-2 px-3 py-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 hover:cursor-pointer">
+        <Avatar className="size-7 shrink-0">
+          <AvatarFallback>{tenant?.__str__[0]}</AvatarFallback>
+        </Avatar>
+        <div className="flex-1 text-left font-semibold text-gray-900 truncate">
+          {tenant?.__str__}
+        </div>
+        <div className="p-1 group-hover:bg-gray-200 group-data-[state=open]:bg-gray-300 rounded">
+          <PiCaretUpDownBold />
+        </div>
       </PopoverTrigger>
-      <PopoverContent className="p-0" side="right" align="start">
+      <PopoverContent className="p-0" side="bottom" align="start">
         <Command>
           <CommandInput />
           <CommandList>

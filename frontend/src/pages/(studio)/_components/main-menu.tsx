@@ -7,8 +7,7 @@ import {
   PiFileTextBold,
   PiHouseSimpleBold,
   PiImageBold,
-  PiNutBold,
-  PiSignOut,
+  PiSignOutBold,
 } from "react-icons/pi";
 import { Link, type Path, useNavigate } from "react-router";
 
@@ -16,6 +15,7 @@ import { useAuth } from "@/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -38,10 +38,10 @@ export function MainMenu() {
   const { enabled: tenant } = useTenant();
 
   return (
-    <nav className="w-[240px] shrink-0 flex flex-col bg-stone-50 border-r">
-      {adminInfo && (
-        <div className="flex items-center gap-2 border-b p-3">
-          <div className="bg-gradient-to-tl from-stone-900 to-stone-600 size-7 rounded flex items-center justify-center text-white font-black shrink-0">
+    <nav className="w-[240px] shrink-0 flex flex-col bg-gray-50 border-r">
+      {adminInfo && !tenant && (
+        <div className="flex items-center gap-2 border-b px-4 py-3 select-none">
+          <div className="bg-gradient-to-tl from-gray-900 to-gray-600 size-5 rounded flex items-center justify-center text-white font-black shrink-0">
             {adminInfo.site_header[0]}
           </div>
           <h2 className="line-clamp-1 break-all text-base font-semibold">
@@ -50,12 +50,12 @@ export function MainMenu() {
         </div>
       )}
       {tenant && (
-        <div className="p-1 border-b">
+        <div className="border-b">
           <TenantSelector />
         </div>
       )}
 
-      <div className="flex-1 p-2 space-y-1 overflow-y-auto scrollbar">
+      <div className="flex-1 px-2 pb-2 pt-4 space-y-1 overflow-y-auto scrollbar">
         <MenuItem
           to="/"
           color="slate"
@@ -71,7 +71,7 @@ export function MainMenu() {
           />
         )}
 
-        <div className="h-4" role="separator" />
+        <div className="h-px my-4 bg-gray-200" role="separator" />
 
         {discover?.model_groups.map((group) => (
           <MenuItem
@@ -100,26 +100,38 @@ export function MainMenu() {
               .filter((el) => !R.isNil(el))}
           </MenuItem>
         ))}
-
-        <div className="h-4" role="separator" />
-
-        <MenuItem to="/" icon={<PiNutBold />} label={t("main_menu.settings")} />
       </div>
-      <div className="p-1 border-t">
+      <div className="border-t">
         {me && (
           <DropdownMenu>
-            <DropdownMenuContent side="right" align="start">
-              <DropdownMenuItem
-                onClick={() => {
-                  setToken(null);
-                  navigate("/login");
-                }}
-              >
-                <PiSignOut />
-                {t("main_menu.log_out")}
-              </DropdownMenuItem>
+            <DropdownMenuContent
+              side="top"
+              align="start"
+              className="p-0 w-(--radix-dropdown-menu-trigger-width)"
+            >
+              <div className="px-4 py-2 border-b leading-tight">
+                <div className="text-gray-700 font-semibold">
+                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+                </div>
+                <div className="text-sm text-gray-500 font-medium">
+                  {me.username}
+                </div>
+              </div>
+              <div className="p-1.5">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setToken(null);
+                      navigate("/login");
+                    }}
+                  >
+                    {t("main_menu.log_out")}
+                    <PiSignOutBold />
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </div>
             </DropdownMenuContent>
-            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-stone-200 data-[state=open]:bg-stone-200 p-2 rounded-md select-none">
+            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 p-3 select-none hover:cursor-pointer">
               <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
                 {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
                   .trim()
@@ -128,13 +140,8 @@ export function MainMenu() {
                   .toUpperCase()}
                 <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium">
-                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {me.username}
-                </div>
+              <div className="text-gray-700 truncate">
+                {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
               </div>
             </DropdownMenuTrigger>
           </DropdownMenu>
@@ -190,7 +197,7 @@ function MenuItem({
       <Comp
         // @ts-expect-error due to mixed component
         to={to ?? undefined}
-        className="flex items-center w-full text-sm font-medium gap-2 h-8 px-2 hover:bg-stone-100 rounded hover:cursor-default"
+        className="group flex items-center w-full font-medium gap-2.5 h-9 px-2 hover:bg-gray-100 rounded hover:cursor-pointer"
         onClick={() => {
           if (children) {
             setCollapsed(!collapsed);
@@ -201,22 +208,20 @@ function MenuItem({
           <span
             className={cn(
               "size-5 rounded flex items-center justify-center",
-              color ? COLORS[color] : "text-stone-500",
+              color ? COLORS[color] : "text-gray-500",
             )}
           >
             {typeof icon === "string" ? <span className={cn(icon)} /> : icon}
           </span>
         )}
-        <span className="flex items-center justify-between flex-1">
+        <span className="flex items-center justify-between flex-1 text-gray-700">
           <span className="first-letter:uppercase line-clamp-1 break-all">
             {label}
           </span>
           {children ? (
-            collapsed ? (
-              <PiCaretDownBold />
-            ) : (
-              <PiCaretRightBold />
-            )
+            <div className="group-hover:bg-gray-200 p-1 rounded">
+              {collapsed ? <PiCaretDownBold /> : <PiCaretRightBold />}
+            </div>
           ) : null}
         </span>
       </Comp>

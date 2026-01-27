@@ -50,7 +50,7 @@ export function ModelListPage() {
   });
 
   return model && data ? (
-    <div className="p-5">
+    <div className="p-6 flex flex-col overflow-hidden">
       <div className="flex items-center gap-4 mb-8">
         {model.admin.icon ? (
           <span

@@ -28,9 +28,9 @@ export function MediaLibraryPage() {
   return model && data ? (
     <div className="flex flex-col overflow-hidden">
       <div className="flex items-center gap-4 mb-6 py-3 px-5 border-b">
-        <PiImageBold size={24} className="text-muted-foreground shrink-0" />
+        <PiImageBold size={24} className="text-gray-700 shrink-0" />
         <div className="flex-1">
-          <h1 className="text-xl/tight font-semibold mb-0.5">
+          <h1 className="text-xl/tight font-semibold text-gray-700 mb-0.5">
             {t("media-library.title")}
           </h1>
           {discover.media_library.folders ? (
@@ -48,7 +48,7 @@ export function MediaLibraryPage() {
               }
             />
           ) : (
-            <div className="text-muted-foreground">
+            <div className="text-gray-500">
               {t("media-library.description")}
             </div>
           )}

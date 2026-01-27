@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const inputVariants = cva("", {
   variants: {
     variant: {
-      secondary: "bg-stone-100",
+      secondary: "bg-gray-100 border-gray-100",
       default: "border bg-white",
     },
   },
@@ -28,7 +28,7 @@ function Input({
       data-slot="input"
       value={value ?? ""}
       className={cn(
-        "file:text-foreground placeholder:text-muted-foreground flex h-8 w-full min-w-0 rounded-md px-3 py-1 text-base outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "file:text-foreground placeholder:text-gray-400 flex h-9 w-full min-w-0 rounded-md px-3 py-1 text-base outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         inputVariants({ variant, className }),

@@ -25,9 +25,9 @@ export function ForeignKeyFormat({
   );
 
   return (
-    <div className="flex items-center gap-1.5 text-sm">
+    <div className="flex items-center gap-1.5">
       {model?.admin.icon && (
-        <span className={cn(model.admin.icon, "text-stone-600")} />
+        <span className={cn(model.admin.icon, "text-gray-500")} />
       )}
       {isUser && value && (
         <Tooltip>

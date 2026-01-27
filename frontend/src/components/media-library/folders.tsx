@@ -37,7 +37,7 @@ export function Folders({
 
   return (
     <div
-      className={cn("rounded border", {
+      className={cn("rounded-md border bg-white", {
         "animate-pulse": isFetching,
       })}
     >
@@ -45,7 +45,7 @@ export function Folders({
         {folderPath && !R.isEmpty(folderPath) && (
           <li className="flex">
             <button
-              className="w-full text-left group font-medium text-sm px-4 py-0.5 flex items-center gap-2 hover:bg-accent rounded"
+              className="w-full text-left group font-medium px-4 py-0.5 flex items-center gap-2 hover:bg-accent rounded-md"
               onClick={() => {
                 const parent = folderPath[folderPath.length - 2]?.id ?? null;
                 setPage(1);
@@ -63,7 +63,7 @@ export function Folders({
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <button
-                  className="w-full text-left group font-medium text-sm px-4 py-0.5 flex items-center gap-2 hover:bg-accent rounded data-[state=open]:bg-accent"
+                  className="w-full text-left group font-medium text-sm px-4 py-0.5 flex items-center gap-2 hover:bg-gray-100 rounded-md data-[state=open]:bg-gray-100"
                   onClick={() => {
                     setPage(1);
                     onSelect?.(folder.id);

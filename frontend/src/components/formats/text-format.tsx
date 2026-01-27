@@ -1,3 +1,9 @@
-export function TextFormat({ value }: { value: unknown }) {
-  return <span className="text-sm">{String(value ?? "")}</span>;
+export function TextFormat({
+  value,
+  emptyValue,
+}: {
+  value: unknown;
+  emptyValue?: string | null;
+}) {
+  return <span>{String(value || emptyValue || "")}</span>;
 }

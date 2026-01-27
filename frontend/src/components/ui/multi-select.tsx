@@ -457,7 +457,7 @@ const MultiSelect = React.forwardRef<
       >
         <div
           className={cn(
-            "flex items-center justify-between rounded-md border h-full px-3 py-1 text-base ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 md:text-sm",
+            "flex items-center justify-between rounded-md border hover:border-gray-300 h-full min-h-9 px-3 py-1.5",
             {
               "cursor-text": !disabled && selected.length !== 0,
             },
@@ -570,7 +570,7 @@ const MultiSelect = React.forwardRef<
         <div className="relative">
           {open && (
             <CommandList
-              className="absolute top-1 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in"
+              className="absolute top-1 z-10 w-full rounded-md border border-gray-300 bg-popover text-popover-foreground shadow-md shadow-gray-900/5 outline-none"
               onMouseLeave={() => {
                 setOnScrollbar(false);
               }}

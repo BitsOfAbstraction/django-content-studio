@@ -11,7 +11,7 @@ export function StudioLayout() {
       <div className="h-screen flex items-stretch">
         <MainMenu />
         <ContentEditor />
-        <div className="flex-1 bg-[#FDFDFD] flex flex-col overflow-y-auto scrollbar">
+        <div className="flex-1 bg-gray-50 flex flex-col overflow-y-auto scrollbar">
           <Outlet />
         </div>
       </div>

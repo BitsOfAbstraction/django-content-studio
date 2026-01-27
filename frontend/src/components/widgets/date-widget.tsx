@@ -31,8 +31,8 @@ export function DateWidget({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="h-8 border hover:border-slate-300 px-3 rounded-md flex items-center select-none">
-        <div className="flex-1 text-left text-sm">
+      <PopoverTrigger className="h-9 border hover:border-slate-300 px-3 rounded-md flex items-center select-none">
+        <div className="flex-1 text-left">
           {date$ ? (
             date$.format("ll")
           ) : (

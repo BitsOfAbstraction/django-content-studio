@@ -16,8 +16,9 @@ export function TenantInfo({ label }: { label: string }) {
     enabled && model && tenantModel && R.isNil(model.tenant_field);
 
   return (
-    isShared && (
-      <div className="bg-amber-100 text-amber-500 py-1 px-4 text-sm font-medium text-center">
+    isShared &&
+    label !== tenantModel.label && (
+      <div className="bg-amber-100 text-amber-500 py-1 px-4 text-sm font-medium text-center select-none">
         {t("tenant.shared_message", {
           content_type: model.verbose_name_plural,
           tenant: tenantModel.verbose_name_plural,

@@ -14,7 +14,7 @@ export function FolderPath({
 
   return (
     <div
-      className={cn("rounded-md bg-white", {
+      className={cn("rounded-md", {
         "animate-pulse": isFetching,
       })}
     >

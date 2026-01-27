@@ -45,7 +45,7 @@ export function ItemCard({
             setEdit(true);
           }}
           className={cn(
-            "border rounded p-4 data-[state=open]:border-ring flex flex-col",
+            "cursor-pointer border rounded-md bg-white p-4 data-[state=open]:border-gray-400 flex flex-col",
             {
               "animate-pulse pointer-events-none select-none": isPending,
             },
@@ -60,11 +60,11 @@ export function ItemCard({
               className="rounded aspect-square object-cover"
             />
           ) : (
-            <div className="rounded aspect-square w-full bg-slate-200 items-center justify-center flex">
-              <PiFileBold className="size-5 text-slate-400" />
+            <div className="rounded aspect-square w-full bg-gray-200 items-center justify-center flex">
+              <PiFileBold className="size-5 text-gray-400" />
             </div>
           )}
-          <div className="pt-2 text-sm font-semibold mb-2 line-clamp-1 break-all text-left">
+          <div className="pt-2 font-medium mb-2 line-clamp-1 break-all text-left">
             {item.name}
           </div>
           <div className="flex justify-between items-center">

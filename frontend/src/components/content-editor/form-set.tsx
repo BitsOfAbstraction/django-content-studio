@@ -23,7 +23,7 @@ export function FormSet({
           </div>
         ) : null}
       </div>
-      <div className="space-y-3">
+      <div className="space-y-5">
         {formSet.fields.map((formField, idx) =>
           R.has("fields", formField) ? (
             <div

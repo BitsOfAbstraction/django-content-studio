@@ -22,13 +22,13 @@ export function ListView({
   const navigate = useNavigate();
 
   return (
-    <div className="border rounded-lg">
+    <div className="relative border rounded-lg bg-white overflow-auto flex-1 scrollbar">
       <Table>
         <TableHeader>
-          <TableRow>
-            {model.admin.list.display.map((field) => (
-              <TableHead key={field}>
-                {model.fields[field]?.verbose_name}
+          <TableRow className="sticky top-0 left-0 right-0">
+            {model.admin.list.display.map(({ name, description }) => (
+              <TableHead key={name} className="h-10">
+                {description ?? model.fields[name]?.verbose_name}
               </TableHead>
             ))}
           </TableRow>
@@ -42,12 +42,13 @@ export function ListView({
               }
             >
               {model.admin.list.display
-                .filter((field) => !R.isNil(model.fields[field]))
-                .map((field) => (
-                  <TableCell key={field}>
+                .filter(({ name }) => !R.isNil(model.fields[name]))
+                .map(({ name, empty_value }) => (
+                  <TableCell key={name} className="h-14 first-of-type:pl-6">
                     <FormatRenderer
-                      value={item[field]}
-                      field={model.fields[field]}
+                      value={item[name]}
+                      field={model.fields[name]}
+                      emptyValue={empty_value}
                     />
                   </TableCell>
                 ))}
