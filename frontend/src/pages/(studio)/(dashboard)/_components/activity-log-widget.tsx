@@ -6,7 +6,6 @@ import { Link } from "react-router";
 
 import { useDiscover } from "@/hooks/use-discover";
 import { useHttp } from "@/hooks/use-http";
-import { cn } from "@/lib/utils";
 import { type ActivityLogEntry, DashboardWidgetType } from "@/types";
 
 export function ActivityLogWidget() {
@@ -54,28 +53,19 @@ export function ActivityLogWidget() {
                       `dashboard.widgets.activity_log.action_flags.${item.action_flag}`,
                     )}
                   </div>
-                  <div className="flex border rounded-sm text-sm">
-                    {model?.admin.icon && (
-                      <div className="border-r px-1 h-full flex items-center">
-                        <span
-                          className={cn(model.admin.icon, "text-gray-600")}
-                        />
-                      </div>
+                  <div className="hline-clamp-1 break-all">
+                    {item.action_flag === 3 ? (
+                      item.object_repr
+                    ) : (
+                      <Link
+                        className="hover:underline"
+                        to={{
+                          hash: `editor:${item.object_model}:${item.object_id}`,
+                        }}
+                      >
+                        {item.object_repr}
+                      </Link>
                     )}
-                    <div className="h-full line-clamp-1 break-all flex items-center">
-                      {item.action_flag === 3 ? (
-                        item.object_repr
-                      ) : (
-                        <Link
-                          className="h-full py-0.5 px-1.5"
-                          to={{
-                            hash: `editor:${item.object_model}:${item.object_id}`,
-                          }}
-                        >
-                          {item.object_repr}
-                        </Link>
-                      )}
-                    </div>
                   </div>
                 </div>
                 <div className="text-sm text-gray-400 font-medium">

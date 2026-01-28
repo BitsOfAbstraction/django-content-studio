@@ -60,7 +60,10 @@ export function Main({
             className="space-y-4"
           >
             {formSetGroup.formsets.map((formSet, idx) => (
-              <section key={idx} className="border rounded-lg p-4 w-full">
+              <section
+                key={idx}
+                className="border rounded-lg p-4 w-full bg-white"
+              >
                 <FormSet
                   model={model}
                   formSet={formSet}

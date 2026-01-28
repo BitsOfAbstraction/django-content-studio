@@ -58,6 +58,7 @@ function EditorForm({
     (defaults, [key, field]) => ({ ...defaults, [key]: field.default }),
     {},
   );
+
   const formSchema = z.looseObject({
     id: z.string().readonly().optional(),
     __str__: z.string().readonly().optional(),
@@ -134,17 +135,13 @@ function EditorForm({
             onDelete={onDelete}
             onClose={onClose}
           />
-          <div className="flex flex-1 justify-center overflow-y-auto scrollbar">
+          <div className="flex flex-1 justify-center overflow-y-auto scrollbar bg-gray-50">
             <div className="w-full max-w-3xl">
               <div className="p-5">
                 <Main model={model} id={id} hiddenFields={hiddenFields} />
               </div>
             </div>
-            <div className="w-full max-w-[360px]">
-              <div className="p-5">
-                <Aside model={model} hiddenFields={hiddenFields} />
-              </div>
-            </div>
+            <Aside model={model} hiddenFields={hiddenFields} />
           </div>
         </div>
       </Form>
