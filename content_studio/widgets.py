@@ -81,3 +81,7 @@ class JSONWidget(BaseWidget):
 
 class MediaWidget(BaseWidget):
     pass
+
+
+class TagWidget(BaseWidget):
+    pass

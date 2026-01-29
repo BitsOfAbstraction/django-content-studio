@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router";
 
 import { FolderPath } from "@/components/media-library/folder-path";
 import { Folders } from "@/components/media-library/folders";
+import { TenantInfo } from "@/components/tenant-info.tsx";
 import { Pagination } from "@/components/ui/pagination";
 import { Spinner } from "@/components/ui/spinner";
 import { useDiscover } from "@/hooks/use-discover";
@@ -27,6 +28,8 @@ export function MediaLibraryPage() {
 
   return model && data ? (
     <div className="flex flex-col overflow-hidden">
+      <TenantInfo label={model} />
+
       <div className="flex items-center gap-4 mb-6 py-3 px-5 border-b">
         <PiImageBold size={24} className="text-gray-700 shrink-0" />
         <div className="flex-1">

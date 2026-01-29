@@ -2,8 +2,9 @@ import { useState } from "react";
 
 import { useAdminInfo } from "@/hooks/use-admin-info";
 import { cn } from "@/lib/utils";
-import { UsernamePasswordBackend } from "@/pages/(auth)/login/_backends/username-password";
 import { LoginBackendType } from "@/types";
+
+import { UsernamePasswordBackend } from "./_backends/username-password";
 
 export function LoginPage() {
   const [online] = useState(true);
@@ -21,7 +22,7 @@ export function LoginPage() {
       })}
 
       <div className="py-12 flex flex-col items-center">
-        <div className="text-xs text-muted-foreground text-center mb-2">
+        <div className="text-xs text-gray-400 text-center mb-2 cursor-default">
           Django Content Studio v{adminInfo.version}
         </div>
         {adminInfo.health_check && (

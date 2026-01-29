@@ -22,6 +22,7 @@ export function DashboardPage() {
 
           return Comp ? (
             <div
+              key={widget.widget_id}
               className={cn({
                 "border border-gray-300 bg-white shadow-md shadow-gray-900/5 rounded-lg":
                   widget.name !== DashboardWidgetType.SpacingWidget,

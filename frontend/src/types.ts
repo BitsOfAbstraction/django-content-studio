@@ -225,6 +225,7 @@ export enum FieldWidget {
   TextAreaWidget = "TextAreaWidget",
   TimeWidget = "TimeWidget",
   URLPathWidget = "URLPathWidget",
+  TagWidget = "TagWidget",
 }
 
 export interface CropValue {

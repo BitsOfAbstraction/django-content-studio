@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import { useAdminInfo } from "@/hooks/use-admin-info";
 import { FieldType, FieldWidget, type Model } from "@/types";
 
-import { CheckboxWidget } from "./checkbox-widget.tsx";
+import { CheckboxWidget } from "./checkbox-widget";
 import { DateWidget } from "./date-widget";
 import { FallbackWidget } from "./fallback-widget";
 import { ForeignKeyWidget } from "./foreign-key-widget";
@@ -16,8 +16,9 @@ import { MultiSelectWidget } from "./multi-select-widget";
 import { RichTextWidget } from "./rich-text-widget";
 import { SelectWidget } from "./select-widget";
 import { SlugWidget } from "./slug-widget";
+import { TagWidget } from "./tag-widget";
 import { TextAreaWidget } from "./text-area-widget";
-import { TimeWidget } from "./time-widget.tsx";
+import { TimeWidget } from "./time-widget";
 import { URLPathWidget } from "./url-path-widget";
 
 export function WidgetRenderer({
@@ -54,6 +55,7 @@ export function WidgetRenderer({
         [R.equals(FieldWidget.RichTextWidget), R.always(RichTextWidget)],
         [R.equals(FieldWidget.TextAreaWidget), R.always(TextAreaWidget)],
         [R.equals(FieldWidget.SlugWidget), R.always(SlugWidget)],
+        [R.equals(FieldWidget.TagWidget), R.always(TagWidget)],
         [R.equals(FieldWidget.URLPathWidget), R.always(URLPathWidget)],
         [R.equals(FieldWidget.CheckboxWidget), R.always(CheckboxWidget)],
         [R.equals(FieldWidget.TimeWidget), R.always(TimeWidget)],
