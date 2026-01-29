@@ -1,3 +1,6 @@
+import uuid
+
+from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework.parsers import JSONParser
@@ -31,7 +34,11 @@ class Dashboard:
     def serialize(self):
         return {
             "widgets": [
-                {"name": w.__class__.__name__, "col_span": getattr(w, "col_span", 1)}
+                {
+                    "name": w.name,
+                    "widget_id": w.widget_id,
+                    "col_span": w.col_span,
+                }
                 for w in self.widgets
             ]
         }
@@ -50,15 +57,37 @@ class DashboardViewSet(ViewSet):
             admin_site.token_backend.active_backend.authentication_class
         ]
 
-    @action(detail=False, url_path="(?P<name>[^/.]+)")
-    def get(self, request, name=None):
+    @action(detail=False, url_path="widgets/(?P<widget_id>[^/.]+)")
+    def get(self, request, widget_id=None):
         widget = None
 
         for w in self.dashboard.widgets:
-            if name == w.__class__.__name__.lower():
+            if widget_id == str(w.widget_id):
                 widget = w
 
         if not widget:
             raise NotFound()
 
-        return Response(data=widget.get_data(request))
+        data = widget.get_data(request)
+
+        if isinstance(data, serializers.Serializer):
+            data.is_valid(raise_exception=True)
+            data = data.data
+
+        return Response(data=data)
+
+
+class BaseWidget:
+    col_span = 1
+    widget_id = None
+
+    def __init__(self):
+        self.widget_id = self.widget_id or uuid.uuid4()
+
+
+class SpacingWidget(BaseWidget):
+    name = "SpacingWidget"
+
+    def __init__(self, col_span=1):
+        self.col_span = col_span
+        super().__init__()

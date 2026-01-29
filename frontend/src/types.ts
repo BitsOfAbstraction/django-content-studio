@@ -253,10 +253,13 @@ export interface Dashboard {
 
 export interface DashboardWidget {
   name: DashboardWidgetType;
+  widget_id: string;
   col_span: number;
 }
 
 export enum DashboardWidgetType {
+  SpacingWidget = "SpacingWidget",
+  StatisticWidget = "StatisticWidget",
   ActivityLogWidget = "ActivityLogWidget",
 }
 

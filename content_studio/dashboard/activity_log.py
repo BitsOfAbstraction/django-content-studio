@@ -1,6 +1,8 @@
-from content_studio.serializers import ContentSerializer
 from django.contrib.admin.models import LogEntry
 from rest_framework import serializers
+
+from content_studio.serializers import ContentSerializer
+from ..dashboard import BaseWidget
 
 
 class LogEntrySerializer(ContentSerializer):
@@ -22,10 +24,12 @@ class LogEntrySerializer(ContentSerializer):
         return f"{obj.content_type.app_label}.{obj.content_type.model}"
 
 
-class ActivityLogWidget:
+class ActivityLogWidget(BaseWidget):
     """
     Widget for showing activity logs.
     """
+
+    name = "ActivityLogWidget"
 
     col_span = 2
 
