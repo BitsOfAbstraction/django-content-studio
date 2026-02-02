@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
@@ -10,6 +11,8 @@ import { ModelListLayout } from "@/pages/(studio)/content/[model]/layout";
 import { ModelListPage } from "@/pages/(studio)/content/[model]/page";
 import { StudioLayout } from "@/pages/(studio)/layout";
 import { MediaLibraryPage } from "@/pages/(studio)/media-library/[model]/page";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   [
@@ -63,7 +66,9 @@ const router = createBrowserRouter(
 const root = document.getElementById("root")!;
 
 ReactDOM.createRoot(root).render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>,
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </QueryClientProvider>,
 );

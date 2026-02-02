@@ -6,30 +6,39 @@ import "dayjs/locale/nl";
 import "dayjs/locale/fr";
 import "dayjs/locale/de";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
 
 import { ConfirmDialogProvider } from "@/components/confirm-dialog-provider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { Toaster } from "@/components/ui/sonner";
-
-const queryClient = new QueryClient();
+import { useAdminInfo } from "@/hooks/use-admin-info.ts";
 
 export function App() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { isError, error } = useAdminInfo();
 
   useEffect(() => {
     dayjs.locale(i18n.language);
   }, [i18n.language]);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <ConfirmDialogProvider>
-        <Outlet />
+        {isError ? (
+          <div className="min-h-screen bg-gray-50 flex items-center justify-center  p-4">
+            <Alert variant="destructive" className="max-w-lg">
+              <AlertTitle>{t("app.error")}</AlertTitle>
+              <AlertDescription>{error.message}</AlertDescription>
+            </Alert>
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </ConfirmDialogProvider>
       <Toaster />
-    </QueryClientProvider>
+    </>
   );
 }

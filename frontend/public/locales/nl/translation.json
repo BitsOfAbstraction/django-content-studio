@@ -14,7 +14,8 @@
     "delete_confirm_description": "Deze actie kan niet ongedaan gemaakt worden. Weet je zeker dat je dit wilt verwijderen?"
   },
   "app": {
-    "copied_to_clipboard": "Gekopieerd naar klembord"
+    "copied_to_clipboard": "Gekopieerd naar klembord",
+    "error": "Er gaat iets fout"
   },
   "login": {
     "title": "Welkom terug",
