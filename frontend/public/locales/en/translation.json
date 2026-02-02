@@ -42,6 +42,9 @@
     "unsaved_alert": "There are unsaved changes. Are you sure you want to leave?",
     "empty_state": "No items yet"
   },
+   "list_view": {
+    "empty_state": "No items yet"
+  },
   "media-library": {
     "title": "Media library",
     "description": "Manage your media files here.",

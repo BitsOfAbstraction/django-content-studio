@@ -4,18 +4,27 @@
   @apply focus:outline-none p-4 min-h-[400px] font-normal;
 
   & h1 {
-    @apply mt-8 mb-6;
+    @apply mt-8 mb-6 text-4xl font-bold;
   }
 
   & h2 {
-    @apply mt-6 mb-4;
+    @apply mt-6 mb-4 text-3xl font-bold;
   }
 
-  & h3,
-  & h4,
-  & h5,
+  & h3 {
+    @apply mt-0 mb-2 text-2xl font-bold;
+  }
+
+  & h4 {
+    @apply mt-0 mb-2 text-xl font-bold;
+  }
+
+  & h5 {
+    @apply mt-0 mb-2 text-lg font-bold;
+  }
+
   & h6 {
-    @apply mt-0 mb-2;
+    @apply mt-0 mb-2 text-base font-bold;
   }
 
   & p {

@@ -53,7 +53,7 @@ function ItemEditContent({
   return data ? (
     <EditForm data={data} onSave={onClose} />
   ) : (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center h-full py-12 sm:py-24">
       <Spinner />
     </div>
   );
@@ -70,14 +70,11 @@ function EditForm({ data, onSave }: { data: MediaItem; onSave: VoidFunction }) {
     defaultValues: data,
   });
 
-  console.log(data, form.formState.errors);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await mutateAsync(values);
       onSave();
     } catch (e: any) {
-      console.log(e);
       toast.error(getErrorMessage(e));
     }
   };
@@ -85,7 +82,7 @@ function EditForm({ data, onSave }: { data: MediaItem; onSave: VoidFunction }) {
   return (
     <Form {...form}>
       <div className="flex">
-        <div className="w-96 p-6 bg-stone-200 rounded-l-lg flex items-center">
+        <div className="w-96 p-6 bg-gray-200 rounded-l-lg flex items-center">
           <FormField
             control={form.control}
             name="crop"
@@ -153,7 +150,7 @@ function EditForm({ data, onSave }: { data: MediaItem; onSave: VoidFunction }) {
             />
           </div>
 
-          <div className="flex justify-end items-center gap-3">
+          <div className="flex justify-end items-center gap-3 mt-12">
             <DialogClose asChild>
               <Button variant="outline">{t("common.cancel")}</Button>
             </DialogClose>

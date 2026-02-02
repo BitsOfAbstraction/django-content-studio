@@ -102,7 +102,7 @@ export function Inline({
           />
         </DialogContent>
       </Dialog>
-      <div className="border rounded-lg scrollbar">
+      <div className="border rounded-lg scrollbar bg-white">
         <Table>
           <TableHeader>
             <TableRow>

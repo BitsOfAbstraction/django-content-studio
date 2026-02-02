@@ -29,7 +29,7 @@ export function TenantProvider({ children }: { children: React.ReactElement }) {
   const { data: tenants = [], isFetched } = useQuery({
     enabled,
     retry: false,
-    queryKey: ["tenants"],
+    queryKey: ["resources", discover?.multitenancy.tenant_model],
     async queryFn() {
       const { data } = await http.get<Resource[]>("/tenants");
       return data;

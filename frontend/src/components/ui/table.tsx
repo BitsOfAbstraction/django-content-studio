@@ -45,12 +45,21 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   );
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+function TableRow({
+  className,
+  onClick,
+  ...props
+}: React.ComponentProps<"tr">) {
   return (
     <tr
       data-slot="table-row"
+      onClick={onClick}
       className={cn(
-        "hover:bg-gray-50 data-[state=selected]:bg-gray-50 border-b border-gray-200",
+        "border-b border-gray-200",
+        {
+          "hover:bg-gray-50 data-[state=selected]:bg-gray-50 [&_td]:cursor-pointer":
+            onClick,
+        },
         className,
       )}
       {...props}

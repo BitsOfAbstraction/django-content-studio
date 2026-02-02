@@ -1,4 +1,5 @@
 import * as R from "ramda";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { FormatRenderer } from "@/components/formats/renderer";
@@ -19,7 +20,11 @@ export function ListView({
   items: { id: string; [p: string]: unknown }[];
   model: Model;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const fields = model.admin.list.display.filter(
+    ({ name }) => !R.isNil(model.fields[name]),
+  );
 
   return (
     <div className="relative border rounded-lg bg-white overflow-auto flex-1 scrollbar">
@@ -34,6 +39,16 @@ export function ListView({
           </TableRow>
         </TableHeader>
         <TableBody>
+          {R.isEmpty(items) && (
+            <TableRow>
+              <TableCell
+                colSpan={fields.length}
+                className="text-center py-12 text-gray-700"
+              >
+                {t("list_view.empty_state")}
+              </TableCell>
+            </TableRow>
+          )}
           {items.map((item) => (
             <TableRow
               key={item.id}
@@ -41,17 +56,15 @@ export function ListView({
                 navigate({ hash: `#editor:${model.label}:${item.id}` })
               }
             >
-              {model.admin.list.display
-                .filter(({ name }) => !R.isNil(model.fields[name]))
-                .map(({ name, empty_value }) => (
-                  <TableCell key={name} className="h-14 first-of-type:pl-6">
-                    <FormatRenderer
-                      value={item[name]}
-                      field={model.fields[name]}
-                      emptyValue={empty_value}
-                    />
-                  </TableCell>
-                ))}
+              {fields.map(({ name, empty_value }) => (
+                <TableCell key={name} className="h-14 first-of-type:pl-6">
+                  <FormatRenderer
+                    value={item[name]}
+                    field={model.fields[name]}
+                    emptyValue={empty_value}
+                  />
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

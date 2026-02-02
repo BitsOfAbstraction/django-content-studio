@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as R from "ramda";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { z } from "zod";
 
 import { TenantInfo } from "@/components/tenant-info.tsx";
 import { Form } from "@/components/ui/form";
+import { Spinner } from "@/components/ui/spinner.tsx";
 import { useDiscover } from "@/hooks/use-discover";
 import { useHttp } from "@/hooks/use-http";
 import type { Model, Resource } from "@/types";
@@ -51,6 +53,7 @@ function EditorForm({
   const queryClient = useQueryClient();
   const http = useHttp();
   const { t } = useTranslation();
+  const [initialized, setInitialized] = useState(false);
   const modelLabel = model.label;
   const isSingleton = model?.admin.is_singleton ?? false;
   const hiddenFields = Object.keys(initialValues);
@@ -74,12 +77,17 @@ function EditorForm({
     retry: false,
     queryKey: ["resources", modelLabel, id || isSingleton],
     async queryFn() {
-      const { data } = await http.get(
-        `/content/${modelLabel}${isSingleton ? "" : `/${id}`}`,
-      );
-      form.reset(data);
-
-      return data;
+      try {
+        const { data } = await http.get(
+          `/content/${modelLabel}${isSingleton ? "" : `/${id}`}`,
+        );
+        form.reset(data);
+        return data;
+      } catch (e: unknown) {
+        throw Error(e);
+      } finally {
+        setInitialized(true);
+      }
     },
   });
 
@@ -119,32 +127,34 @@ function EditorForm({
     }
   }
 
-  return (
-    model && (
-      <Form {...form}>
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <TenantInfo label={model.label} />
-          <Header
-            model={model}
-            resource={resource}
-            isSaving={isPending}
-            onSave={async () => {
-              await form.handleSubmit(onSubmit)();
-              onSave?.();
-            }}
-            onDelete={onDelete}
-            onClose={onClose}
-          />
-          <div className="flex flex-1 justify-center overflow-y-auto scrollbar bg-gray-50">
-            <div className="w-full max-w-3xl">
-              <div className="p-5">
-                <Main model={model} id={id} hiddenFields={hiddenFields} />
-              </div>
+  return model && initialized ? (
+    <Form {...form}>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <TenantInfo label={model.label} />
+        <Header
+          model={model}
+          resource={resource}
+          isSaving={isPending}
+          onSave={async () => {
+            await form.handleSubmit(onSubmit)();
+            onSave?.();
+          }}
+          onDelete={onDelete}
+          onClose={onClose}
+        />
+        <div className="flex flex-1 justify-center overflow-y-auto scrollbar bg-gray-50">
+          <div className="w-full max-w-3xl">
+            <div className="p-5">
+              <Main model={model} id={id} hiddenFields={hiddenFields} />
             </div>
-            <Aside model={model} hiddenFields={hiddenFields} />
           </div>
+          <Aside model={model} hiddenFields={hiddenFields} />
         </div>
-      </Form>
-    )
+      </div>
+    </Form>
+  ) : (
+    <div className="py-12 sm:py-24 md:py-48 flex items-center justify-center">
+      <Spinner />
+    </div>
   );
 }

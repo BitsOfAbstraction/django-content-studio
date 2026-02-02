@@ -20,7 +20,7 @@ export function ContentEditor() {
     >
       <DialogContent
         showCloseButton={false}
-        className="sm:max-w-[1200px] p-0 overflow-hidden flex flex-col"
+        className="sm:max-w-[min(1200px,calc(100vw-48px))] p-0 overflow-hidden flex flex-col"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <Editor

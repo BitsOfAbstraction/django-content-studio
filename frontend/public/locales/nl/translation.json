@@ -42,6 +42,9 @@
     "unsaved_alert": "Je hebt niet-opgeslagen wijzigen. Weet je zeker dat je weg wilt gaan?",
     "empty_state": "Nog geen items"
   },
+  "list_view": {
+    "empty_state": "Nog geen items"
+  },
   "media-library": {
     "title": "Mediabibliotheek",
     "description": "Beheer je media-bestanden hier.",
