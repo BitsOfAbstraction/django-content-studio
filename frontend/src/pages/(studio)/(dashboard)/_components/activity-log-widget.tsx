@@ -28,7 +28,7 @@ export function ActivityLogWidget({ widget }: { widget: DashboardWidget }) {
       <h2 className="font-medium">
         {t("dashboard.widgets.activity_log.title")}
       </h2>
-      <div className="text-muted-foreground font-medium mb-6">
+      <div className="text-gray-500 mb-6">
         {t("dashboard.widgets.activity_log.subtitle")}
       </div>
       <ul className="space-y-4">

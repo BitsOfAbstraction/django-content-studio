@@ -3,11 +3,13 @@ import { cn } from "@/lib/utils.ts";
 import { DashboardWidgetType } from "@/types";
 
 import { ActivityLogWidget } from "./_components/activity-log-widget";
+import { ScheduledTasksWidget } from "./_components/scheduled-tasks-widget";
 import { StatisticWidget } from "./_components/statistic-widget";
 
 const WIDGET_COMPONENTS = {
   [DashboardWidgetType.ActivityLogWidget]: ActivityLogWidget,
   [DashboardWidgetType.StatisticWidget]: StatisticWidget,
+  [DashboardWidgetType.ScheduledTasksWidget]: ScheduledTasksWidget,
 };
 
 export function DashboardPage() {

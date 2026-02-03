@@ -213,7 +213,7 @@ function MenuItem({
 }) {
   const Comp = to ? Link : "button";
   const match = useMatch(`${to ?? ""}`);
-  const [collapsed, setCollapsed] = useState();
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
@@ -223,7 +223,7 @@ function MenuItem({
         className={cn(
           "group flex items-center w-full font-medium gap-2.5 h-9 px-2 hover:bg-gray-100 rounded hover:cursor-pointer",
           {
-            "bg-gray-100": match,
+            "bg-gray-100": !R.isNil(to) && match,
           },
         )}
         onClick={() => {

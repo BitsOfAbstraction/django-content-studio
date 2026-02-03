@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import reverse, NoReverseMatch
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from rest_framework import serializers
 from rest_framework.decorators import action
@@ -18,6 +20,7 @@ from .serializers import SessionUserSerializer
 from .settings import cs_settings
 
 
+@method_decorator(never_cache, name="dispatch")
 class ContentStudioWebAppView(TemplateView):
     """
     View for rendering the content studio web app.

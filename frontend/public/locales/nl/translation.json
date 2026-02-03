@@ -92,6 +92,16 @@
           "2": "bewerkte",
           "3": "verwijderde"
         }
+      },
+      "scheduled_tasks": {
+        "empty": "Geen geplande taken",
+        "next": "Volgende:",
+        "status": {
+          "SUCCESS": "Geslaagd",
+          "RUNNING": "Wordt uitgevoerd",
+          "SCHEDULED": "Gepland",
+          "FAILURE": "Mislukt"
+        }
       }
     }
   },

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { PiTrendDownBold, PiTrendUpBold } from "react-icons/pi";
 
 import { Badge } from "@/components/ui/badge.tsx";
@@ -9,7 +8,6 @@ import { type DashboardWidget } from "@/types";
 
 export function StatisticWidget({ widget }: { widget: DashboardWidget }) {
   const http = useHttp();
-  const { t } = useTranslation();
   const { data } = useQuery({
     retry: false,
     refetchOnWindowFocus: true,

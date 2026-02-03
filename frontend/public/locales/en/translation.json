@@ -87,6 +87,16 @@
       "activity_log": {
         "title": "Activity log",
         "subtitle": "Latest updates from your team"
+      },
+         "scheduled_tasks": {
+        "empty": "No scheduled tasks",
+           "next": "Next:",
+           "status": {
+          "SUCCESS": "Successful",
+          "RUNNING": "Running",
+          "SCHEDULED": "Scheduled",
+          "FAILURE": "Failed"
+        }
       }
     }
   }

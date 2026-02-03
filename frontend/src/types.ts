@@ -262,6 +262,7 @@ export enum DashboardWidgetType {
   SpacingWidget = "SpacingWidget",
   StatisticWidget = "StatisticWidget",
   ActivityLogWidget = "ActivityLogWidget",
+  ScheduledTasksWidget = "ScheduledTasksWidget",
 }
 
 export interface ActivityLogEntry {

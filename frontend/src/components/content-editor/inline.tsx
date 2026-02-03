@@ -78,7 +78,7 @@ export function Inline({
     <div className="space-y-4">
       <Dialog open={create} onOpenChange={setCreate}>
         <DialogContent
-          className="p-0 sm:max-w-5xl max-h-[calc(100vh-24px)] flex flex-col scrollbar"
+          className="sm:max-w-[min(1200px,calc(100vw-48px))] p-0 overflow-hidden flex flex-col"
           showCloseButton={false}
         >
           <Editor
@@ -195,7 +195,7 @@ function InlineRow({
       <Dialog key={resource.id} open={edit} onOpenChange={setEdit}>
         {!readOnly && (
           <DialogContent
-            className="p-0 sm:max-w-5xl max-h-[calc(100vh-24px)] flex flex-col scrollbar"
+            className="sm:max-w-[min(1200px,calc(100vw-48px))] p-0 overflow-hidden flex flex-col"
             showCloseButton={false}
           >
             <Editor

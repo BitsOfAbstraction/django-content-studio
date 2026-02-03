@@ -53,7 +53,7 @@ function EditorForm({
   const queryClient = useQueryClient();
   const http = useHttp();
   const { t } = useTranslation();
-  const [initialized, setInitialized] = useState(false);
+  const [initialized, setInitialized] = useState(R.isNil(id));
   const modelLabel = model.label;
   const isSingleton = model?.admin.is_singleton ?? false;
   const hiddenFields = Object.keys(initialValues);
