@@ -9,7 +9,7 @@ import {
   PiImageBold,
   PiSignOutBold,
 } from "react-icons/pi";
-import { Link, type Path, useNavigate } from "react-router";
+import { Link, type Path, useMatch, useNavigate } from "react-router";
 
 import { useAuth } from "@/auth";
 import {
@@ -24,7 +24,7 @@ import { useDiscover } from "@/hooks/use-discover";
 import { useMe } from "@/hooks/use-me";
 import { cn } from "@/lib/utils";
 import { useTenant } from "@/tenant.tsx";
-import type { TailwindColor } from "@/types";
+import { ExtensionType, type TailwindColor } from "@/types";
 
 import { TenantSelector } from "./tenant-selector";
 
@@ -36,6 +36,10 @@ export function MainMenu() {
   const { data: me } = useMe();
   const { data: discover } = useDiscover();
   const { enabled: tenant } = useTenant();
+  const linkExtensions =
+    discover?.extensions.filter(
+      R.whereEq({ extension_type: ExtensionType.MainMenuLink }),
+    ) ?? [];
 
   return (
     <nav className="w-[240px] shrink-0 flex flex-col bg-gray-50 border-r">
@@ -70,6 +74,16 @@ export function MainMenu() {
             label={t("main_menu.media_library")}
           />
         )}
+
+        {linkExtensions.map(({ extension_id, config }) => (
+          <MenuItem
+            key={extension_id}
+            to={config.url}
+            color={config.color}
+            icon={<span className={config.icon} />}
+            label={config.label}
+          />
+        ))}
 
         <div className="h-px my-4 bg-gray-200" role="separator" />
 
@@ -198,14 +212,20 @@ function MenuItem({
   children?: React.ReactElement[];
 }) {
   const Comp = to ? Link : "button";
-  const [collapsed, setCollapsed] = useState(false);
+  const match = useMatch(`${to ?? ""}`);
+  const [collapsed, setCollapsed] = useState();
 
   return (
     <>
       <Comp
         // @ts-expect-error due to mixed component
         to={to ?? undefined}
-        className="group flex items-center w-full font-medium gap-2.5 h-9 px-2 hover:bg-gray-100 rounded hover:cursor-pointer"
+        className={cn(
+          "group flex items-center w-full font-medium gap-2.5 h-9 px-2 hover:bg-gray-100 rounded hover:cursor-pointer",
+          {
+            "bg-gray-100": match,
+          },
+        )}
         onClick={() => {
           if (children) {
             setCollapsed(!collapsed);

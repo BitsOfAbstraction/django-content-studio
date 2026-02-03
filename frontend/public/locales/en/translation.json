@@ -14,7 +14,9 @@
     "delete_confirm_description": "This action cannot be undone. Are you sure you want to delete?"
   },
   "app": {
-    "copied_to_clipboard": "Copied to clipboard!"
+    "copied_to_clipboard": "Copied to clipboard!",
+    "error": "Something went wrong",
+    "not_found": "We couldn't find what you were looking for."
   },
   "login": {
     "title": "Welcome back",

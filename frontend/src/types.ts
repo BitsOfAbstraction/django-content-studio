@@ -276,3 +276,14 @@ export interface ActivityLogEntry {
     __str__: string;
   };
 }
+
+export interface Extension<T> {
+  extension_id: string;
+  extension_type: ExtensionType;
+  config: T;
+}
+
+export enum ExtensionType {
+  MainMenuLink = "MainMenuLink",
+  IFramePage = "IFramePage",
+}

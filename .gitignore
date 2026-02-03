@@ -6,3 +6,4 @@ dist-ssr
 .env
 .idea
 /content_studio/static/content_studio
+.output.txt

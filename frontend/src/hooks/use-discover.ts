@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { useHttp } from "@/hooks/use-http";
-import type { Dashboard, Model, ModelGroup } from "@/types";
+import type { Dashboard, Extension, Model, ModelGroup } from "@/types";
 
 export function useDiscover() {
   const http = useHttp();
@@ -13,6 +13,7 @@ export function useDiscover() {
     async queryFn() {
       const { data } = await http.get<{
         dashboard: Dashboard;
+        extensions: Extension<any>[];
         model_groups: ModelGroup[];
         models: Model[];
         user_model: string;

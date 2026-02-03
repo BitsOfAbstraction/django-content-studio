@@ -15,7 +15,8 @@
   },
   "app": {
     "copied_to_clipboard": "Gekopieerd naar klembord",
-    "error": "Er gaat iets fout"
+    "error": "Er gaat iets fout",
+    "not_found": "We kunnen niet vinden wat je zoekt."
   },
   "login": {
     "title": "Welkom terug",

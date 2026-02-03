@@ -37,6 +37,8 @@ class AdminSite(admin.AdminSite):
 
     model_groups = None
 
+    extensions = None
+
     default_widget_mapping = {
         models.CharField: widgets.InputWidget,
         models.IntegerField: widgets.InputWidget,

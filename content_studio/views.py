@@ -89,6 +89,7 @@ class AdminApiViewSet(ViewSet):
             "models": get_models(request),
             "model_groups": get_model_groups(),
             "user_model": settings.AUTH_USER_MODEL,
+            "extensions": get_extensions(),
         }
 
         media_model = cs_settings.MEDIA_LIBRARY_MODEL
@@ -211,3 +212,9 @@ def get_health_check_path():
         return reverse("healthcheck")
     except NoReverseMatch:
         return None
+
+
+def get_extensions():
+    admin_site = cs_settings.ADMIN_SITE
+
+    return [i.serialize() for i in getattr(admin_site, "extensions", [])]
