@@ -25,6 +25,13 @@ class PasswordResetRequestView(APIView):
 
         email = serializer.validated_data["email"]
 
+        user_model = get_user_model()
+
+        try:
+            user_model.objects.get(email=email)
+        except user_model.DoesNotExist:
+            return Response(status=status.HTTP_202_ACCEPTED)
+
         # Delete any existing codes for this email.
         PasswordResetCode.objects.filter(email=email).delete()
 
