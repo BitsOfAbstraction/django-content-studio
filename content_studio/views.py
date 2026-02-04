@@ -28,6 +28,11 @@ class ContentStudioWebAppView(TemplateView):
 
     template_name = "content_studio/index.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["version"] = __version__
+        return context
+
 
 class AdminApiViewSet(ViewSet):
     """

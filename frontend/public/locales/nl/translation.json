@@ -29,6 +29,21 @@
     "forgot_password": "Wachtwoord vergeten?",
     "no_account": "Geen account? Neem contact op met je administrator."
   },
+    "forgot_password": {
+    "title": "Wachtwoord vergeten?",
+    "subtitle": "Voer je e-mailadres in om je wachtwoord te herstellen.",
+    "submit": "Wachtwoord herstellen",
+    "email_placeholder": "Voer je e-mailadres in",
+    "login": "Inloggen"
+  },
+     "reset_password": {
+    "title": "Wachtwoord herstellen",
+    "subtitle": "Je ontvangt een e-mail met een resetcode.",
+     "enter_code": "Voer de resetcode in",
+    "submit": "Wachtwoord wijzigen",
+    "password_placeholder": "Voer een wachtwoord in",
+     "success_message": "Je wachtwoord is gewijzigd. Je kan nu inloggen met je nieuwe wachtwoord."
+  },
   "main_menu": {
     "dashboard": "Dashboard",
     "media_library": "Mediabibliotheek",

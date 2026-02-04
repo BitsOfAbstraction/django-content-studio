@@ -29,6 +29,21 @@
     "forgot_password": "Forgot password?",
     "no_account": "Don't have an account? Contact your administrator"
   },
+  "forgot_password": {
+    "title": "Forgot your password?",
+    "subtitle": "Enter your email address to reset your password.",
+    "submit": "Reset password",
+    "email_placeholder": "Enter your email",
+    "login": "Log in"
+  },
+   "reset_password": {
+    "title": "Reset your password",
+    "subtitle": "You will receive an email with a reset code.",
+     "enter_Code": "Enter the reset code",
+    "submit": "Reset password",
+    "password_placeholder": "Enter a password",
+    "success_message": "Your password has been changed. You can now log in with your new password."
+  },
   "main_menu": {
     "dashboard": "Dashboard",
     "media_library": "Media library",

@@ -136,11 +136,13 @@ export function UsernamePasswordBackend({
         >
           {t("login.submit")}
         </Button>
-        <div className="text-center">
-          <Link to="/forgot-password" className="text-sm hover:underline">
-            {t("login.forgot_password")}
-          </Link>
-        </div>
+        {config.username_field_type === FieldType.EmailField && (
+          <div className="text-center">
+            <Link to="/forgot-password" className="text-sm hover:underline">
+              {t("login.forgot_password")}
+            </Link>
+          </div>
+        )}
       </form>
       <div className="text-center text-sm text-gray-400 mt-4">
         {t("login.no_account")}

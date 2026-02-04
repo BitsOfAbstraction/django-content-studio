@@ -4,8 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import { App } from "@/app";
 import { AuthGuard, AuthProvider } from "@/auth";
+import { ForgotPasswordPage } from "@/pages/(auth)/forgot-password/page";
 import { AuthLayout } from "@/pages/(auth)/layout";
 import { LoginPage } from "@/pages/(auth)/login/page";
+import { ResetPasswordPage } from "@/pages/(auth)/reset-password/page";
 import { DashboardPage } from "@/pages/(studio)/(dashboard)/page";
 import { CatchAllPage } from "@/pages/(studio)/[...slug]/page";
 import { ModelListLayout } from "@/pages/(studio)/content/[model]/layout";
@@ -59,6 +61,14 @@ const router = createBrowserRouter(
             {
               path: "login",
               element: <LoginPage />,
+            },
+            {
+              path: "forgot-password",
+              element: <ForgotPasswordPage />,
+            },
+            {
+              path: "reset-password",
+              element: <ResetPasswordPage />,
             },
           ],
         },

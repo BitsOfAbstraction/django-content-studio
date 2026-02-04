@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-03 20:22+0100\n"
+"POT-Creation-Date: 2026-02-04 11:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: content_studio/dashboard/scheduled_tasks.py:23
+
+#: contrib/password_reset/views.py:44
+msgid "Your password reset code"
+msgstr "Je wachtwoord-herstelcode"
+
+#: contrib/password_reset/views.py:45
+msgid "Your password reset code is: "
+msgstr "Je wachtwoord-herstelcode is: "
+
+#: contrib/password_reset/views.py:100
+msgid "Your password has been reset"
+msgstr "Je wachtwoord is gewijzigd"
+
+#: contrib/password_reset/views.py:102
+msgid ""
+"Your password has been reset. If you did not do this, please contact your "
+"administrator."
+msgstr "Je wachtwoord is gewijzigd. Neem contact op met je administrator als jij dit niet hebt gedaan."
+
+#: dashboard/scheduled_tasks.py:23
 msgid "Scheduled tasks"
 msgstr "Geplande taken"
 
-#: content_studio/dashboard/scheduled_tasks.py:26
+#: dashboard/scheduled_tasks.py:26
 msgid "Monitor and manage automated tasks"
 msgstr "Monitor en beheer geautomatiseerde taken"
 
-#: content_studio/views.py:183
+#: views.py:188
 msgid "Content"
 msgstr "Content"

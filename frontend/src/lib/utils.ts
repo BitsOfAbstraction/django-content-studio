@@ -6,8 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getErrorMessage = R.pathOr("Error", [
-  "response",
-  "data",
-  "detail",
-]);
+export const getErrorMessage = R.pipe(
+  R.path(["response", "data"]),
+  R.when(Array.isArray, R.head),
+  R.when(R.isNil, R.prop("detail")),
+  R.defaultTo("Error"),
+);

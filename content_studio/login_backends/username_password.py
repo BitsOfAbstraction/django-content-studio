@@ -64,19 +64,3 @@ class UsernamePasswordBackend:
         Returns the user if successful, None otherwise.
         """
         return authenticate(username=username, password=password)
-
-    def request_password_reset(self, username):
-        """
-        Sends a password reset email.
-        """
-        raise NotImplemented(
-            "You need to implement a method for sending a password reset token."
-        )
-
-    def complete_password_reset(self, reset_token, new_password):
-        """
-        Sets the new password based on the reset token.
-        """
-        raise NotImplemented(
-            "You need to implement a method for validating a reset token and setting a new password."
-        )
