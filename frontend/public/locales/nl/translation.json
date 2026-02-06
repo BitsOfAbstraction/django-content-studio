@@ -117,6 +117,9 @@
           "SCHEDULED": "Gepland",
           "FAILURE": "Mislukt"
         }
+      },
+      "content_list": {
+        "empty_state": "Geen items"
       }
     }
   },

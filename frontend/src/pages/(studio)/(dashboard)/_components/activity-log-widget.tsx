@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { Spinner } from "@/components/ui/spinner.tsx";
 import { useHttp } from "@/hooks/use-http";
 import { type ActivityLogEntry, type DashboardWidget } from "@/types";
 
@@ -24,49 +25,60 @@ export function ActivityLogWidget({ widget }: { widget: DashboardWidget }) {
   });
 
   return (
-    <div className="p-4">
-      <h2 className="font-medium">
-        {t("dashboard.widgets.activity_log.title")}
-      </h2>
-      <div className="text-gray-500 mb-6">
-        {t("dashboard.widgets.activity_log.subtitle")}
+    <div>
+      <div className="p-4 leading-tight">
+        <h2 className="font-medium text-gray-900">
+          {t("dashboard.widgets.activity_log.title")}
+        </h2>
+        <div className="text-gray-500">
+          {t("dashboard.widgets.activity_log.subtitle")}
+        </div>
       </div>
-      <ul className="space-y-4">
-        {data?.map((item) => (
-          <li key={item.id} className="flex items-center gap-2">
-            <div className="shrink-0 rounded-full bg-gray-200 size-8 flex items-center justify-center font-semibold uppercase select-none">
-              {item.user?.__str__.slice(0, 2)}
-            </div>
-            <div>
-              <div className="flex gap-1 font-medium">
-                <div>{item.user?.__str__}</div>
-                <div className="text-gray-500">
-                  {t(
-                    `dashboard.widgets.activity_log.action_flags.${item.action_flag}`,
-                  )}
+      {!data ? (
+        <div className="py-24 flex items-center justify-center border-t">
+          <Spinner />
+        </div>
+      ) : (
+        <ul>
+          {data.map((item) => (
+            <li
+              key={item.id}
+              className="flex items-center gap-2 border-t px-4 py-2"
+            >
+              <div className="shrink-0 rounded-full text-xs bg-gray-200 size-6 flex items-center justify-center font-semibold uppercase select-none">
+                {item.user?.__str__.slice(0, 2)}
+              </div>
+              <div>
+                <div className="flex gap-1 text-gray-700">
+                  <div>{item.user?.__str__}</div>
+                  <div>
+                    {t(
+                      `dashboard.widgets.activity_log.action_flags.${item.action_flag}`,
+                    )}
+                  </div>
+                  <div className="line-clamp-1 break-all">
+                    {item.action_flag === 3 ? (
+                      item.object_repr
+                    ) : (
+                      <Link
+                        className="hover:underline font-medium "
+                        to={{
+                          hash: `editor:${item.object_model}:${item.object_id}`,
+                        }}
+                      >
+                        {item.object_repr}
+                      </Link>
+                    )}
+                  </div>
                 </div>
-                <div className="line-clamp-1 break-all">
-                  {item.action_flag === 3 ? (
-                    item.object_repr
-                  ) : (
-                    <Link
-                      className="hover:underline"
-                      to={{
-                        hash: `editor:${item.object_model}:${item.object_id}`,
-                      }}
-                    >
-                      {item.object_repr}
-                    </Link>
-                  )}
+                <div className="text-sm text-gray-500">
+                  {dayjs(item.action_time).fromNow()}
                 </div>
               </div>
-              <div className="text-sm text-gray-400 font-medium">
-                {dayjs(item.action_time).fromNow()}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

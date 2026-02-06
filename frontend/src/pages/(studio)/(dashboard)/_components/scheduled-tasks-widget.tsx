@@ -44,10 +44,14 @@ export function ScheduledTasksWidget({ widget }: { widget: DashboardWidget }) {
 
   return (
     <div className="min-h-[100px]">
-      {data && (
+      {!data ? (
+        <div className="p-12 flex items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
         <div>
           <div className="p-4">
-            <h2 className="font-medium">{data.title}</h2>
+            <h2 className="font-medium text-gray-900">{data.title}</h2>
             <div className="text-gray-500">{data.description}</div>
           </div>
           {R.isEmpty(data.tasks) ? (

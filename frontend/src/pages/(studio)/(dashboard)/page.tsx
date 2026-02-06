@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils.ts";
 import { DashboardWidgetType } from "@/types";
 
 import { ActivityLogWidget } from "./_components/activity-log-widget";
+import { ContentListWidget } from "./_components/content-list-widget";
 import { ScheduledTasksWidget } from "./_components/scheduled-tasks-widget";
 import { StatisticWidget } from "./_components/statistic-widget";
 
@@ -10,6 +11,7 @@ const WIDGET_COMPONENTS = {
   [DashboardWidgetType.ActivityLogWidget]: ActivityLogWidget,
   [DashboardWidgetType.StatisticWidget]: StatisticWidget,
   [DashboardWidgetType.ScheduledTasksWidget]: ScheduledTasksWidget,
+  [DashboardWidgetType.ContentListWidget]: ContentListWidget,
 };
 
 export function DashboardPage() {
@@ -26,7 +28,7 @@ export function DashboardPage() {
             <div
               key={widget.widget_id}
               className={cn({
-                "border border-gray-300 bg-white shadow-md shadow-gray-900/5 rounded-lg":
+                "border border-gray-300 bg-whit rounded-lg":
                   widget.name !== DashboardWidgetType.SpacingWidget,
               })}
               style={{
