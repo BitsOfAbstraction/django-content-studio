@@ -42,13 +42,13 @@ export function MainMenu() {
     ) ?? [];
 
   return (
-    <nav className="w-[240px] shrink-0 flex flex-col bg-gray-50 border-r">
+    <nav className="w-[240px] shrink-0 flex flex-col bg-gray-50">
       {adminInfo && !tenant && (
-        <div className="flex items-center gap-2 border-b px-4 py-3 select-none">
+        <div className="flex items-center gap-2 px-4 py-3 select-none">
           <div className="bg-gradient-to-tl from-gray-900 to-gray-600 size-5 rounded flex items-center justify-center text-white font-black shrink-0">
             {adminInfo.site_header[0]}
           </div>
-          <h2 className="line-clamp-1 break-all text-base font-semibold">
+          <h2 className="line-clamp-1 break-all text-base font-semibold text-gray-800">
             {adminInfo.site_header}
           </h2>
         </div>
@@ -85,7 +85,7 @@ export function MainMenu() {
           />
         ))}
 
-        <div className="h-px my-4 bg-gray-200" role="separator" />
+        <div className="h-4" role="separator" />
 
         {discover?.model_groups.map((group) => (
           <MenuItem
@@ -101,6 +101,7 @@ export function MainMenu() {
                 return model ? (
                   <MenuItem
                     key={label}
+                    isSubItem
                     to={
                       model.admin.is_singleton
                         ? { hash: `editor:${model.label}` }
@@ -204,8 +205,10 @@ function MenuItem({
   to,
   color,
   children,
+  isSubItem,
 }: {
   label: string;
+  isSubItem?: boolean;
   icon?: React.ReactNode | string;
   to?: Partial<Path> | string;
   color?: TailwindColor;
@@ -221,7 +224,7 @@ function MenuItem({
         // @ts-expect-error due to mixed component
         to={to ?? undefined}
         className={cn(
-          "group flex items-center w-full font-medium gap-2.5 h-9 px-2 hover:bg-gray-100 rounded hover:cursor-pointer",
+          "group flex items-center w-full font-medium gap-2.5 h-8 px-2 hover:bg-gray-100 rounded hover:cursor-pointer",
           {
             "bg-gray-100": !R.isNil(to) && match,
           },
@@ -242,7 +245,12 @@ function MenuItem({
             {typeof icon === "string" ? <span className={cn(icon)} /> : icon}
           </span>
         )}
-        <span className="flex items-center justify-between flex-1 text-gray-700">
+        <span
+          className={cn(
+            "flex items-center justify-between flex-1",
+            isSubItem ? "text-gray-600" : "text-gray-800",
+          )}
+        >
           <span className="first-letter:uppercase line-clamp-1 break-all">
             {label}
           </span>

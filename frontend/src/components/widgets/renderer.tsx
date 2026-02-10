@@ -2,9 +2,10 @@ import * as R from "ramda";
 import React, { useMemo } from "react";
 
 import { useAdminInfo } from "@/hooks/use-admin-info";
-import { FieldType, FieldWidget, type Model } from "@/types";
+import { FieldWidget, type Model } from "@/types";
 
 import { CheckboxWidget } from "./checkbox-widget";
+import { DateTimeWidget } from "./date-time-widget";
 import { DateWidget } from "./date-widget";
 import { FallbackWidget } from "./fallback-widget";
 import { ForeignKeyWidget } from "./foreign-key-widget";
@@ -42,10 +43,12 @@ export function WidgetRenderer({
       R.cond([
         [R.isNil, R.always(InputWidget)],
         [
-          () => field.type === FieldType.CharField && !R.isNil(field.choices),
+          () =>
+            widgetClass === FieldWidget.InputWidget && !R.isNil(field.choices),
           R.always(SelectWidget),
         ],
         [R.equals(FieldWidget.DateWidget), R.always(DateWidget)],
+        [R.equals(FieldWidget.DateTimeWidget), R.always(DateTimeWidget)],
         [R.equals(FieldWidget.ForeignKeyWidget), R.always(ForeignKeyWidget)],
         [R.equals(FieldWidget.InputWidget), R.always(InputWidget)],
         [R.equals(FieldWidget.JSONSchemaWidget), R.always(JSONSchemaWidget)],

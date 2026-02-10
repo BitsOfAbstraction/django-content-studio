@@ -1,5 +1,6 @@
 import "./rich-text.css";
 
+import Blockquote from "@tiptap/extension-blockquote";
 import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
 import { Typography } from "@tiptap/extension-typography";
@@ -20,6 +21,7 @@ const extensions = [
       class: "rich-text-image",
     },
   }),
+  Blockquote.configure(),
 ];
 
 export function RichTextWidget({ value, onChange, disabled }: RichtTextProps) {

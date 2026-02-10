@@ -52,7 +52,7 @@ export function TenantProvider({ children }: { children: React.ReactElement }) {
     }
   }, [tenants, tenantId, enabled, isFetched]);
 
-  return init && isFetched ? (
+  return init && (isFetched || !enabled) ? (
     <TenantContext.Provider
       value={{
         enabled,

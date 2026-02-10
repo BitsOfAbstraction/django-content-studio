@@ -50,19 +50,15 @@ export function ModelListPage() {
   });
 
   return model && data ? (
-    <div className="p-6 flex flex-col overflow-hidden">
-      <div className="flex items-center gap-4 mb-8">
+    <div className="flex flex-col overflow-hidden">
+      <div className="flex items-center gap-4 px-4 py-2 border-b border-gray-200">
         {model.admin.icon ? (
-          <span
-            className={cn(model.admin.icon, "text-xl text-muted-foreground")}
-          />
+          <span className={cn(model.admin.icon, "text-lg text-gray-500")} />
         ) : (
           <PiFileTextBold />
         )}
         <div className="select-none flex-1">
-          <h1 className="text-xl/tight font-semibold">
-            {model.verbose_name_plural}
-          </h1>
+          <h1 className="text-lg font-semibold">{model.verbose_name_plural}</h1>
           {model.admin.list.description && (
             <div className="text-muted-foreground">
               {model.admin.list.description}
@@ -79,7 +75,7 @@ export function ModelListPage() {
         )}
       </div>
 
-      <div className="mb-8">
+      <div className="px-4 py-2 border-b border-b-gray-200">
         <Filters model={model} filters={filters} onFilterChange={setFilters} />
       </div>
       {view === "list" ? <ListView items={data.results} model={model} /> : null}

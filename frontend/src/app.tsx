@@ -1,3 +1,4 @@
+import "@fontsource-variable/inter";
 import "./index.css";
 import "./i18n";
 // Dayjs locales
@@ -12,9 +13,9 @@ import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
 
 import { ConfirmDialogProvider } from "@/components/confirm-dialog-provider";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Toaster } from "@/components/ui/sonner";
-import { useAdminInfo } from "@/hooks/use-admin-info.ts";
+import { useAdminInfo } from "@/hooks/use-admin-info";
 
 export function App() {
   const { t, i18n } = useTranslation();

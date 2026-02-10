@@ -1,6 +1,8 @@
 import uuid
 from typing import Type
 
+from blueprint import fields as bp_fields
+from blueprint.media_library.fields import MediaField, ManyMediaField
 from django.contrib import admin
 from django.db import models
 from django.db.models import Model
@@ -60,6 +62,14 @@ class AdminSite(admin.AdminSite):
         models.DateTimeField: widgets.DateTimeWidget,
         models.TimeField: widgets.TimeWidget,
         models.JSONField: widgets.JSONWidget,
+        # Blueprint fields
+        bp_fields.HTMLField: widgets.RichTextWidget,
+        bp_fields.TagField: widgets.TagWidget,
+        bp_fields.FlexField: widgets.JSONSchemaWidget,
+        bp_fields.MultipleChoiceField: widgets.MultiSelectWidget,
+        bp_fields.URLPathField: widgets.URLPathWidget,
+        MediaField: widgets.MediaWidget,
+        ManyMediaField: widgets.MediaWidget,
         # Common third-party fields
         "AutoSlugField": widgets.SlugWidget,
     }

@@ -6,12 +6,16 @@ import { cn } from "@/lib/utils";
 const inputVariants = cva("", {
   variants: {
     variant: {
-      secondary: "bg-gray-100 border-gray-100",
-      default: "border bg-white",
+      default: "border border-gray-300 bg-white",
+    },
+    size: {
+      sm: "h-7",
+      default: "h-8",
     },
   },
   defaultVariants: {
     variant: "default",
+    size: "default",
   },
 });
 
@@ -19,6 +23,7 @@ function Input({
   className,
   type,
   variant,
+  size,
   value,
   ...props
 }: React.ComponentProps<"input"> & VariantProps<typeof inputVariants>) {
@@ -28,10 +33,10 @@ function Input({
       data-slot="input"
       value={value ?? ""}
       className={cn(
-        "file:text-foreground placeholder:text-gray-400 flex h-9 w-full min-w-0 rounded-md px-3 py-1 text-base outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        inputVariants({ variant, className }),
+        "file:text-foreground placeholder:text-gray-400 flex h-7 w-full min-w-0 rounded-md px-3 py-1 text-base outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+        "focus:border-gray-400",
+        "aria-invalid:focus:border-rose-500",
+        inputVariants({ variant, size, className }),
       )}
       {...props}
     />

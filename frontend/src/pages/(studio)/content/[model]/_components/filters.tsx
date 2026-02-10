@@ -19,6 +19,7 @@ export function Filters({
     <div className="flex items-center gap-4">
       {model.admin.list.search && (
         <Input
+          size="sm"
           className="w-[260px] max-w-full"
           value={filters.search}
           onChange={(e) => onFilterChange({ search: e.target.value })}

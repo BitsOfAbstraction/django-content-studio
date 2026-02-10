@@ -75,13 +75,17 @@ function EditorForm({
   const { data: resource } = useQuery({
     enabled: !R.isNil(id) || isSingleton,
     retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryKey: ["resources", modelLabel, id || isSingleton],
     async queryFn() {
       try {
         const { data } = await http.get(
           `/content/${modelLabel}${isSingleton ? "" : `/${id}`}`,
         );
-        form.reset(data);
+        if (!initialized) {
+          form.reset(data);
+        }
         return data;
       } catch (e: unknown) {
         throw Error(e);
@@ -142,13 +146,17 @@ function EditorForm({
           onDelete={onDelete}
           onClose={onClose}
         />
-        <div className="flex flex-1 justify-center overflow-y-auto scrollbar bg-gray-50">
-          <div className="w-full max-w-3xl">
-            <div className="p-5">
-              <Main model={model} id={id} hiddenFields={hiddenFields} />
+        <div className="flex flex-1 overflow-hidden">
+          <div className="flex-1  border-r overflow-y-auto scrollbar">
+            <div className="w-full max-w-2xl mx-auto">
+              <div className="p-4">
+                <Main model={model} id={id} hiddenFields={hiddenFields} />
+              </div>
             </div>
           </div>
-          <Aside model={model} hiddenFields={hiddenFields} />
+          <div className="overflow-y-auto scrollbar">
+            <Aside model={model} hiddenFields={hiddenFields} />
+          </div>
         </div>
       </div>
     </Form>

@@ -27,12 +27,12 @@ export function ListView({
   );
 
   return (
-    <div className="relative border rounded-lg bg-white overflow-auto flex-1 scrollbar">
-      <Table>
+    <div className="w-full flex-1 scrollbar overflow-auto">
+      <Table className="table-fixed">
         <TableHeader>
           <TableRow>
             {model.admin.list.display.map(({ name, description }) => (
-              <TableHead key={name} className="h-10 sticky top-0 z-10">
+              <TableHead key={name} className="sticky top-0 z-10">
                 {description ?? model.fields[name]?.verbose_name}
               </TableHead>
             ))}
@@ -57,12 +57,14 @@ export function ListView({
               }
             >
               {fields.map(({ name, empty_value }) => (
-                <TableCell key={name} className="h-14 first-of-type:pl-6">
-                  <FormatRenderer
-                    value={item[name]}
-                    field={model.fields[name]}
-                    emptyValue={empty_value}
-                  />
+                <TableCell key={name}>
+                  <div className="truncate">
+                    <FormatRenderer
+                      value={item[name]}
+                      field={model.fields[name]}
+                      emptyValue={empty_value}
+                    />
+                  </div>
                 </TableCell>
               ))}
             </TableRow>

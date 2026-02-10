@@ -21,12 +21,12 @@ export function Aside({
   return (
     hasSidebar && (
       <div className="w-full max-w-[360px]">
-        <div className="p-5">
-          <aside className="space-y-4">
+        <div className="p-6">
+          <aside className="space-y-8">
             {sidebar.map((formSet, idx) => (
               <section
                 key={idx}
-                className="border rounded-lg p-4 w-full bg-white"
+                className="border-b border-gray-200 last-of-type:border-b-0 pb-8 w-full"
               >
                 <FormSet
                   model={model}

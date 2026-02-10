@@ -19,7 +19,7 @@ export function TimeWidget({
         maxLength={2}
         max={24}
         inputMode="decimal"
-        className="w-12"
+        className="w-14"
         placeholder="HH"
         onFocus={(e) => e.target.select()}
         onChange={(e) => {
@@ -37,7 +37,7 @@ export function TimeWidget({
         value={minutes ?? ""}
         maxLength={2}
         inputMode="decimal"
-        className="w-12"
+        className="w-14"
         placeholder="mm"
         ref={minutesRef}
         onFocus={(e) => e.target.select()}

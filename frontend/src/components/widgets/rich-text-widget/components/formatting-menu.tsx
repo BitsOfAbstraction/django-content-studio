@@ -67,7 +67,7 @@ export function FormattingMenu({ editor }: { editor: Editor }) {
           <PiTextStrikethroughBold />
         </Toggle>
 
-        <Separator orientation="vertical" className="h-auto self-stretch" />
+        <Separator orientation="vertical" className="h-auto! self-stretch" />
 
         <Button
           size="sm"
@@ -84,7 +84,7 @@ export function FormattingMenu({ editor }: { editor: Editor }) {
           <PiListBulletsBold />
         </Button>
 
-        <Separator orientation="vertical" className="h-auto self-stretch" />
+        <Separator orientation="vertical" className="h-auto! self-stretch" />
 
         <LinkButton editor={editor} />
       </div>
