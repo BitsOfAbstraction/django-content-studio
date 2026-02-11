@@ -154,7 +154,7 @@ function EditorForm({
               </div>
             </div>
           </div>
-          <div className="overflow-y-auto scrollbar">
+          <div className="overflow-y-auto scrollbar shrink-0 w-[280px]">
             <Aside model={model} hiddenFields={hiddenFields} />
           </div>
         </div>
