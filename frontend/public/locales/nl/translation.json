@@ -29,20 +29,20 @@
     "forgot_password": "Wachtwoord vergeten?",
     "no_account": "Geen account? Neem contact op met je administrator."
   },
-    "forgot_password": {
+  "forgot_password": {
     "title": "Wachtwoord vergeten?",
     "subtitle": "Voer je e-mailadres in om je wachtwoord te herstellen.",
     "submit": "Wachtwoord herstellen",
     "email_placeholder": "Voer je e-mailadres in",
     "login": "Inloggen"
   },
-     "reset_password": {
+  "reset_password": {
     "title": "Wachtwoord herstellen",
     "subtitle": "Je ontvangt een e-mail met een resetcode.",
-     "enter_code": "Voer de resetcode in",
+    "enter_code": "Voer de resetcode in",
     "submit": "Wachtwoord wijzigen",
     "password_placeholder": "Voer een wachtwoord in",
-     "success_message": "Je wachtwoord is gewijzigd. Je kan nu inloggen met je nieuwe wachtwoord."
+    "success_message": "Je wachtwoord is gewijzigd. Je kan nu inloggen met je nieuwe wachtwoord."
   },
   "main_menu": {
     "dashboard": "Dashboard",
@@ -62,10 +62,11 @@
   "list_view": {
     "empty_state": "Nog geen items"
   },
-  "media-library": {
+  "media_library": {
     "title": "Mediabibliotheek",
     "description": "Beheer je media-bestanden hier.",
     "new_folder": "Nieuwe map",
+    "within_folder": "In huidige map",
     "file_types": {
       "file": "Bestand",
       "image": "Afbeelding",
@@ -75,25 +76,26 @@
   },
   "widgets": {
     "rich_text_widget": {
-        "heading1": "Kop 1",
-        "heading2": "Kop 2",
-        "heading3": "Kop 3",
-        "heading4": "Kop 4",
-        "heading5": "Kop 5",
-        "heading6": "Kop 6",
-        "paragraph": "Paragraaf",
-        "blockquote": "Citaat",
-        "codeBlock": "Codeblok",
-        "set_link": "Voeg link toe",
-        "update_link": "Bewerk link",
-        "remove_link": "Verwijder link"
+      "heading1": "Kop 1",
+      "heading2": "Kop 2",
+      "heading3": "Kop 3",
+      "heading4": "Kop 4",
+      "heading5": "Kop 5",
+      "heading6": "Kop 6",
+      "paragraph": "Paragraaf",
+      "blockquote": "Citaat",
+      "codeBlock": "Codeblok",
+      "set_link": "Voeg link toe",
+      "update_link": "Bewerk link",
+      "remove_link": "Verwijder link"
     },
     "media_widget": {
       "select_media": "Selecteer media",
+      "select_n_media": "Selecteer {{n}} media",
       "dialog_title": "Selecteer media",
       "upload_label": "Upload media"
     },
-     "date_picker": {
+    "date_picker": {
       "placeholder": "Selecteer een datum"
     }
   },

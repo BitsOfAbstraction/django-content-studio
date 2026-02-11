@@ -20,6 +20,7 @@ class MediaLibraryViewSet(ModelViewSet):
     permission_classes = [DjangoModelPermissions]
     filter_backends = [SearchFilter, OrderingFilter]
     pagination_class = ContentPagination
+    search_fields = ["name", "tags"]
 
     def __init__(self, *args, **kwargs):
         super(MediaLibraryViewSet, self).__init__()
@@ -40,6 +41,7 @@ class MediaLibraryViewSet(ModelViewSet):
             )
 
         folder = self.request.query_params.get("folder", None)
+        search = self.request.query_params.get("search", None)
         qs = self._media_model.objects.all()
 
         if folder:

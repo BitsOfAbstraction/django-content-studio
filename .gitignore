@@ -7,3 +7,4 @@ dist-ssr
 .idea
 /content_studio/static/content_studio
 .output.txt
+__pycache__

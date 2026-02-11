@@ -152,7 +152,10 @@ function MultipleMedia({
         </div>
       ))}
 
-      <SelectDialog multiple={!!field.multiple} onSelect={(v) => onChange?.(v)}>
+      <SelectDialog
+        multiple={!!field.multiple}
+        onSelect={(v) => onChange?.([...(value ?? []), ...v])}
+      >
         <button className="cursor-pointer aspect-square flex flex-col gap-1 items-center justify-center border border-dashed border-stone-300 hover:border-stone-400 text-stone-400 text-center text-sm font-medium rounded-md p-1">
           <PiImage className="size-6" />
           {t("widgets.media_widget.select_media")}
@@ -234,16 +237,19 @@ function SelectDialogContent({
 
   return (
     <DropzoneArea onDrop={handleUpload}>
-      <FolderPath
-        folder={folder}
-        onSelect={(folderId) => {
-          setPage(1);
-          setFolder(folderId);
-        }}
-      />
+      <div className={cn("mb-2", { invisible: search })}>
+        <FolderPath
+          folder={folder}
+          onSelect={(folderId) => {
+            setPage(1);
+            setFolder(folderId);
+          }}
+        />
+      </div>
 
       <div className="mb-2 flex items-center gap-2">
         <DebouncedInput
+          size="sm"
           placeholder={t("common.search")}
           value={search}
           onChange={(v) => {
@@ -273,7 +279,7 @@ function SelectDialogContent({
         />
       </div>
 
-      <div className="mb-2">
+      <div className={cn("mb-2", { hidden: search })}>
         <Folders
           parent={folder}
           onSelect={(folderId) => {
@@ -337,18 +343,37 @@ function SelectDialogContent({
         </div>
       ) : null}
 
-      <div className="flex items-center justify-end gap-2 pt-6 mt-6 border-t">
-        <DialogClose asChild>
-          <Button variant="ghost">{t("common.cancel")}</Button>
-        </DialogClose>
-        <DialogClose asChild>
-          <Button
-            disabled={R.isEmpty(selection)}
-            onClick={() => onSelect(multiple ? selection : selection[0])}
-          >
-            {t("widgets.media_widget.select_media")}
-          </Button>
-        </DialogClose>
+      <div className="flex items-center justify-between gap-2 pt-6 mt-6 border-t">
+        <div className="flex -space-x-5">
+          {selection.map((item) =>
+            item.thumbnail ? (
+              <img
+                src={item.thumbnail}
+                alt=""
+                className="size-10 rounded-md object-cover border-2 border-white"
+              />
+            ) : (
+              <div className="size-10 bg-gray-100 rounded-md border-2 border-white" />
+            ),
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <DialogClose asChild>
+            <Button variant="ghost">{t("common.cancel")}</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              disabled={R.isEmpty(selection)}
+              onClick={() => onSelect(multiple ? selection : selection[0])}
+            >
+              {multiple && selection.length > 0
+                ? t("widgets.media_widget.select_n_media", {
+                    n: selection.length,
+                  })
+                : t("widgets.media_widget.select_media")}
+            </Button>
+          </DialogClose>
+        </div>
       </div>
     </DropzoneArea>
   );

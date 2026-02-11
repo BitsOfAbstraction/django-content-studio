@@ -78,7 +78,7 @@ export function CreateFolderButton({ parent }: { parent: string | null }) {
         className="flex items-center gap-2 text-muted-foreground hover:text-secondary-foreground"
       >
         <PiPlus className="mr-1" />
-        <span>{t("media-library.new_folder")}</span>
+        <span>{t("media_library.new_folder")}</span>
       </button>
     )
   ) : null;

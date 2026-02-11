@@ -12,7 +12,7 @@ export function useListMedia({
 }: {
   folder?: string | null;
   page?: number;
-  filters: { search?: string };
+  filters: { search?: string; searchInFolder?: boolean };
 }) {
   const http = useHttp();
   const { data: discover } = useDiscover();
@@ -28,7 +28,10 @@ export function useListMedia({
         `/media-library/items`,
         {
           params: {
-            folder: folder ?? "root",
+            folder:
+              filters.searchInFolder || !filters.search
+                ? (folder ?? "root")
+                : undefined,
             search: filters.search,
             page,
           },

@@ -83,7 +83,7 @@ export function ItemCard({
                 },
               )}
             >
-              {t(`media-library.file_types.${item.type}`)}
+              {t(`media_library.file_types.${item.type}`)}
             </div>
             <div className="text-sm font-medium text-slate-400">
               {!R.isNil(item.size) && bytes(item.size * 1000)}

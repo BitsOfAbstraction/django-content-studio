@@ -36,10 +36,10 @@
     "email_placeholder": "Enter your email",
     "login": "Log in"
   },
-   "reset_password": {
+  "reset_password": {
     "title": "Reset your password",
     "subtitle": "You will receive an email with a reset code.",
-     "enter_Code": "Enter the reset code",
+    "enter_Code": "Enter the reset code",
     "submit": "Reset password",
     "password_placeholder": "Enter a password",
     "success_message": "Your password has been changed. You can now log in with your new password."
@@ -59,14 +59,15 @@
     "unsaved_alert": "There are unsaved changes. Are you sure you want to leave?",
     "empty_state": "No items yet"
   },
-   "list_view": {
+  "list_view": {
     "empty_state": "No items yet"
   },
-  "media-library": {
+  "media_library": {
     "title": "Media library",
     "description": "Manage your media files here.",
     "new_folder": "New folder",
-     "file_types": {
+    "within_folder": "In current folder",
+    "file_types": {
       "file": "File",
       "image": "Image",
       "video": "Video",
@@ -74,22 +75,23 @@
     }
   },
   "widgets": {
-     "rich_text_widget": {
-        "heading1": "Heading 1",
-        "heading2": "Heading 2",
-        "heading3": "Heading 3",
-        "heading4": "Heading 4",
-        "heading5": "Heading 5",
-        "heading6": "Heading 6",
-        "paragraph": "Paragraph",
-        "blockquote": "Blockquote",
-        "codeBlock": "Code block",
-        "set_link": "Add link",
-        "update_link": "Edit link",
-        "remove_link": "Remove link"
-     },
+    "rich_text_widget": {
+      "heading1": "Heading 1",
+      "heading2": "Heading 2",
+      "heading3": "Heading 3",
+      "heading4": "Heading 4",
+      "heading5": "Heading 5",
+      "heading6": "Heading 6",
+      "paragraph": "Paragraph",
+      "blockquote": "Blockquote",
+      "codeBlock": "Code block",
+      "set_link": "Add link",
+      "update_link": "Edit link",
+      "remove_link": "Remove link"
+    },
     "media_widget": {
       "select_media": "Select media",
+      "select_n_media": "Select {{n}} media",
       "dialog_title": "Select media",
       "upload_label": "Upload media"
     },
@@ -97,16 +99,16 @@
       "placeholder": "Select a date"
     }
   },
-    "dashboard": {
+  "dashboard": {
     "widgets": {
       "activity_log": {
         "title": "Activity log",
         "subtitle": "Latest updates from your team"
       },
-         "scheduled_tasks": {
+      "scheduled_tasks": {
         "empty": "No scheduled tasks",
-           "next": "Next:",
-           "status": {
+        "next": "Next:",
+        "status": {
           "SUCCESS": "Successful",
           "RUNNING": "Running",
           "SCHEDULED": "Scheduled",
