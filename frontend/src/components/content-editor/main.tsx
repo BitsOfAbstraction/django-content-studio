@@ -32,7 +32,7 @@ export function Main({
     <div>
       <Tabs defaultValue={groups[0]?.label || "default"}>
         {showGroups && (
-          <TabsList className="w-full">
+          <TabsList className="w-full border">
             {groups.map((formSetGroup, idx) => (
               <TabsTrigger key={idx} value={formSetGroup.label}>
                 {formSetGroup.label}
@@ -62,7 +62,7 @@ export function Main({
             {formSetGroup.formsets.map((formSet, idx) => (
               <section
                 key={idx}
-                className="border-t py-6 first-of-type:border-t-0 border-gray-200 w-full"
+                className="border p-4 bg-white rounded-lg border-gray-200 w-full"
               >
                 <FormSet
                   model={model}

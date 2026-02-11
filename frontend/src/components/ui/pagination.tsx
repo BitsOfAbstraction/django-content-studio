@@ -27,7 +27,7 @@ function Pagination({
         renderOnZeroPageCount={null}
         className="flex items-center gap-2"
         activeLinkClassName={buttonVariants({
-          variant: "outline",
+          variant: "secondary",
           size: "icon",
         })}
         pageLinkClassName={buttonVariants({ variant: "ghost", size: "icon" })}

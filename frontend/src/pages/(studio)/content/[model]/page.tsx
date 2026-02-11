@@ -51,7 +51,7 @@ export function ModelListPage() {
 
   return model && data ? (
     <div className="flex flex-col overflow-hidden">
-      <div className="flex items-center gap-4 px-4 py-2 border-b border-gray-200">
+      <div className="flex items-center gap-4 px-8 py-2 border-b border-gray-200">
         {model.admin.icon ? (
           <span className={cn(model.admin.icon, "text-lg text-gray-500")} />
         ) : (
@@ -75,11 +75,11 @@ export function ModelListPage() {
         )}
       </div>
 
-      <div className="px-4 py-2 border-b border-b-gray-200">
+      <div className="px-8 py-2 border-b border-b-gray-200">
         <Filters model={model} filters={filters} onFilterChange={setFilters} />
       </div>
       {view === "list" ? <ListView items={data.results} model={model} /> : null}
-      <div className="py-6">
+      <div className="py-2 border-t border-gray-200 flex items-center justify-center">
         <Pagination
           current={data.pagination.current}
           pages={data.pagination.pages}

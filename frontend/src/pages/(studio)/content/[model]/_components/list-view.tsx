@@ -28,7 +28,7 @@ export function ListView({
 
   return (
     <div className="w-full flex-1 scrollbar overflow-auto">
-      <Table className="table-fixed">
+      <Table>
         <TableHeader>
           <TableRow>
             {model.admin.list.display.map(({ name, description }) => (
@@ -58,7 +58,7 @@ export function ListView({
             >
               {fields.map(({ name, empty_value }) => (
                 <TableCell key={name}>
-                  <div className="truncate">
+                  <div className="truncate min-h-8 items-center flex">
                     <FormatRenderer
                       value={item[name]}
                       field={model.fields[name]}

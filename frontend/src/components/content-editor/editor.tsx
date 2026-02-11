@@ -53,9 +53,9 @@ function EditorForm({
   const queryClient = useQueryClient();
   const http = useHttp();
   const { t } = useTranslation();
-  const [initialized, setInitialized] = useState(R.isNil(id));
   const modelLabel = model.label;
   const isSingleton = model?.admin.is_singleton ?? false;
+  const [initialized, setInitialized] = useState(R.isNil(id) && !isSingleton);
   const hiddenFields = Object.keys(initialValues);
   const defaultValues = Object.entries(model?.fields ?? {}).reduce(
     (defaults, [key, field]) => ({ ...defaults, [key]: field.default }),
@@ -147,7 +147,7 @@ function EditorForm({
           onClose={onClose}
         />
         <div className="flex flex-1 overflow-hidden">
-          <div className="flex-1  border-r overflow-y-auto scrollbar">
+          <div className="flex-1  border-r overflow-y-auto scrollbar bg-gray-50">
             <div className="w-full max-w-2xl mx-auto">
               <div className="p-4">
                 <Main model={model} id={id} hiddenFields={hiddenFields} />
