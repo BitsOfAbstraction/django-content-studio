@@ -290,7 +290,7 @@ function SelectDialogContent({
       </div>
 
       <div className="flex-1 overflow-y-auto border rounded scrollbar">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 p-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 p-2">
           {R.times(R.identity, pendingCount).map((i) => (
             <div key={i} className="p-4 rounded border space-y-2">
               <div className="aspect-square rounded-md bg-accent animate-pulse flex items-center justify-center">
@@ -308,7 +308,7 @@ function SelectDialogContent({
                 key={item.id}
                 item={item}
                 className={cn("relative", {
-                  "border-slate-500": isSelected,
+                  "border-gray-400": isSelected,
                 })}
                 onClick={() => {
                   if (multiple) {
@@ -343,8 +343,8 @@ function SelectDialogContent({
         </div>
       ) : null}
 
-      <div className="flex items-center justify-between gap-2 pt-6 mt-6 border-t">
-        <div className="flex -space-x-5">
+      <div className="flex items-center justify-between gap-2 mt-6">
+        <div className="flex -space-x-5 h-10">
           {selection.map((item) =>
             item.thumbnail ? (
               <img

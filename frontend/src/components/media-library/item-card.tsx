@@ -45,7 +45,7 @@ export function ItemCard({
             setEdit(true);
           }}
           className={cn(
-            "cursor-pointer border rounded-md bg-white p-4 data-[state=open]:border-gray-400 flex flex-col",
+            "cursor-pointer border rounded-md bg-white p-2 data-[state=open]:border-gray-400 flex flex-col",
             {
               "animate-pulse pointer-events-none select-none": isPending,
             },
@@ -85,7 +85,7 @@ export function ItemCard({
             >
               {t(`media_library.file_types.${item.type}`)}
             </div>
-            <div className="text-sm font-medium text-slate-400">
+            <div className="text-sm font-medium text-gray-400">
               {!R.isNil(item.size) && bytes(item.size * 1000)}
             </div>
           </div>

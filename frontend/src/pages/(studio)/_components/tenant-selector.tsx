@@ -33,7 +33,7 @@ export function TenantSelector() {
     <Popover>
       <PopoverTrigger
         asChild
-        className="group w-full flex items-center gap-2 px-3 py-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 hover:cursor-pointer"
+        className="group w-full flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 data-[state=open]:bg-gray-100 hover:cursor-pointer"
       >
         <div>
           {tenant && (
@@ -89,7 +89,6 @@ export function TenantSelector() {
           <div className="border-t p-1">
             <Button
               variant="outline"
-              size="sm"
               className="w-full"
               onClick={() => navigate({ hash: `editor:${tenantModel.label}` })}
             >

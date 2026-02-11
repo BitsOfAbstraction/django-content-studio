@@ -18,9 +18,9 @@ export function DashboardPage() {
   const { data: discover } = useDiscover();
 
   return (
-    <div className="p-5">
-      <h1 className="text-xl font-semibold mb-5">Dashboard</h1>
-      <div className="flex flex-col md:grid md:items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div className="overflow-hidden flex-1 flex flex-col">
+      <h1 className="px-5 py-2 text-xl font-semibold border-b">Dashboard</h1>
+      <div className="p-5 flex flex-col md:grid md:items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 overflow-y-auto scrollbar">
         {discover?.dashboard.widgets.map((widget) => {
           const Comp = WIDGET_COMPONENTS[widget.name];
 

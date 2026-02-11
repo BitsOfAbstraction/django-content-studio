@@ -1,7 +1,7 @@
 "use client";
 
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
-import { ChevronDownIcon, X } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 import { forwardRef, useEffect } from "react";
 
@@ -13,6 +13,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { PiXBold } from "react-icons/pi";
 
 export interface Option {
   value: string;
@@ -457,7 +458,7 @@ const MultiSelect = React.forwardRef<
       >
         <div
           className={cn(
-            "flex items-center justify-between rounded-md border hover:border-gray-300 h-full min-h-9 px-3 py-1.5",
+            "flex items-center justify-between rounded-md border border-gray-300 focus-within:border-gray-400 h-full min-h-8 px-3 py-1",
             {
               "cursor-text": !disabled && selected.length !== 0,
             },
@@ -473,8 +474,9 @@ const MultiSelect = React.forwardRef<
               return (
                 <Badge
                   key={option.value}
+                  variant="secondary"
                   className={cn(
-                    "data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
+                    "cursor-default data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
                     "data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground",
                     badgeClassName,
                   )}
@@ -485,7 +487,7 @@ const MultiSelect = React.forwardRef<
                   <button
                     type="button"
                     className={cn(
-                      "ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                      "ml-1 rounded-full outline-none ring-offset-background cursor-pointer focus:ring-2 focus:ring-ring focus:ring-offset-2",
                       (disabled || option.fixed) && "hidden",
                     )}
                     onKeyDown={(e) => {
@@ -499,7 +501,7 @@ const MultiSelect = React.forwardRef<
                     }}
                     onClick={() => handleUnselect(option)}
                   >
-                    <X className="size-3 text-muted-foreground hover:text-foreground" />
+                    <PiXBold className="size-3 text-gray-400" />
                   </button>
                 </Badge>
               );
@@ -546,7 +548,7 @@ const MultiSelect = React.forwardRef<
               onChange?.(selected.filter((s) => s.fixed));
             }}
             className={cn(
-              "size-5",
+              "size-4 cursor-pointer",
               (hideClearAllButton ||
                 disabled ||
                 selected.length < 1 ||
@@ -554,7 +556,7 @@ const MultiSelect = React.forwardRef<
                 "hidden",
             )}
           >
-            <X className="size-4 text-muted-foreground" />
+            <PiXBold className="size-3 text-gray-500" />
           </button>
           <ChevronDownIcon
             className={cn(

@@ -54,7 +54,7 @@ export function MainMenu() {
         </div>
       )}
       {tenant && (
-        <div className="border-b">
+        <div className="p-2">
           <TenantSelector />
         </div>
       )}
@@ -116,7 +116,7 @@ export function MainMenu() {
           </MenuItem>
         ))}
       </div>
-      <div className="border-t">
+      <div className="p-2">
         {me && (
           <DropdownMenu>
             <DropdownMenuContent
@@ -154,7 +154,7 @@ export function MainMenu() {
                 </div>
               )}
             </DropdownMenuContent>
-            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 p-3 select-none hover:cursor-pointer">
+            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 p-2 rounded-md select-none hover:cursor-pointer">
               <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
                 {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
                   .trim()
@@ -163,8 +163,11 @@ export function MainMenu() {
                   .toUpperCase()}
                 <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
               </div>
-              <div className="text-gray-700 truncate">
-                {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+              <div>
+                <div className="text-gray-700 truncate text-sm/tight font-medium">
+                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+                </div>
+                <div className="text-xs/tight text-gray-500">{me.username}</div>
               </div>
             </DropdownMenuTrigger>
           </DropdownMenu>

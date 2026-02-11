@@ -13,6 +13,12 @@ import {
 } from "@/components/ui/popover.tsx";
 import { useHttp } from "@/hooks/use-http.ts";
 import type { Model, Resource } from "@/types.ts";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command.tsx";
 
 export function ForeignKeyWidget({
   name,
@@ -55,33 +61,37 @@ export function ForeignKeyWidget({
 
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="w-[240px] flex items-center justify-between text-left border hover:border-gray-300 rounded-md px-3 h-9 select-none">
+      <PopoverTrigger className="w-full font-medium text-gray-700 flex items-center justify-between text-left border border-gray-300 hover:border-gray-400 cursor-pointer rounded-md px-3 h-8 shadow-xs select-none">
         <div className="flex-1">{value?.__str__}</div>
         <FiChevronDown className="size-4 opacity-50" />
       </PopoverTrigger>
       <PopoverContent className="max-h-[400px] w-[var(--radix-popover-trigger-width)] overflow-hidden p-0 flex flex-col">
-        <div className="p-2 border-b">
+        <div className="border-b border-gray-300">
           <Input
             autoFocus
             placeholder={t("common.search")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            className="border-0"
           />
         </div>
-        <div className="overflow-y-auto scrollbar p-2">
-          {dataWithValue.map(({ id, __str__ }) => (
-            <button
-              key={id}
-              className="flex text-left focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2"
-              onClick={() => {
-                onChange?.({ id, __str__ });
-                setOpen(false);
-              }}
-            >
-              <div className="line-clamp-1">{__str__}</div>
-            </button>
-          ))}
-        </div>
+        <Command shouldFilter={false}>
+          <CommandList className="scrollbar">
+            <CommandGroup>
+              {dataWithValue.map(({ id, __str__ }) => (
+                <CommandItem
+                  key={id}
+                  onSelect={() => {
+                    onChange?.({ id, __str__ });
+                    setOpen(false);
+                  }}
+                >
+                  <div className="line-clamp-1">{__str__}</div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </PopoverContent>
     </Popover>
   );
