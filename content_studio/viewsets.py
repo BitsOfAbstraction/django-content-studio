@@ -48,16 +48,19 @@ class BaseModelViewSet(ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        instance = serializer.save()
         tenant_id = self.request.headers.get("x-dcs-tenant", None)
         tenant_model = cs_settings.TENANT_MODEL
-        tenant_field_name = get_tenant_field_name(instance)
+        model = self.get_queryset().model
+        tenant_field_name = get_tenant_field_name(model)
+        attrs = {}
 
         if tenant_model and tenant_id and tenant_field_name:
-            setattr(instance, f"{tenant_field_name}_id", tenant_id)
+            attrs[f"{tenant_field_name}_id"] = tenant_id
 
-        if hasattr(instance, cs_settings.CREATED_BY_ATTR):
-            setattr(instance, cs_settings.CREATED_BY_ATTR, self.request.user)
+        if hasattr(model, cs_settings.CREATED_BY_ATTR):
+            attrs[cs_settings.CREATED_BY_ATTR] = self.request.user
+
+        instance = serializer.save(**attrs)
 
         content_type = ContentType.objects.get_for_model(instance)
         LogEntry.objects.create(
@@ -68,8 +71,6 @@ class BaseModelViewSet(ModelViewSet):
             object_repr=str(instance)[:200],
             change_message="",
         )
-
-        instance.save()
 
     def perform_update(self, serializer):
         instance = serializer.save()
