@@ -83,5 +83,9 @@ class MediaWidget(BaseWidget):
     pass
 
 
+class ManyMediaWidget(BaseWidget):
+    pass
+
+
 class TagWidget(BaseWidget):
     pass

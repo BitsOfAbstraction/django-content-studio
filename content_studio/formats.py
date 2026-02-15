@@ -19,6 +19,10 @@ class MediaFormat(BaseFormat):
     pass
 
 
+class ManyMediaFormat(BaseFormat):
+    pass
+
+
 class TextFormat(BaseFormat):
     pass
 

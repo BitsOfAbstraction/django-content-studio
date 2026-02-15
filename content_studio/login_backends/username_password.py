@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, authenticate
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny
@@ -36,6 +37,10 @@ class UsernamePasswordViewSet(ViewSet):
             raise PermissionDenied(detail="User account is disabled.")
 
         from ..admin import admin_site
+
+        user.last_login = timezone.now()
+
+        user.save()
 
         return admin_site.token_backend.active_backend.get_response_for_user(user)
 

@@ -11,6 +11,7 @@ import { FallbackWidget } from "./fallback-widget";
 import { ForeignKeyWidget } from "./foreign-key-widget";
 import { InputWidget } from "./input-widget";
 import { JSONSchemaWidget } from "./json-schema-widget";
+import { ManyMediaWidget } from "./many-media-widget.tsx";
 import { ManyToManyWidget } from "./many-to-many-widget";
 import { MediaWidget } from "./media-widget";
 import { MultiSelectWidget } from "./multi-select-widget";
@@ -54,6 +55,7 @@ export function WidgetRenderer({
         [R.equals(FieldWidget.JSONSchemaWidget), R.always(JSONSchemaWidget)],
         [R.equals(FieldWidget.ManyToManyWidget), R.always(ManyToManyWidget)],
         [R.equals(FieldWidget.MediaWidget), R.always(MediaWidget)],
+        [R.equals(FieldWidget.ManyMediaWidget), R.always(ManyMediaWidget)],
         [R.equals(FieldWidget.MultiSelectWidget), R.always(MultiSelectWidget)],
         [R.equals(FieldWidget.RichTextWidget), R.always(RichTextWidget)],
         [R.equals(FieldWidget.TextAreaWidget), R.always(TextAreaWidget)],
@@ -64,7 +66,7 @@ export function WidgetRenderer({
         [R.equals(FieldWidget.TimeWidget), R.always(TimeWidget)],
         [R.T, R.always(FallbackWidget)],
       ])(widgetClass),
-    [field.choices, field.type, widgetClass],
+    [field.choices, widgetClass],
   );
 
   return (

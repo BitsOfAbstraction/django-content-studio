@@ -167,6 +167,7 @@ export interface FormField {
   type: "field" | "component";
   name: string;
   label: string | null;
+  readonly: boolean;
   col_span: number;
   component_id: string;
   component_type: "Link" | "LinkButton";
@@ -216,6 +217,7 @@ export enum FieldWidget {
   JSONSchemaWidget = "JSONSchemaWidget",
   ManyToManyWidget = "ManyToManyWidget",
   MediaWidget = "MediaWidget",
+  ManyMediaWidget = "ManyMediaWidget",
   MultiSelectWidget = "MultiSelectWidget",
   RadioButtonWidget = "RadioButtonWidget",
   RichTextWidget = "RichTextWidget",

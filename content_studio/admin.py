@@ -69,7 +69,7 @@ class AdminSite(admin.AdminSite):
         bp_fields.MultipleChoiceField: widgets.MultiSelectWidget,
         bp_fields.URLPathField: widgets.URLPathWidget,
         MediaField: widgets.MediaWidget,
-        ManyMediaField: widgets.MediaWidget,
+        ManyMediaField: widgets.ManyMediaWidget,
         # Common third-party fields
         "AutoSlugField": widgets.SlugWidget,
     }
@@ -94,6 +94,14 @@ class AdminSite(admin.AdminSite):
         models.ForeignKey: formats.ForeignKeyFormat,
         models.OneToOneField: formats.ForeignKeyFormat,
         models.JSONField: formats.JSONFormat,
+        # Blueprint fields
+        bp_fields.HTMLField: formats.HtmlFormat,
+        bp_fields.TagField: formats.TagFormat,
+        bp_fields.FlexField: formats.JSONFormat,
+        bp_fields.MultipleChoiceField: formats.TextFormat,
+        bp_fields.URLPathField: formats.TextFormat,
+        MediaField: formats.MediaFormat,
+        ManyMediaField: formats.ManyMediaFormat,
     }
 
     def setup(self):

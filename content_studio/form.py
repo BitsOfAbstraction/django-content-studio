@@ -13,10 +13,13 @@ class Field:
     Field class for configuring the fields in content edit views in Django Content Studio.
     """
 
-    def __init__(self, name: str, col_span: int = 1, label: str = None):
+    def __init__(
+        self, name: str, col_span: int = 1, label: str = None, readonly: bool = False
+    ):
         self.name = name
         self.col_span = col_span
         self.label = label
+        self.readonly = readonly
 
     def serialize(self):
         return {
@@ -24,6 +27,7 @@ class Field:
             "name": self.name,
             "col_span": self.col_span,
             "label": self.label,
+            "readonly": self.readonly,
         }
 
 

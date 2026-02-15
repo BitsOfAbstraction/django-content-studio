@@ -39,8 +39,8 @@ export function FormField({
               <FormLabel>
                 {formField.label || modelField?.verbose_name}
               </FormLabel>
-              {!modelField || modelField.readonly ? (
-                <div className="min-h-8 flex items-center pl-3 bg-accent rounded-md">
+              {!modelField || modelField.readonly || formField.readonly ? (
+                <div className="min-h-8 flex items-center pl-3 bg-gray-50 rounded-md">
                   <FormatRenderer value={field.value} field={modelField} />
                 </div>
               ) : (
