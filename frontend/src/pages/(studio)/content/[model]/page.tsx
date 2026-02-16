@@ -25,13 +25,14 @@ export function ModelListPage() {
   const [view, setView] = useState<"list" | "grid">("list");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? "1");
+  const ordering = searchParams.get("ordering");
   const [filters, setFilters] = useState<{ search: string }>({
     search: "",
   });
   const { data } = useQuery({
     retry: false,
     enabled: !R.isNil(model),
-    queryKey: ["resources", appLabel, filters, page],
+    queryKey: ["resources", appLabel, filters, page, ordering],
     placeholderData: keepPreviousData,
     async queryFn() {
       const { data } = await http.get<PaginatedResponse<Resource>>(
@@ -41,6 +42,7 @@ export function ModelListPage() {
             search: filters.search,
             filters: R.omit(["search"], filters),
             page,
+            ordering,
           },
         },
       );

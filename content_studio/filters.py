@@ -18,11 +18,7 @@ class LookupFilter(BaseFilterBackend):
 
     EXCLUDE_SYMBOL = "~"
 
-    NON_FILTER_FIELDS = [
-        "search",
-        "limit",
-        "page",
-    ]
+    NON_FILTER_FIELDS = ["search", "limit", "page", "ordering"]
 
     def filter_queryset(self, request, queryset, view):
         """

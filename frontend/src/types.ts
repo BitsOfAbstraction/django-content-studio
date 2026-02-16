@@ -104,6 +104,7 @@ export interface Model {
       }[];
       search: boolean;
       filter: string[];
+      sortable_by: string[] | null;
     };
     edit: {
       main: FormSetGroup[];

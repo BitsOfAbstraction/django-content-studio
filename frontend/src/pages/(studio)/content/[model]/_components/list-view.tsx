@@ -1,6 +1,6 @@
 import * as R from "ramda";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 import { FormatRenderer } from "@/components/formats/renderer";
 import {
@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Model } from "@/types";
+import { cn } from "@/lib/utils.ts";
+import { PiArrowDownBold, PiArrowUpBold } from "react-icons/pi";
 
 export function ListView({
   items,
@@ -22,30 +24,78 @@ export function ListView({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const fields = model.admin.list.display.filter(
     ({ name }) => !R.isNil(model.fields[name]),
   );
+  const ordering = searchParams.get("ordering");
+  const { sortable_by, display } = model.admin.list;
 
   return (
     <div className="w-full flex-1 scrollbar overflow-auto">
-      <Table>
+      <Table className="table-fixed">
         <TableHeader>
           <TableRow>
-            {model.admin.list.display.map(({ name, description }) => (
-              <TableHead key={name} className="sticky top-0 z-10">
-                {description ?? model.fields[name]?.verbose_name}
-              </TableHead>
-            ))}
+            {display.map(({ name, description }) => {
+              const label = description ?? model.fields[name]?.verbose_name;
+              const active = name === ordering?.replace(/^-/, "");
+              const descending = !!ordering?.startsWith("-");
+              const isSortable =
+                R.isNil(sortable_by) || sortable_by.includes(name);
+
+              return (
+                <TableHead key={name} className="sticky top-0 z-10">
+                  {label && isSortable ? (
+                    <button
+                      onClick={() =>
+                        setSearchParams((searchParams) => {
+                          if (!active) {
+                            searchParams.set("ordering", name);
+                            return searchParams;
+                          }
+
+                          if (descending) {
+                            searchParams.delete("ordering");
+                            return searchParams;
+                          }
+
+                          searchParams.set("ordering", `-${name}`);
+
+                          return searchParams;
+                        })
+                      }
+                      className={cn(
+                        "group inline-flex items-center gap-1 hover:bg-gray-50 p-1 -mx-1 rounded-md cursor-pointer",
+                      )}
+                    >
+                      <span>{label}</span>
+                      <span
+                        className={cn({
+                          "invisible group-hover:visible": !active,
+                        })}
+                      >
+                        {descending || !active ? (
+                          <PiArrowUpBold />
+                        ) : (
+                          <PiArrowDownBold />
+                        )}
+                      </span>
+                    </button>
+                  ) : (
+                    label
+                  )}
+                </TableHead>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
           {R.isEmpty(items) && (
             <TableRow>
-              <TableCell
-                colSpan={fields.length}
-                className="text-center py-12 text-gray-700"
-              >
-                {t("list_view.empty_state")}
+              <TableCell colSpan={fields.length} className="text-center py-12">
+                <span className="font-normal text-gray-500">
+                  {t("list_view.empty_state")}
+                </span>
               </TableCell>
             </TableRow>
           )}
