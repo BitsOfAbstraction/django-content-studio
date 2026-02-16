@@ -60,7 +60,9 @@
     "empty_state": "Nog geen items"
   },
   "list_view": {
-    "empty_state": "Nog geen items"
+    "empty_state": "Nog geen items",
+    "filter": "Filteren",
+    "clear_all_filters": "Alle filters wissen"
   },
   "media_library": {
     "title": "Mediabibliotheek",

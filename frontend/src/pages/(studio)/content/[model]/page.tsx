@@ -22,25 +22,23 @@ export function ModelListPage() {
   const http = useHttp();
   const { data: discover } = useDiscover();
   const model = discover?.models.find(R.whereEq({ label: appLabel }));
-  const [view, setView] = useState<"list" | "grid">("list");
+  const [view, _] = useState<"list" | "grid">("list");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? "1");
   const ordering = searchParams.get("ordering");
-  const [filters, setFilters] = useState<{ search: string }>({
-    search: "",
-  });
+  const search = searchParams.get("search");
   const { data } = useQuery({
     retry: false,
     enabled: !R.isNil(model),
-    queryKey: ["resources", appLabel, filters, page, ordering],
+    queryKey: ["resources", appLabel, { search, page, ordering }],
     placeholderData: keepPreviousData,
     async queryFn() {
       const { data } = await http.get<PaginatedResponse<Resource>>(
         `/content/${appLabel}`,
         {
           params: {
-            search: filters.search,
-            filters: R.omit(["search"], filters),
+            search: search || undefined,
+            filters: {},
             page,
             ordering,
           },
@@ -78,7 +76,7 @@ export function ModelListPage() {
       </div>
 
       <div className="px-8 py-2 border-b border-b-gray-200">
-        <Filters model={model} filters={filters} onFilterChange={setFilters} />
+        <Filters model={model} />
       </div>
       {view === "list" ? <ListView items={data.results} model={model} /> : null}
       <div className="py-2 border-t border-gray-200 flex items-center justify-center">

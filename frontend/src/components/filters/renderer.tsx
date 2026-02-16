@@ -2,33 +2,34 @@ import * as R from "ramda";
 import { useMemo } from "react";
 
 import { useAdminInfo } from "@/hooks/use-admin-info";
-import { FieldWidget, type Model } from "@/types";
+import { FieldWidget, type ModelField } from "@/types";
 
 import { MultiSelectFilter } from "./multi-select-filter";
 
 export function FilterRenderer({
-  fieldName,
-  model,
+  field,
   value,
   onValueChange,
 }: {
-  fieldName: string;
-  model: Model;
-  value: unknown;
-  onValueChange(value: unknown): void;
+  field: ModelField;
+  value: string;
+  onValueChange(value: string): void;
 }) {
   const { data: info } = useAdminInfo();
-  const field = model.fields[fieldName];
-  const widgetClass =
-    field.widget_class ?? info?.widgets[field.type]?.name ?? null;
+  const widgetClass = field.widget_class ?? info?.widgets[field.type]?.name;
 
   const FilterComp = useMemo(
     () =>
       R.cond([
+        [
+          () =>
+            widgetClass === FieldWidget.InputWidget && !R.isNil(field.choices),
+          R.always(MultiSelectFilter),
+        ],
         [R.equals(FieldWidget.MultiSelectWidget), R.always(MultiSelectFilter)],
         [R.T, R.always(null)],
       ])(widgetClass),
-    [widgetClass],
+    [field.choices, widgetClass],
   );
 
   return (

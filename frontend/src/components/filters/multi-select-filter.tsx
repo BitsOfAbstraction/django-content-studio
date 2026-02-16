@@ -1,30 +1,34 @@
-import * as R from "ramda";
-
-import { MultiSelect } from "@/components/ui/multi-select";
+import { DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu.tsx";
 import type { ModelField } from "@/types";
 
 export function MultiSelectFilter({
   field,
-  value = [],
+  value = "",
   onChange,
 }: {
   field: ModelField;
-  onChange(value: any): void;
-  value?: any;
+  onChange(value: string): void;
+  value?: string;
 }) {
-  const options = R.fromPairs(field.choices ?? []);
+  const valueArray = value.split(",");
 
-  return (
-    <MultiSelect
-      hidePlaceholderWhenSelected
-      options={
-        field.choices?.map(([value, label]) => ({
-          label,
-          value,
-        })) ?? []
-      }
-      value={value.map((value: string) => ({ value, label: options[value] }))}
-      onChange={(options) => onChange(options.map(R.prop("value")))}
-    />
-  );
+  return field.choices?.map(([key, label]) => (
+    <DropdownMenuCheckboxItem
+      key={key}
+      checked={valueArray.includes(key)}
+      onSelect={(e) => {
+        e.preventDefault();
+        onChange(
+          (valueArray.includes(key)
+            ? valueArray.filter((i) => i !== key)
+            : [...valueArray, key]
+          )
+            .filter(Boolean)
+            .join(","),
+        );
+      }}
+    >
+      {label}
+    </DropdownMenuCheckboxItem>
+  ));
 }

@@ -60,7 +60,9 @@
     "empty_state": "No items yet"
   },
   "list_view": {
-    "empty_state": "No items yet"
+    "empty_state": "No items yet",
+    "filter": "Filter",
+    "clear_all_filters": "Clear all filters"
   },
   "media_library": {
     "title": "Media library",
