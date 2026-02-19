@@ -129,14 +129,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-blueprint"
-version = "1.0.0b1"
+version = "1.0.0b2"
 description = "Blueprint is a modular CMS for Django."
 optional = false
 python-versions = ">=3.12"
 groups = ["main"]
 files = [
-    {file = "django_blueprint-1.0.0b1-py3-none-any.whl", hash = "sha256:42cbce8528e6efa08744ff2ef5a7b233b4dff02f552ba56f81bc67dcc8c8c6e1"},
-    {file = "django_blueprint-1.0.0b1.tar.gz", hash = "sha256:dd40a467821e9bb51035779113ecdb8a105560b9f2bb6888d3009246a715c7e2"},
+    {file = "django_blueprint-1.0.0b2-py3-none-any.whl", hash = "sha256:7ddbceb4d5b8cbc082b83e655c0dce8e4728df521df0115a3e2001ae28d0dcc9"},
+    {file = "django_blueprint-1.0.0b2.tar.gz", hash = "sha256:5d2da8b87ff2b505ca08f62d0916a2bfbddf4a0a0789267d4b988e7503f6eedf"},
 ]
 
 [package.dependencies]
@@ -498,4 +498,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "a9f8e1127a8311ae2d48d2627f52a38b4c06086195626b4eb7b97ffd45209bef"
+content-hash = "1b2b9a26cbedf87992d00acd459954a22ae044e579ea63cc4618a0eaacad5110"
