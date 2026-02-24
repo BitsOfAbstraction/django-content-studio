@@ -20,6 +20,11 @@ class MediaItemSerializer(serializers.ModelSerializer):
 
 
 class MediaFolderSerializer(serializers.ModelSerializer):
+    has_children = serializers.SerializerMethodField()
+
     class Meta:
         model = cs_settings.MEDIA_LIBRARY_FOLDER_MODEL
-        fields = ["id", "name", "parent"]
+        fields = ["id", "name", "parent", "has_children"]
+
+    def get_has_children(self, obj):
+        return obj.children.exists()

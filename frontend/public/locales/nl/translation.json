@@ -11,6 +11,7 @@
     "edit": "Bewerken",
     "continue": "Doorgaan",
     "rename": "Hernoemen",
+    "move": "Verplaatsen",
     "delete_confirm_title": "Weet je het zeker?",
     "delete_confirm_description": "Deze actie kan niet ongedaan gemaakt worden. Weet je zeker dat je dit wilt verwijderen?"
   },
@@ -70,6 +71,8 @@
     "description": "Beheer je media-bestanden hier.",
     "new_folder": "Nieuwe map",
     "within_folder": "In huidige map",
+    "move_here": "Verplaats naar deze map",
+    "root_folder": "Hoofdmap",
     "file_types": {
       "file": "Bestand",
       "image": "Afbeelding",

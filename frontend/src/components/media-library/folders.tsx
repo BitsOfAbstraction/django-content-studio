@@ -59,6 +59,7 @@ export function Folders({
         )}
         {data?.results.map((folder) => (
           <Folder
+            key={folder.id}
             folder={folder}
             onSelect={() => {
               setPage(1);

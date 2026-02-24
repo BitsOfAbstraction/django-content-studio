@@ -2,7 +2,12 @@ import bytes from "bytes";
 import * as R from "ramda";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PiFileBold } from "react-icons/pi";
+import {
+  PiFileBold,
+  PiFolderBold,
+  PiFoldersBold,
+  PiHouseBold,
+} from "react-icons/pi";
 import { toast } from "sonner";
 
 import { ItemEdit } from "@/components/media-library/item-edit.tsx";
@@ -10,10 +15,16 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import useConfirmDialog from "@/hooks/use-confirm-dialog.ts";
 import { useDeleteMedia } from "@/hooks/use-delete-media";
+import { useListFolder } from "@/hooks/use-list-folder.ts";
+import { useUpdateMedia } from "@/hooks/use-update-media.ts";
 import { cn, getErrorMessage } from "@/lib/utils";
 import type { MediaItem } from "@/types.ts";
 
@@ -27,7 +38,8 @@ export function ItemCard({
   item: MediaItem;
 } & React.ComponentProps<"button">) {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useDeleteMedia();
+  const { mutateAsync: deleteMedia, isPending } = useDeleteMedia();
+  const { mutateAsync: updateMedia } = useUpdateMedia();
   const confirm = useConfirmDialog();
   const [edit, setEdit] = useState(false);
 
@@ -96,6 +108,16 @@ export function ItemCard({
         <ContextMenuItem onSelect={() => setEdit(true)}>
           {t("common.edit")}
         </ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>{t("common.move")}</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <FolderMenu
+              parent={null}
+              onSelect={(folder) => updateMedia({ ...item, folder })}
+            />
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
         <ContextMenuItem
           className="text-destructive"
           onSelect={async () => {
@@ -111,7 +133,7 @@ export function ItemCard({
             const id = toast.loading(t("common.deleting"));
 
             try {
-              await mutateAsync(item.id);
+              await deleteMedia(item.id);
               toast.success(t("common.deleted"), { id });
             } catch (e: any) {
               toast.error(getErrorMessage(e), { id });
@@ -122,5 +144,52 @@ export function ItemCard({
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
+  );
+}
+
+function FolderMenu({
+  parent,
+  onSelect,
+}: {
+  parent: string | null;
+  onSelect(id: string | null): void;
+}) {
+  const { t } = useTranslation();
+  const { data: folders } = useListFolder({ parent, limit: 1000 });
+
+  return (
+    <>
+      {!parent && (
+        <>
+          <ContextMenuItem onSelect={() => onSelect(null)}>
+            <PiHouseBold className="size-3.5" />
+            {t("media_library.root_folder")}
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+        </>
+      )}
+      {folders?.results.map((folder) =>
+        folder.has_children ? (
+          <ContextMenuSub key={folder.id}>
+            <ContextMenuSubTrigger>
+              <PiFoldersBold className="mr-2 size-3.5" />
+              {folder.name}
+            </ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              <ContextMenuItem onSelect={() => onSelect(folder.id)}>
+                {t("media_library.move_here")}
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <FolderMenu parent={folder.id} onSelect={onSelect} />
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        ) : (
+          <ContextMenuItem key={folder.id} onSelect={() => onSelect(folder.id)}>
+            <PiFolderBold className="size-3.5" />
+            {folder.name}
+          </ContextMenuItem>
+        ),
+      )}
+    </>
   );
 }

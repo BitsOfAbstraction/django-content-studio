@@ -11,6 +11,7 @@
     "edit": "Edit",
     "continue": "Continue",
     "rename": "Rename",
+    "move": "Move",
     "delete_confirm_title": "Are you sure?",
     "delete_confirm_description": "This action cannot be undone. Are you sure you want to delete?"
   },
@@ -70,6 +71,8 @@
     "description": "Manage your media files here.",
     "new_folder": "New folder",
     "within_folder": "In current folder",
+    "move_here": "Move to this folder",
+    "root_folder": "Root folder",
     "file_types": {
       "file": "File",
       "image": "Image",

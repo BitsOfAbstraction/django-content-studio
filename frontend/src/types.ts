@@ -241,6 +241,7 @@ export interface CropValue {
 
 export interface MediaItem {
   id: string;
+  folder: string | null;
   name: string;
   thumbnail: string;
   file: string;
