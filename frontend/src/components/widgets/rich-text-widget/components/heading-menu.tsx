@@ -1,4 +1,4 @@
-import type { Editor } from "@tiptap/core";
+import { useEditorState, useTiptap } from "@tiptap/react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -22,15 +22,20 @@ const NODE_TYPES = [
   "codeBlock",
 ];
 
-export function HeadingMenu({ editor }: { editor: Editor }) {
+export function HeadingMenu() {
   const { t } = useTranslation();
-  const value = editor ? getNodeType(editor) : undefined;
+  const { editor } = useTiptap();
+  const value = useEditorState({
+    editor,
+    selector: ({ editor }) => getNodeType(editor),
+  });
 
   return (
     <Select
       value={value}
       onValueChange={(nodeType) => {
         const baseCommands = editor!.chain().focus().clearNodes();
+
         if (nodeType.startsWith("heading")) {
           baseCommands
             .setHeading({ level: Number(nodeType.at(-1)) as any })

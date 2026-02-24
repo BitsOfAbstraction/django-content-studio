@@ -105,6 +105,8 @@ class PasswordResetSubmissionView(APIView):
 
         user.set_password(password)
 
+        user.save()
+
         existing.delete()
 
         try:

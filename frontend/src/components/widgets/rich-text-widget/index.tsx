@@ -1,27 +1,23 @@
 import "./rich-text.css";
 
-import Blockquote from "@tiptap/extension-blockquote";
 import { Image } from "@tiptap/extension-image";
-import { Link } from "@tiptap/extension-link";
 import { Typography } from "@tiptap/extension-typography";
-import { Underline } from "@tiptap/extension-underline";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { Tiptap, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { useEffect } from "react";
 
 import { FormattingMenu } from "./components/formatting-menu";
 
 const extensions = [
-  StarterKit,
+  StarterKit.configure({
+    link: { autolink: true, linkOnPaste: true, openOnClick: false },
+  }),
   Typography,
-  Link.configure({ autolink: true, linkOnPaste: true, openOnClick: false }),
-  Underline,
   Image.configure({
     HTMLAttributes: {
       class: "rich-text-image",
     },
   }),
-  Blockquote.configure(),
 ];
 
 export function RichTextWidget({ value, onChange, disabled }: RichtTextProps) {
@@ -49,12 +45,14 @@ export function RichTextWidget({ value, onChange, disabled }: RichtTextProps) {
   }, [value, editor]);
 
   return (
-    <div className="border border-solid rounded-md bg-background focus-within:border-ring">
-      <FormattingMenu editor={editor} />
-      <div className="max-h-[600px] overflow-y-auto scrollbar">
-        <EditorContent editor={editor} />
+    <Tiptap editor={editor}>
+      <div className="border border-solid rounded-md bg-background focus-within:border-ring">
+        <FormattingMenu />
+        <div className="max-h-[600px] overflow-y-auto scrollbar">
+          <Tiptap.Content />
+        </div>
       </div>
-    </div>
+    </Tiptap>
   );
 }
 
