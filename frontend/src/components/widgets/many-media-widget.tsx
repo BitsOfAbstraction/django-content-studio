@@ -47,7 +47,7 @@ export function ManyMediaWidget({
       ))}
 
       <SelectDialog
-        multiple={!!field.multiple}
+        multiple
         onSelect={(v) => onChange?.([...(value ?? []), ...v])}
       >
         <button className="cursor-pointer aspect-square flex flex-col gap-1 items-center justify-center border border-dashed border-stone-300 hover:border-stone-400 text-stone-400 text-center text-sm font-medium rounded-md p-1">

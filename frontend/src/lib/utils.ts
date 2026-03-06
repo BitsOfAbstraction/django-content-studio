@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getErrorMessage = R.pipe(
   R.path(["response", "data"]),
-  R.when(Array.isArray, R.head),
-  R.when(R.isNil, R.prop("detail")),
+  R.ifElse(Array.isArray, R.head, R.prop("detail")),
   R.defaultTo("Error"),
 );
