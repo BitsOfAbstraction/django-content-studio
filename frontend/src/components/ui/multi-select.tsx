@@ -4,6 +4,7 @@ import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 import { forwardRef, useEffect } from "react";
+import { PiXBold } from "react-icons/pi";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,7 +14,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import { PiXBold } from "react-icons/pi";
 
 export interface Option {
   value: string;

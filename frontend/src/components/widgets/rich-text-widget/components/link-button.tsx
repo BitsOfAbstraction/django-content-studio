@@ -1,4 +1,5 @@
 import type { Editor } from "@tiptap/core";
+import { useEditorState, useTiptap } from "@tiptap/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PiLinkBold } from "react-icons/pi";
@@ -17,7 +18,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useEditorState, useTiptap } from "@tiptap/react";
 
 export function LinkButton() {
   const { t } = useTranslation();

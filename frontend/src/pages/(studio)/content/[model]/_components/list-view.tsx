@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import { useTranslation } from "react-i18next";
+import { PiArrowDownBold, PiArrowUpBold } from "react-icons/pi";
 import { useNavigate, useSearchParams } from "react-router";
 
 import { FormatRenderer } from "@/components/formats/renderer";
@@ -11,9 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Model } from "@/types";
 import { cn } from "@/lib/utils.ts";
-import { PiArrowDownBold, PiArrowUpBold } from "react-icons/pi";
+import type { Model } from "@/types";
 
 export function ListView({
   items,

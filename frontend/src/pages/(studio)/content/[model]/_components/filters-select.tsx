@@ -1,9 +1,11 @@
+import * as R from "ramda";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PiFunnelBold } from "react-icons/pi";
-import * as R from "ramda";
+import { useSearchParams } from "react-router";
 
+import { FilterRenderer } from "@/components/filters/renderer.tsx";
 import { Button } from "@/components/ui/button";
-import { type Model } from "@/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { FilterRenderer } from "@/components/filters/renderer.tsx";
-import { useState } from "react";
-import { useSearchParams } from "react-router";
+import { type Model } from "@/types";
 
 export function FiltersSelect({ model }: { model: Model }) {
   const { t } = useTranslation();

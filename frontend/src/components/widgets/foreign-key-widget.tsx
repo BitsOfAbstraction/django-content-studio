@@ -5,6 +5,12 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
 
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import {
   Popover,
@@ -13,12 +19,6 @@ import {
 } from "@/components/ui/popover.tsx";
 import { useHttp } from "@/hooks/use-http.ts";
 import type { Model, Resource } from "@/types.ts";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command.tsx";
 
 export function ForeignKeyWidget({
   name,
