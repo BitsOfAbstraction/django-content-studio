@@ -1,5 +1,4 @@
 import type { Editor } from "@tiptap/core";
-import * as R from "ramda";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PiLinkBold } from "react-icons/pi";
@@ -18,11 +17,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useEditorState, useTiptap } from "@tiptap/react";
 
-export function LinkButton({ editor }: { editor: Editor }) {
+export function LinkButton() {
   const { t } = useTranslation();
   const [edit, setEdit] = useState(false);
-  const hasSelection = !R.isNil(editor.view.state.selection.content().toJSON());
+  const { editor } = useTiptap();
 
   return (
     <>
@@ -36,12 +36,7 @@ export function LinkButton({ editor }: { editor: Editor }) {
             : t("widgets.rich_text_widget.set_link")}
         </TooltipContent>
         <TooltipTrigger asChild>
-          <Button
-            size="sm"
-            variant="ghost"
-            disabled={!hasSelection && !editor.isActive("link")}
-            onClick={() => setEdit(true)}
-          >
+          <Button size="sm" variant="ghost" onClick={() => setEdit(true)}>
             <PiLinkBold />
           </Button>
         </TooltipTrigger>
@@ -59,7 +54,10 @@ const LinkEditDialog = ({
 }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(editor.getAttributes("link").href ?? "");
-  const isEdit = editor.isActive("link");
+  const isEdit = useEditorState({
+    editor,
+    selector: ({ editor }) => editor.isActive("link"),
+  });
 
   return (
     <Dialog
@@ -103,12 +101,18 @@ const LinkEditDialog = ({
           </Button>
           <Button
             onClick={() => {
-              editor
-                .chain()
-                .focus()
-                .extendMarkRange("link")
-                .setLink({ href: value })
-                .run();
+              let commands = editor.chain().focus();
+
+              if (editor.isActive("link")) {
+                commands = commands.extendMarkRange("link");
+              } else if (editor.state.selection.empty) {
+                const { from } = editor.state.selection;
+                commands = commands
+                  .insertContent(value)
+                  .setTextSelection({ from, to: from + value.length });
+              }
+
+              commands.setLink({ href: value }).run();
               onClose();
             }}
           >
