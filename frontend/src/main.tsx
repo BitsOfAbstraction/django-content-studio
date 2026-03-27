@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import { App } from "@/app";
 import { AuthGuard, AuthProvider } from "@/auth";
+import { ThemeProvider } from "@/components/theme-provider";
 import { ForgotPasswordPage } from "@/pages/(auth)/forgot-password/page";
 import { AuthLayout } from "@/pages/(auth)/layout";
 import { LoginPage } from "@/pages/(auth)/login/page";
@@ -87,7 +88,9 @@ const root = document.getElementById("root")!;
 ReactDOM.createRoot(root).render(
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </AuthProvider>
   </QueryClientProvider>,
 );

@@ -42,13 +42,13 @@ export function MainMenu() {
     ) ?? [];
 
   return (
-    <nav className="w-[240px] shrink-0 flex flex-col bg-gray-50">
+    <nav className="w-[240px] shrink-0 flex flex-col bg-muted">
       {adminInfo && !tenant && (
         <div className="flex items-center gap-2 px-4 py-3 select-none">
           <div className="bg-gradient-to-tl from-gray-900 to-gray-600 size-5 rounded flex items-center justify-center text-white font-black shrink-0">
             {adminInfo.site_header[0]}
           </div>
-          <h2 className="line-clamp-1 break-all text-base font-semibold text-gray-800">
+          <h2 className="line-clamp-1 break-all text-base font-semibold text-foreground">
             {adminInfo.site_header}
           </h2>
         </div>
@@ -125,10 +125,10 @@ export function MainMenu() {
               className="p-0 w-(--radix-dropdown-menu-trigger-width)"
             >
               <div className="px-4 py-2 border-b leading-tight">
-                <div className="text-gray-700 font-semibold">
+                <div className="text-foreground font-semibold">
                   {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
                 </div>
-                <div className="text-sm text-gray-500 font-medium">
+                <div className="text-xs text-muted-foreground font-medium">
                   {me.username}
                 </div>
               </div>
@@ -146,15 +146,15 @@ export function MainMenu() {
                 </DropdownMenuGroup>
               </div>
               {adminInfo && (
-                <div className="px-4 py-2 bg-gray-100 border-t cursor-default">
-                  <div className="text-sm font-medium text-gray-700 text-center">
+                <div className="px-4 py-2 bg-accent border-t cursor-default">
+                  <div className="text-xs font-medium text-foreground text-center">
                     {adminInfo.site_title}
                   </div>
                   <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
                 </div>
               )}
             </DropdownMenuContent>
-            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-gray-100 data-[state=open]:bg-gray-100 p-2 rounded-md select-none hover:cursor-pointer">
+            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-foreground/5 data-[state=open]:bg-foreground/5 p-2 rounded-md select-none hover:cursor-pointer">
               <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
                 {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
                   .trim()
@@ -164,10 +164,12 @@ export function MainMenu() {
                 <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
               </div>
               <div>
-                <div className="text-gray-700 truncate text-sm/tight font-medium">
+                <div className="text-foreground truncate text-sm/tight font-medium">
                   {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
                 </div>
-                <div className="text-xs/tight text-gray-500">{me.username}</div>
+                <div className="text-xs/tight text-muted-foreground">
+                  {me.username}
+                </div>
               </div>
             </DropdownMenuTrigger>
           </DropdownMenu>
@@ -227,9 +229,9 @@ function MenuItem({
         // @ts-expect-error due to mixed component
         to={to ?? undefined}
         className={cn(
-          "group flex items-center w-full font-medium gap-2.5 h-8 px-2 hover:bg-gray-100 rounded hover:cursor-pointer",
+          "group flex items-center w-full font-medium gap-2.5 h-8 px-2 hover:bg-foreground/5 rounded hover:cursor-pointer",
           {
-            "bg-gray-100": !R.isNil(to) && match,
+            "bg-foreground/5": !R.isNil(to) && match,
           },
         )}
         onClick={() => {
@@ -242,7 +244,7 @@ function MenuItem({
           <span
             className={cn(
               "size-5 rounded flex items-center justify-center",
-              color ? COLORS[color] : "text-gray-500",
+              color ? COLORS[color] : "text-muted-foreground",
             )}
           >
             {typeof icon === "string" ? <span className={cn(icon)} /> : icon}
@@ -251,14 +253,14 @@ function MenuItem({
         <span
           className={cn(
             "flex items-center justify-between flex-1",
-            isSubItem ? "text-gray-600" : "text-gray-800",
+            isSubItem ? "text-muted-foreground" : "text-foreground",
           )}
         >
           <span className="first-letter:uppercase line-clamp-1 break-all">
             {label}
           </span>
           {children ? (
-            <div className="group-hover:bg-gray-200 p-1 rounded">
+            <div className="group-hover:bg-foreground/5 p-1 rounded">
               {collapsed ? <PiCaretDownBold /> : <PiCaretRightBold />}
             </div>
           ) : null}
