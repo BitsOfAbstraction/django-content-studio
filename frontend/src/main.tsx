@@ -75,7 +75,11 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: import.meta.env.PROD && (window as any).DCS_BASENAME },
+  {
+    basename: import.meta.env.PROD
+      ? (window as typeof window & { DCS_BASENAME: string }).DCS_BASENAME
+      : "",
+  },
 );
 
 const root = document.getElementById("root")!;
