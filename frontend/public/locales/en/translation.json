@@ -50,7 +50,8 @@
     "dashboard": "Dashboard",
     "media_library": "Media library",
     "settings": "Settings",
-    "log_out": "Log out"
+    "log_out": "Log out",
+    "theme": "Theme"
   },
   "editor": {
     "title_create": "Create {{modelName}}",

@@ -19,6 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAdminInfo } from "@/hooks/use-admin-info";
@@ -32,8 +33,11 @@ import {
 } from "@/components/ui/tooltip";
 import { useTenant } from "@/tenant";
 import { ExtensionType, type TailwindColor } from "@/types";
+import { useTheme } from "@/components/theme-provider";
 
 import { TenantSelector } from "./tenant-selector";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { LucideMonitorCog, LucideMoon, LucideSun } from "lucide-react";
 
 const CollapsedContext = createContext(false);
 const ExpandedContext = createContext<{
@@ -282,6 +286,7 @@ function UserMenu() {
   const { setToken } = useAuth();
   const { data: me } = useMe();
   const { data: adminInfo } = useAdminInfo();
+  const { theme, setTheme } = useTheme();
   const menuCollapsed = useContext(CollapsedContext);
 
   return (
@@ -306,6 +311,31 @@ function UserMenu() {
             </div>
             <div className="p-1.5">
               <DropdownMenuGroup>
+                <div className="flex items-center justify-between pl-2">
+                  <span>{t("main_menu.theme")}</span>
+                  <ToggleGroup
+                    type="single"
+                    value={theme}
+                    size="sm"
+                    variant="outline"
+                    onValueChange={(value) => {
+                      if (value) {
+                        setTheme(value);
+                      }
+                    }}
+                  >
+                    <ToggleGroupItem value="system">
+                      <LucideMonitorCog />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="light">
+                      <LucideSun />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="dark">
+                      <LucideMoon />
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </div>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => {
                     setToken(null);
