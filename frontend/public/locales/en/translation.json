@@ -106,10 +106,20 @@
     }
   },
   "dashboard": {
+    "greetings": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
     "widgets": {
       "activity_log": {
         "title": "Activity log",
-        "subtitle": "Latest updates from your team"
+        "subtitle": "Latest updates from your team",
+        "action_flags": {
+          "1": "added",
+          "2": "edited",
+          "3": "deleted"
+        }
       },
       "scheduled_tasks": {
         "empty": "No scheduled tasks",
@@ -120,7 +130,20 @@
           "SCHEDULED": "Scheduled",
           "FAILURE": "Failed"
         }
+      },
+      "content_list": {
+        "empty_state": "No items"
       }
     }
+  },
+  "tenant": {
+    "selector": {
+      "add": "Add new"
+    },
+    "setup": {
+      "title": "Create your first {{tenant}}",
+      "model_not_found": "No admin model found for {{tenant}}. Add an admin model or manually create a {{tenant}}."
+    },
+    "shared_message": "{{content_type}} are shared between all {{tenant}}."
   }
 }

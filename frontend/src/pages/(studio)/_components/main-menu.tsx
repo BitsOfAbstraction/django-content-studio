@@ -43,10 +43,7 @@ const ExpandedContext = createContext<{
 
 export function MainMenu() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { setToken } = useAuth();
   const { data: adminInfo } = useAdminInfo();
-  const { data: me } = useMe();
   const { data: discover } = useDiscover();
   const { enabled: tenant } = useTenant();
   const [collapsed, setCollapsed] = useState(
@@ -160,75 +157,7 @@ export function MainMenu() {
               </MenuItem>
             ))}
           </div>
-          <div className="p-2">
-            {me && (
-              <DropdownMenu>
-                <DropdownMenuContent
-                  side="top"
-                  align="start"
-                  className={cn(
-                    "p-0",
-                    !collapsed && "w-(--radix-dropdown-menu-trigger-width)",
-                  )}
-                >
-                  <div className="px-4 py-2 border-b leading-tight">
-                    <div className="text-foreground font-semibold">
-                      {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
-                    </div>
-                    <div className="text-xs text-muted-foreground font-medium">
-                      {me.username}
-                    </div>
-                  </div>
-                  <div className="p-1.5">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setToken(null);
-                          navigate("/login");
-                        }}
-                      >
-                        {t("main_menu.log_out")}
-                        <PiSignOutBold />
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </div>
-                  {adminInfo && (
-                    <div className="px-4 py-2 bg-accent border-t cursor-default">
-                      <div className="text-xs font-medium text-foreground text-center">
-                        {adminInfo.site_title}
-                      </div>
-                      <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
-                    </div>
-                  )}
-                </DropdownMenuContent>
-                <DropdownMenuTrigger
-                  className={cn(
-                    "flex items-center text-left w-full hover:bg-foreground/5 data-[state=open]:bg-foreground/5 p-2 rounded-md select-none hover:cursor-pointer",
-                    collapsed ? "justify-center" : "gap-3",
-                  )}
-                >
-                  <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
-                    {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
-                      .trim()
-                      .replace(/\s/g, "")
-                      .slice(0, 2)
-                      .toUpperCase()}
-                    <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
-                  </div>
-                  {!collapsed && (
-                    <div>
-                      <div className="text-foreground truncate text-sm/tight font-medium">
-                        {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
-                      </div>
-                      <div className="text-xs/tight text-muted-foreground">
-                        {me.username}
-                      </div>
-                    </div>
-                  )}
-                </DropdownMenuTrigger>
-              </DropdownMenu>
-            )}
-          </div>
+          <UserMenu />
         </nav>
       </CollapsedContext>
     </ExpandedContext>
@@ -344,5 +273,86 @@ function MenuItem({
         <div className={cn({ "pl-3": !menuCollapsed })}>{children}</div>
       ) : null}
     </>
+  );
+}
+
+function UserMenu() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { setToken } = useAuth();
+  const { data: me } = useMe();
+  const { data: adminInfo } = useAdminInfo();
+  const menuCollapsed = useContext(CollapsedContext);
+
+  return (
+    <div className="p-2">
+      {me && (
+        <DropdownMenu>
+          <DropdownMenuContent
+            side="top"
+            align="start"
+            className={cn(
+              "p-0",
+              !menuCollapsed && "w-(--radix-dropdown-menu-trigger-width)",
+            )}
+          >
+            <div className="px-4 py-2 border-b leading-tight">
+              <div className="text-foreground font-semibold">
+                {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+              </div>
+              <div className="text-xs text-muted-foreground font-medium">
+                {me.username}
+              </div>
+            </div>
+            <div className="p-1.5">
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setToken(null);
+                    navigate("/login");
+                  }}
+                >
+                  {t("main_menu.log_out")}
+                  <PiSignOutBold />
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </div>
+            {adminInfo && (
+              <div className="px-4 py-2 bg-accent border-t cursor-default">
+                <div className="text-xs font-medium text-foreground text-center">
+                  {adminInfo.site_title}
+                </div>
+                <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
+              </div>
+            )}
+          </DropdownMenuContent>
+          <DropdownMenuTrigger
+            className={cn(
+              "flex items-center text-left w-full hover:bg-foreground/5 data-[state=open]:bg-foreground/5 p-2 rounded-md select-none hover:cursor-pointer",
+              menuCollapsed ? "justify-center" : "gap-3",
+            )}
+          >
+            <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
+              {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
+                .trim()
+                .replace(/\s/g, "")
+                .slice(0, 2)
+                .toUpperCase()}
+              <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
+            </div>
+            {!menuCollapsed && (
+              <div>
+                <div className="text-foreground truncate text-sm/tight font-medium">
+                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+                </div>
+                <div className="text-xs/tight text-muted-foreground">
+                  {me.username}
+                </div>
+              </div>
+            )}
+          </DropdownMenuTrigger>
+        </DropdownMenu>
+      )}
+    </div>
   );
 }

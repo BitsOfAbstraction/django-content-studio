@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
-import { Spinner } from "@/components/ui/spinner.tsx";
+import { Spinner } from "@/components/ui/spinner";
 import { useHttp } from "@/hooks/use-http";
 import { type ActivityLogEntry, type DashboardWidget } from "@/types";
 
@@ -27,10 +27,10 @@ export function ActivityLogWidget({ widget }: { widget: DashboardWidget }) {
   return (
     <div>
       <div className="p-4 leading-tight">
-        <h2 className="font-medium text-gray-900">
+        <h2 className="font-medium">
           {t("dashboard.widgets.activity_log.title")}
         </h2>
-        <div className="text-gray-500">
+        <div className="text-muted-foreground">
           {t("dashboard.widgets.activity_log.subtitle")}
         </div>
       </div>
@@ -45,11 +45,11 @@ export function ActivityLogWidget({ widget }: { widget: DashboardWidget }) {
               key={item.id}
               className="flex items-center gap-2 border-t px-4 py-2"
             >
-              <div className="shrink-0 rounded-full text-xs bg-gray-200 size-6 flex items-center justify-center font-semibold uppercase select-none">
+              <div className="shrink-0 rounded-full text-xs bg-accent size-6 flex items-center justify-center font-semibold uppercase select-none">
                 {item.user?.__str__.slice(0, 2)}
               </div>
               <div>
-                <div className="flex gap-1 text-gray-700">
+                <div className="flex gap-1">
                   <div>{item.user?.__str__}</div>
                   <div>
                     {t(
@@ -71,7 +71,7 @@ export function ActivityLogWidget({ widget }: { widget: DashboardWidget }) {
                     )}
                   </div>
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-muted-foreground">
                   {dayjs(item.action_time).fromNow()}
                 </div>
               </div>
