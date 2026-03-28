@@ -3,9 +3,13 @@ import {
   PiCaretRightBold,
   PiDotsThreeBold,
 } from "react-icons/pi";
-import ReactPaginate from "react-paginate";
+import ReactPaginateModule from "react-paginate";
 
 import { Button, buttonVariants } from "@/components/ui/button";
+
+const ReactPaginate = (
+  ReactPaginateModule as unknown as { default: typeof ReactPaginateModule }
+).default;
 
 function Pagination({
   current,

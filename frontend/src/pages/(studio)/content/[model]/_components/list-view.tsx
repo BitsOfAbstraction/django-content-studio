@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 import type { Model } from "@/types";
 
 export function ListView({
@@ -65,7 +65,7 @@ export function ListView({
                         })
                       }
                       className={cn(
-                        "group inline-flex items-center gap-1 hover:bg-gray-50 p-1 -mx-1 rounded-md cursor-pointer",
+                        "group inline-flex items-center gap-1 hover:bg-foreground/10 p-1 -mx-1 rounded-md cursor-pointer",
                       )}
                     >
                       <span>{label}</span>
@@ -93,7 +93,7 @@ export function ListView({
           {R.isEmpty(items) && (
             <TableRow>
               <TableCell colSpan={fields.length} className="text-center py-12">
-                <span className="font-normal text-gray-500">
+                <span className="font-normal text-muted-foreground">
                   {t("list_view.empty_state")}
                 </span>
               </TableCell>

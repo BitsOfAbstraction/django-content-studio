@@ -62,7 +62,7 @@ export function Main({
             {formSetGroup.formsets.map((formSet, idx) => (
               <section
                 key={idx}
-                className="border p-4 bg-white rounded-lg border-gray-200 w-full"
+                className="border p-4 bg-card rounded-lg w-full"
               >
                 <FormSet
                   model={model}

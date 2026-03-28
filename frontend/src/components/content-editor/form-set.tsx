@@ -17,9 +17,7 @@ export function FormSet({
     <div>
       <div className="mb-3 empty:hidden">
         {formSet.title && (
-          <h4 className="font-semibold text-xl text-gray-700">
-            {formSet.title}
-          </h4>
+          <h4 className="font-semibold text-xl">{formSet.title}</h4>
         )}
         {formSet.description ? (
           <div className="text-sm text-muted-foreground">

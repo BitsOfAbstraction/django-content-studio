@@ -10,7 +10,7 @@ import {
 } from "react-icons/pi";
 import { toast } from "sonner";
 
-import { ItemEdit } from "@/components/media-library/item-edit.tsx";
+import { ItemEdit } from "@/components/media-library/item-edit";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -21,10 +21,10 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import useConfirmDialog from "@/hooks/use-confirm-dialog.ts";
+import useConfirmDialog from "@/hooks/use-confirm-dialog";
 import { useDeleteMedia } from "@/hooks/use-delete-media";
-import { useListFolder } from "@/hooks/use-list-folder.ts";
-import { useUpdateMedia } from "@/hooks/use-update-media.ts";
+import { useListFolder } from "@/hooks/use-list-folder";
+import { useUpdateMedia } from "@/hooks/use-update-media";
 import { cn, getErrorMessage } from "@/lib/utils";
 import type { MediaItem } from "@/types.ts";
 
@@ -57,7 +57,7 @@ export function ItemCard({
             setEdit(true);
           }}
           className={cn(
-            "cursor-pointer border rounded-md bg-white p-2 data-[state=open]:border-gray-400 flex flex-col",
+            "cursor-pointer border rounded-md bg-card p-2 data-[state=open]:border-ring flex flex-col",
             {
               "animate-pulse pointer-events-none select-none": isPending,
             },

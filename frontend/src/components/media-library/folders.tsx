@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { PiFolder } from "react-icons/pi";
 
 import { CreateFolderButton } from "@/components/media-library/create-folder-button";
-import { EditFolder } from "@/components/media-library/edit-folder.tsx";
+import { EditFolder } from "@/components/media-library/edit-folder";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -36,7 +36,7 @@ export function Folders({
 
   return (
     <div
-      className={cn("rounded-md border bg-white", {
+      className={cn("rounded-md border bg-background", {
         "animate-pulse": isFetching,
       })}
     >
@@ -108,7 +108,7 @@ function Folder({
         <ContextMenu>
           <ContextMenuTrigger asChild>
             <button
-              className="w-full text-left group font-medium text-sm px-4 py-0.5 flex items-center gap-2 hover:bg-gray-100 rounded-md data-[state=open]:bg-gray-100"
+              className="w-full text-left group font-medium text-sm px-4 py-0.5 flex items-center gap-2 hover:bg-foreground/10 rounded-md data-[state=open]:bg-gray-100"
               onClick={onSelect}
             >
               <span className="size-5 bg-blue-50 p-px rounded flex items-center justify-center text-blue-500">

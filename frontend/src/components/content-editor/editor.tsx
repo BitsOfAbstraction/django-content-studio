@@ -147,7 +147,7 @@ function EditorForm({
           onClose={onClose}
         />
         <div className="flex flex-1 overflow-hidden">
-          <div className="flex-1  border-r overflow-y-auto scrollbar bg-gray-50">
+          <div className="flex-1  border-r overflow-y-auto scrollbar bg-muted">
             <div className="w-full max-w-2xl mx-auto">
               <div className="p-4">
                 <Main model={model} id={id} hiddenFields={hiddenFields} />

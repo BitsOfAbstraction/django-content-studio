@@ -11,8 +11,8 @@ export function StudioLayout() {
       <div className="h-screen flex items-stretch">
         <MainMenu />
         <ContentEditor />
-        <div className="p-2 flex-1 overflow-hidden bg-muted flex flex-col">
-          <div className="flex-1 bg-background border border-card rounded-md shadow-xs flex flex-col overflow-hidden">
+        <div className="flex-1 overflow-hidden bg-muted flex flex-col">
+          <div className="flex-1 bg-card border rounded-l-xl flex flex-col overflow-hidden">
             <Outlet />
           </div>
         </div>

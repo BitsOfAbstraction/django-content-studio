@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { PiFileTextBold } from "react-icons/pi";
 import { Link, useParams, useSearchParams } from "react-router";
 
-import { buttonVariants } from "@/components/ui/button.tsx";
+import { buttonVariants } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Spinner } from "@/components/ui/spinner";
 import { useDiscover } from "@/hooks/use-discover";
@@ -51,9 +51,11 @@ export function ModelListPage() {
 
   return model && data ? (
     <div className="flex flex-col overflow-hidden">
-      <div className="flex items-center gap-4 px-8 py-2 border-b border-gray-200">
+      <div className="flex items-center gap-4 px-8 py-2 border-b">
         {model.admin.icon ? (
-          <span className={cn(model.admin.icon, "text-lg text-gray-500")} />
+          <span
+            className={cn(model.admin.icon, "text-lg text-muted-foreground")}
+          />
         ) : (
           <PiFileTextBold />
         )}
@@ -75,11 +77,11 @@ export function ModelListPage() {
         )}
       </div>
 
-      <div className="px-8 py-2 border-b border-b-gray-200">
+      <div className="px-8 py-2 border-b">
         <Filters model={model} />
       </div>
       {view === "list" ? <ListView items={data.results} model={model} /> : null}
-      <div className="py-2 border-t border-gray-200 flex items-center justify-center">
+      <div className="py-2 border-t flex items-center justify-center">
         <Pagination
           current={data.pagination.current}
           pages={data.pagination.pages}

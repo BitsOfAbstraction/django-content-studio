@@ -36,9 +36,9 @@ export function MediaLibraryPage() {
       <TenantInfo label={model} />
 
       <div className="flex items-center gap-4 mb-6 py-3 px-5 border-b">
-        <PiImageBold size={20} className="text-gray-700 shrink-0" />
+        <PiImageBold size={20} className="shrink-0" />
         <div className="flex-1">
-          <h1 className="text-xl/tight font-semibold text-gray-700 mb-0.5">
+          <h1 className="text-xl/tight font-semibold mb-0.5">
             {t("media_library.title")}
           </h1>
           {discover.media_library.folders ? (
@@ -62,7 +62,7 @@ export function MediaLibraryPage() {
               />
             </div>
           ) : (
-            <div className="text-gray-500">
+            <div className="text-muted-foreground">
               {t("media_library.description")}
             </div>
           )}

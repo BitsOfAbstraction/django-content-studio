@@ -47,7 +47,7 @@ function TableRow({
       onClick={onClick}
       className={cn(
         {
-          "hover:bg-gray-50 data-[state=selected]:bg-gray-50 [&_td]:cursor-pointer":
+          "hover:bg-foreground/3 data-[state=selected]:bg-foreground/3 [&_td]:cursor-pointer":
             onClick,
         },
         className,
@@ -66,7 +66,7 @@ function TableHead({
     <th
       data-slot="table-head"
       className={cn(
-        "first-of-type:[&_div]:pl-8 last-of-type:[&_div]:pr-8 text-gray-500 bg-white cursor-default text-sm font-medium text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "first-of-type:[&_div]:pl-8 last-of-type:[&_div]:pr-8 text-muted-foreground cursor-default text-sm font-medium text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className,
       )}
       {...props}
@@ -81,7 +81,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 first-of-type:pl-8 last-of-type:pr-8 font-medium text-gray-800 first-of-type:font-semibold align-middle cursor-default whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "p-2 first-of-type:pl-8 last-of-type:pr-8 font-medium first-of-type:font-semibold align-middle cursor-default whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className,
       )}
       {...props}

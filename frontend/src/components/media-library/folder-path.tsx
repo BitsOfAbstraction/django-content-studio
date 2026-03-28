@@ -1,7 +1,7 @@
 import { PiHouseBold } from "react-icons/pi";
 
-import { useFolderPath } from "@/hooks/use-folder-path.ts";
-import { cn } from "@/lib/utils.ts";
+import { useFolderPath } from "@/hooks/use-folder-path";
+import { cn } from "@/lib/utils";
 
 export function FolderPath({
   folder,
