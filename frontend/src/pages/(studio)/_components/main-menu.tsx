@@ -1,8 +1,9 @@
 import * as R from "ramda";
-import React, { useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   PiCaretDownBold,
+  PiCaretLeftBold,
   PiCaretRightBold,
   PiFileTextBold,
   PiHouseSimpleBold,
@@ -12,6 +13,7 @@ import {
 import { Link, type Path, useMatch, useNavigate } from "react-router";
 
 import { useAuth } from "@/auth";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,10 +25,21 @@ import { useAdminInfo } from "@/hooks/use-admin-info";
 import { useDiscover } from "@/hooks/use-discover";
 import { useMe } from "@/hooks/use-me";
 import { cn } from "@/lib/utils";
-import { useTenant } from "@/tenant.tsx";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useTenant } from "@/tenant";
 import { ExtensionType, type TailwindColor } from "@/types";
 
 import { TenantSelector } from "./tenant-selector";
+
+const CollapsedContext = createContext(false);
+const ExpandedContext = createContext<{
+  expandedItem: string | null;
+  setExpandedItem: (label: string | null) => void;
+}>({ expandedItem: null, setExpandedItem: () => {} });
 
 export function MainMenu() {
   const { t } = useTranslation();
@@ -36,146 +49,189 @@ export function MainMenu() {
   const { data: me } = useMe();
   const { data: discover } = useDiscover();
   const { enabled: tenant } = useTenant();
+  const [collapsed, setCollapsed] = useState(
+    () => localStorage.getItem("main-menu-collapsed") === "true",
+  );
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
+
   const linkExtensions =
     discover?.extensions.filter(
       R.whereEq({ extension_type: ExtensionType.MainMenuLink }),
     ) ?? [];
 
+  useEffect(() => {
+    localStorage.setItem("main-menu-collapsed", String(collapsed));
+  }, [collapsed]);
+
   return (
-    <nav className="w-[240px] shrink-0 flex flex-col bg-muted">
-      {adminInfo && !tenant && (
-        <div className="flex items-center gap-2 px-4 py-3 select-none">
-          <div className="bg-gradient-to-tl from-gray-900 to-gray-600 size-5 rounded flex items-center justify-center text-white font-black shrink-0">
-            {adminInfo.site_header[0]}
-          </div>
-          <h2 className="line-clamp-1 break-all text-base font-semibold text-foreground">
-            {adminInfo.site_header}
-          </h2>
-        </div>
-      )}
-      {tenant && (
-        <div className="p-2">
-          <TenantSelector />
-        </div>
-      )}
-
-      <div className="flex-1 px-2 pb-2 pt-4 space-y-1 overflow-y-auto scrollbar">
-        <MenuItem
-          to="/"
-          color="slate"
-          icon={<PiHouseSimpleBold />}
-          label={t("main_menu.dashboard")}
-        />
-        {discover?.media_library.enabled && (
-          <MenuItem
-            to="/media-library"
-            color="pink"
-            icon={<PiImageBold />}
-            label={t("main_menu.media_library")}
-          />
-        )}
-
-        {linkExtensions.map(({ extension_id, config }) => (
-          <MenuItem
-            key={extension_id}
-            to={config.url}
-            color={config.color}
-            icon={<span className={config.icon} />}
-            label={config.label}
-          />
-        ))}
-
-        <div className="h-4" role="separator" />
-
-        {discover?.model_groups.map((group) => (
-          <MenuItem
-            key={group.name}
-            color={group.color ?? "blue"}
-            icon={group.icon ?? <PiFileTextBold />}
-            label={group.label}
+    <ExpandedContext value={{ expandedItem, setExpandedItem }}>
+      <CollapsedContext value={collapsed}>
+        <nav
+          className={cn(
+            "shrink-0 flex flex-col bg-muted transition-[width] duration-200",
+            collapsed ? "w-14" : "w-[240px]",
+          )}
+        >
+          <div
+            className={cn(
+              "flex items-center py-3 select-none",
+              collapsed ? "justify-center px-2" : "gap-2 px-4",
+            )}
           >
-            {group.models
-              .map((label) => {
-                const model = discover.models.find(R.whereEq({ label }));
-
-                return model ? (
-                  <MenuItem
-                    key={label}
-                    isSubItem
-                    to={
-                      model.admin.is_singleton
-                        ? { hash: `editor:${model.label}` }
-                        : `/content/${model.label}`
-                    }
-                    label={model.verbose_name_plural}
-                    icon={model.admin.icon ?? <PiFileTextBold />}
-                  />
-                ) : null;
-              })
-              .filter((el) => !R.isNil(el))}
-          </MenuItem>
-        ))}
-      </div>
-      <div className="p-2">
-        {me && (
-          <DropdownMenu>
-            <DropdownMenuContent
-              side="top"
-              align="start"
-              className="p-0 w-(--radix-dropdown-menu-trigger-width)"
+            {!collapsed && adminInfo && !tenant && (
+              <>
+                <div className="bg-gradient-to-tl from-gray-900 to-gray-600 size-5 rounded flex items-center justify-center text-white font-black shrink-0">
+                  {adminInfo.site_header[0]}
+                </div>
+                <h2 className="line-clamp-1 break-all text-base font-semibold text-foreground flex-1">
+                  {adminInfo.site_header}
+                </h2>
+              </>
+            )}
+            {!collapsed && tenant && (
+              <div className="flex-1">
+                <TenantSelector />
+              </div>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="shrink-0 size-7"
+              onClick={() => setCollapsed(!collapsed)}
             >
-              <div className="px-4 py-2 border-b leading-tight">
-                <div className="text-foreground font-semibold">
-                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
-                </div>
-                <div className="text-xs text-muted-foreground font-medium">
-                  {me.username}
-                </div>
-              </div>
-              <div className="p-1.5">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setToken(null);
-                      navigate("/login");
-                    }}
-                  >
-                    {t("main_menu.log_out")}
-                    <PiSignOutBold />
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </div>
-              {adminInfo && (
-                <div className="px-4 py-2 bg-accent border-t cursor-default">
-                  <div className="text-xs font-medium text-foreground text-center">
-                    {adminInfo.site_title}
+              {collapsed ? <PiCaretRightBold /> : <PiCaretLeftBold />}
+            </Button>
+          </div>
+
+          <div className="flex-1 px-2 pb-2 pt-4 space-y-1 overflow-y-auto scrollbar">
+            <MenuItem
+              to="/"
+              color="slate"
+              icon={<PiHouseSimpleBold />}
+              label={t("main_menu.dashboard")}
+            />
+            {discover?.media_library.enabled && (
+              <MenuItem
+                to="/media-library"
+                color="pink"
+                icon={<PiImageBold />}
+                label={t("main_menu.media_library")}
+              />
+            )}
+
+            {linkExtensions.map(({ extension_id, config }) => (
+              <MenuItem
+                key={extension_id}
+                to={config.url}
+                color={config.color}
+                icon={<span className={config.icon} />}
+                label={config.label}
+              />
+            ))}
+
+            <div className="h-4" role="separator" />
+
+            {discover?.model_groups.map((group) => (
+              <MenuItem
+                key={group.name}
+                color={group.color ?? "blue"}
+                icon={group.icon ?? <PiFileTextBold />}
+                label={group.label}
+              >
+                {group.models
+                  .map((label) => {
+                    const model = discover.models.find(R.whereEq({ label }));
+
+                    return model ? (
+                      <MenuItem
+                        key={label}
+                        isSubItem
+                        to={
+                          model.admin.is_singleton
+                            ? { hash: `editor:${model.label}` }
+                            : `/content/${model.label}`
+                        }
+                        label={model.verbose_name_plural}
+                        icon={model.admin.icon ?? <PiFileTextBold />}
+                      />
+                    ) : null;
+                  })
+                  .filter((el) => !R.isNil(el))}
+              </MenuItem>
+            ))}
+          </div>
+          <div className="p-2">
+            {me && (
+              <DropdownMenu>
+                <DropdownMenuContent
+                  side="top"
+                  align="start"
+                  className={cn(
+                    "p-0",
+                    !collapsed && "w-(--radix-dropdown-menu-trigger-width)",
+                  )}
+                >
+                  <div className="px-4 py-2 border-b leading-tight">
+                    <div className="text-foreground font-semibold">
+                      {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+                    </div>
+                    <div className="text-xs text-muted-foreground font-medium">
+                      {me.username}
+                    </div>
                   </div>
-                  <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
-                </div>
-              )}
-            </DropdownMenuContent>
-            <DropdownMenuTrigger className="flex items-center text-left w-full gap-3 hover:bg-foreground/5 data-[state=open]:bg-foreground/5 p-2 rounded-md select-none hover:cursor-pointer">
-              <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
-                {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
-                  .trim()
-                  .replace(/\s/g, "")
-                  .slice(0, 2)
-                  .toUpperCase()}
-                <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
-              </div>
-              <div>
-                <div className="text-foreground truncate text-sm/tight font-medium">
-                  {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
-                </div>
-                <div className="text-xs/tight text-muted-foreground">
-                  {me.username}
-                </div>
-              </div>
-            </DropdownMenuTrigger>
-          </DropdownMenu>
-        )}
-      </div>
-    </nav>
+                  <div className="p-1.5">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setToken(null);
+                          navigate("/login");
+                        }}
+                      >
+                        {t("main_menu.log_out")}
+                        <PiSignOutBold />
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </div>
+                  {adminInfo && (
+                    <div className="px-4 py-2 bg-accent border-t cursor-default">
+                      <div className="text-xs font-medium text-foreground text-center">
+                        {adminInfo.site_title}
+                      </div>
+                      <div className="text-xs font-medium text-gray-400 text-center">{`v${adminInfo.version}`}</div>
+                    </div>
+                  )}
+                </DropdownMenuContent>
+                <DropdownMenuTrigger
+                  className={cn(
+                    "flex items-center text-left w-full hover:bg-foreground/5 data-[state=open]:bg-foreground/5 p-2 rounded-md select-none hover:cursor-pointer",
+                    collapsed ? "justify-center" : "gap-3",
+                  )}
+                >
+                  <div className="relative rounded-full size-8 bg-indigo-500 text-indigo-100 flex items-center justify-center font-bold shrink-0 text-xs">
+                    {`${me.first_name ?? ""}${me.last_name ?? ""}${me.username ?? ""}`
+                      .trim()
+                      .replace(/\s/g, "")
+                      .slice(0, 2)
+                      .toUpperCase()}
+                    <div className="bg-emerald-500 size-2 rounded-full absolute bottom-px right-px" />
+                  </div>
+                  {!collapsed && (
+                    <div>
+                      <div className="text-foreground truncate text-sm/tight font-medium">
+                        {`${me.first_name ?? ""} ${me.last_name ?? ""}`.trim()}
+                      </div>
+                      <div className="text-xs/tight text-muted-foreground">
+                        {me.username}
+                      </div>
+                    </div>
+                  )}
+                </DropdownMenuTrigger>
+              </DropdownMenu>
+            )}
+          </div>
+        </nav>
+      </CollapsedContext>
+    </ExpandedContext>
   );
 }
 
@@ -221,35 +277,38 @@ function MenuItem({
 }) {
   const Comp = to ? Link : "button";
   const match = useMatch(`${to ?? ""}`);
-  const [collapsed, setCollapsed] = useState(false);
+  const menuCollapsed = useContext(CollapsedContext);
+  const { expandedItem, setExpandedItem } = useContext(ExpandedContext);
+  const expanded = expandedItem === label;
 
-  return (
-    <>
-      <Comp
-        // @ts-expect-error due to mixed component
-        to={to ?? undefined}
-        className={cn(
-          "group flex items-center w-full font-medium gap-2.5 h-8 px-2 hover:bg-foreground/5 rounded hover:cursor-pointer",
-          {
-            "bg-foreground/5": !R.isNil(to) && match,
-          },
-        )}
-        onClick={() => {
-          if (children) {
-            setCollapsed(!collapsed);
-          }
-        }}
-      >
-        {icon && (
-          <span
-            className={cn(
-              "size-5 rounded flex items-center justify-center",
-              color ? COLORS[color] : "text-muted-foreground",
-            )}
-          >
-            {typeof icon === "string" ? <span className={cn(icon)} /> : icon}
-          </span>
-        )}
+  const item = (
+    <Comp
+      // @ts-expect-error due to mixed component
+      to={to ?? undefined}
+      className={cn(
+        "relative group flex items-center w-full font-medium gap-2.5 h-8 px-2 hover:bg-foreground/5 rounded hover:cursor-pointer",
+        {
+          "bg-foreground/5": !R.isNil(to) && match,
+          "justify-center": menuCollapsed,
+        },
+      )}
+      onClick={() => {
+        if (children) {
+          setExpandedItem(expanded ? null : label);
+        }
+      }}
+    >
+      {icon && (
+        <span
+          className={cn(
+            "size-5 rounded flex items-center justify-center shrink-0",
+            color ? COLORS[color] : "text-muted-foreground",
+          )}
+        >
+          {typeof icon === "string" ? <span className={cn(icon)} /> : icon}
+        </span>
+      )}
+      {!menuCollapsed && (
         <span
           className={cn(
             "flex items-center justify-between flex-1",
@@ -261,12 +320,29 @@ function MenuItem({
           </span>
           {children ? (
             <div className="group-hover:bg-foreground/5 p-1 rounded">
-              {collapsed ? <PiCaretDownBold /> : <PiCaretRightBold />}
+              {expanded ? <PiCaretDownBold /> : <PiCaretRightBold />}
             </div>
           ) : null}
         </span>
-      </Comp>
-      {children && collapsed ? <div className="pl-3">{children}</div> : null}
+      )}
+    </Comp>
+  );
+
+  return (
+    <>
+      {menuCollapsed ? (
+        <Tooltip>
+          <TooltipTrigger asChild>{item}</TooltipTrigger>
+          <TooltipContent side="right" sideOffset={8}>
+            <span className="first-letter:uppercase">{label}</span>
+          </TooltipContent>
+        </Tooltip>
+      ) : (
+        item
+      )}
+      {children && expanded ? (
+        <div className={cn({ "pl-3": !menuCollapsed })}>{children}</div>
+      ) : null}
     </>
   );
 }
